@@ -2,17 +2,13 @@ import React from 'react';
 
 import 'font-awesome/css/font-awesome.min.css';
 
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
 // Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 class EmployeesSideNav extends React.Component {
   render() {
-    const name = 'React SideNav';
-    const url = 'https://github.com/trendmicro-frontend/react-sidenav';
-    console.log('rendering EmployeesSideNav.js');
-
     return (
         <SideNav
       onSelect={(selected) => {

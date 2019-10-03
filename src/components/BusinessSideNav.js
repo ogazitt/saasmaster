@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 
 import 'font-awesome/css/font-awesome.min.css';
 
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
 // Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 import { useRoutes, navigate } from 'hookrouter';
-import HomePage from './components/HomePage'
-import AboutPage from './components/AboutPage'
-import NotFoundPage from './components/NotFoundPage'
+import HomePage from './HomePage'
+import AboutPage from './AboutPage'
+import NotFoundPage from './NotFoundPage'
 
 const routes = {
   '/': () => <HomePage />,
