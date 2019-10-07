@@ -10,6 +10,8 @@ import { StickyContainer, Sticky } from 'react-sticky';
 //import styles from './index.styl';
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 
+import Loading from './Loading'
+
 /*
 const PageContent = () => (
     <div
@@ -32,8 +34,16 @@ const StickyNavbar = ({ state, actions }) => {
   if (loading) {
     console.log("loading");
     return (
-      <div>Loading...</div>
+      <Loading />
     );
+  }
+
+  const login = () => {
+    loginWithRedirect({
+      access_type: 'offline', 
+      connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', 
+      approval_prompt: 'force'
+    });
   }
 
   return (
@@ -68,7 +78,7 @@ const StickyNavbar = ({ state, actions }) => {
                 <MenuItem divider />
                 <MenuItem eventKey="logout" onSelect={() => { logout() }}>Logout</MenuItem>
               </NavDropdown> :
-              <NavItem eventKey="login" onSelect={() => { loginWithRedirect() }} style={{ position: 'fixed', right: 0 }}>
+              <NavItem eventKey="login" onSelect={() => { login() }} style={{ position: 'fixed', right: 0 }}>
                 Login
               </NavItem>
             }

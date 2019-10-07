@@ -10,6 +10,7 @@
     "@trendmicro/react-navbar": "^0.3.0",
     "@trendmicro/react-sidenav": "^0.4.5",
     "font-awesome": "^4.7.0",
+    "highlight.js": "^9.15.10",
     "hookrouter": "^1.2.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
