@@ -2,16 +2,19 @@
 
 import React, { useState } from "react";
 import { useAuth0 } from "../utils/react-auth0-wrapper";
+import Highlight from './Highlight';
 
 const ExternalApi = () => {
   const [showResult, setShowResult] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, getIdTokenClaims } = useAuth0();
 
   const callApi = async () => {
+
     try {
       const token = await getTokenSilently();
-
+      console.log(`callApi token: ${token}`);
+  
       const response = await fetch("http://localhost:8080/timesheets", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -37,6 +40,7 @@ const ExternalApi = () => {
     <>
       <h1>External API</h1>
       <button onClick={callApi}>Ping API</button>
+      <br/>
       {showResult && <code>{JSON.stringify(apiMessage, null, 2)}</code>}
     </>
   );

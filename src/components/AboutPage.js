@@ -2,12 +2,16 @@ import React from 'react'
 import Frame, { FrameContextConsumer } from 'react-frame-component'
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 import ExternalApi from './ExternalApi';
+import Loading from './Loading';
 
 const AboutPage = () => {
-  const { loading, user, isAuthenticated } = useAuth0();
+  const { loading, isAuthenticated } = useAuth0();
 
   console.log(`loading: ${loading}; isAuthenticated: ${isAuthenticated}`)
-  if (loading || !isAuthenticated) {
+  if (loading) {
+    return <Loading />
+  }
+  if (!isAuthenticated) {
     return <div />
   }
 

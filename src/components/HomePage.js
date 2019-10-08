@@ -4,9 +4,9 @@ import Highlight from './Highlight'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 
 const HomePage = () => {
-  const { loading, user } = useAuth0();
+  const { loading, user, getIdTokenClaims } = useAuth0();
 
-  if (loading || !user) {
+  if (loading) {
     return <Loading />;
   }
   
@@ -15,7 +15,8 @@ const HomePage = () => {
       <h1>Home</h1>
       <img src="saasmaster.png" alt="logo"/>
       <br/>
-      <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
+      {user && <Highlight>{JSON.stringify(user, null, 2)}</Highlight>}
+      {user && <Highlight>{JSON.stringify(getIdTokenClaims(), null, 2)}</Highlight>}
     </div>
   )
 }

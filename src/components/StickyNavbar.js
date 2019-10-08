@@ -32,17 +32,19 @@ const PageContent = () => (
 const StickyNavbar = ({ state, actions }) => {
   const { loading, user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   if (loading) {
-    console.log("loading");
     return (
       <Loading />
     );
   }
 
+  console.log(`authenticated: ${isAuthenticated}, user: ${user}`)
+
   const login = () => {
     loginWithRedirect({
-      access_type: 'offline', 
-      connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', 
-      approval_prompt: 'force'
+      //access_type: 'offline', // unverified - asks for offline access
+      //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified
+      //scope: 'https://www.googleapis.com/auth/business.manage', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
+      //approval_prompt: 'force' // verified - always prompts for OAuth delegated authz
     });
   }
 
