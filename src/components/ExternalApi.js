@@ -13,7 +13,6 @@ const ExternalApi = () => {
 
     try {
       const token = await getTokenSilently();
-      console.log(`callApi token: ${token}`);
   
       const response = await fetch("http://localhost:8080/timesheets", {
         headers: {

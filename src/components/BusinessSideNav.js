@@ -33,13 +33,11 @@ const BusinessSideNav = () => {
       <div>  
         <SideNav
             onSelect={(selected) => {
-              console.log(`BusinessSideNav::onSelect(selected == ${selected})`)
               setSelected(selected)
               navigate(`/${selected}`)
               // Add your code here
           }}
             onToggle={(expanded) => {
-              console.log('BusinessSideNav::onToggle')
               setExpanded(expanded)
               // Add your code here
           }}>

@@ -7,7 +7,6 @@ import Loading from './Loading';
 const AboutPage = () => {
   const { loading, isAuthenticated } = useAuth0();
 
-  console.log(`loading: ${loading}; isAuthenticated: ${isAuthenticated}`)
   if (loading) {
     return <Loading />
   }

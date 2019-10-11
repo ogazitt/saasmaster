@@ -37,8 +37,6 @@ const StickyNavbar = ({ state, actions }) => {
     );
   }
 
-  console.log(`authenticated: ${isAuthenticated}, user: ${user}`)
-
   const login = () => {
     loginWithRedirect({
       //access_type: 'offline', // unverified - asks for offline access
