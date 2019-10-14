@@ -40,7 +40,7 @@ const ExternalApi = () => {
       <h1>External API</h1>
       <button onClick={callApi}>Ping API</button>
       <br/>
-      {showResult && <code>{JSON.stringify(apiMessage, null, 2)}</code>}
+      {showResult && <Highlight>{JSON.stringify(apiMessage, null, 2)}</Highlight>}
     </>
   );
 };

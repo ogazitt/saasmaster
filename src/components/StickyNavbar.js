@@ -40,7 +40,9 @@ const StickyNavbar = ({ state, actions }) => {
   const login = () => {
     loginWithRedirect({
       //access_type: 'offline', // unverified - asks for offline access
-      //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified
+      //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
+      // commenting out scope removes the BUG where I need to log in twice to show authenticated!!
+      //scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
       //scope: 'https://www.googleapis.com/auth/business.manage', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
       //approval_prompt: 'force' // verified - always prompts for OAuth delegated authz
     });
