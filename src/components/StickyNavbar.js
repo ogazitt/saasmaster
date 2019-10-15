@@ -48,6 +48,12 @@ const StickyNavbar = ({ state, actions }) => {
     });
   }
 
+  const logoutWithRedirect = () => {
+    logout({
+      returnTo: window.location.origin
+    });
+  }
+
   return (
     <StickyContainer>
       <Sticky>
@@ -78,7 +84,7 @@ const StickyNavbar = ({ state, actions }) => {
               >
                 <MenuItem eventKey="profile">Profile</MenuItem>
                 <MenuItem divider />
-                <MenuItem eventKey="logout" onSelect={() => { logout() }}>Logout</MenuItem>
+                <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>Logout</MenuItem>
               </NavDropdown> :
               <NavItem eventKey="login" onSelect={() => { login() }} style={{ position: 'fixed', right: 0 }}>
                 Login

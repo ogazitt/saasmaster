@@ -13,7 +13,7 @@ const HomePage = () => {
   return (
     <div>
       <h1>Home</h1>
-      <img src="saasmaster.png" alt="logo"/>
+      <img src="SaaSMaster.png" alt="logo"/>
       <br/>
       {user && <Highlight>{JSON.stringify(user, null, 2)}</Highlight>}
       {user && <Highlight>{JSON.stringify(getIdTokenClaims(), null, 2)}</Highlight>}
