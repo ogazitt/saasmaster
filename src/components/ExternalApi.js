@@ -13,8 +13,19 @@ const ExternalApi = () => {
 
     try {
       const token = await getTokenSilently();
-  
-      const response = await fetch("http://localhost:8080/timesheets", {
+      
+      // construct API service URL
+      const baseUrl = window.location.origin;
+      const urlObject = new URL(baseUrl);
+
+      // replace port for local development from 3000 to 8080
+      if (urlObject.port && urlObject.port > 80) {
+        urlObject.port = 8080;
+      }
+
+      const url = urlObject + 'timesheets';
+
+      const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`
         }
