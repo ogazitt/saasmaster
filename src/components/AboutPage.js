@@ -1,5 +1,4 @@
 import React from 'react'
-import Frame, { FrameContextConsumer } from 'react-frame-component'
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 import ExternalApi from './ExternalApi';
 import Loading from './Loading';
@@ -10,26 +9,17 @@ const AboutPage = () => {
   if (loading) {
     return <Loading />
   }
-  if (!isAuthenticated) {
-    return <div />
-  }
 
   return(
-    <ExternalApi />
-    /*
-    <Frame>
-      <FrameContextConsumer>
-      {
-        // Callback is invoked with iframe's window and document instances
-        ({document, window}) => {
-            document = 'www.google.com'
-        // Render Children
-        }
+    <div>
+      <h1>About</h1>
+      { 
+        isAuthenticated ? 
+        <ExternalApi /> :
+        <div />
       }
-      </FrameContextConsumer>
-    </Frame>
-    */
-    )
+    </div>
+  )
 }
 
 export default AboutPage
