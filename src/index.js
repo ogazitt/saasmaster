@@ -30,6 +30,8 @@ const onRedirectCallback = appState => {
   );
 };
 
+//const defaultScopes = 'https://www.googleapis.com/auth/contacts.readonly';
+
 ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
@@ -37,6 +39,7 @@ ReactDOM.render(
     redirect_uri={window.location.origin}
     audience={config.audience}
     onRedirectCallback={onRedirectCallback}
+/*    scope={defaultScopes}*/
   >
     <App />
   </Auth0Provider>,
