@@ -32,6 +32,14 @@ const LandingPage = () => {
     });
   }
 
+  const signUp = () => {
+    loginWithRedirect({
+      access_type: 'offline', // unverified - asks for offline access
+      connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
+      mode: 'signUp'
+    });
+  }
+
   return (
     <div className="Landing">
       <header className="Landing-header">
@@ -70,7 +78,7 @@ const LandingPage = () => {
 
       <div class="Landing-action row">
         <div class="col col--6">
-          <Button size="lg" variant="info">Sign Up</Button>          
+          <Button size="lg" variant="info" onClick={() => signUp()}>Sign Up</Button>          
         </div>
         <div class="col col--6">
           <Button size="lg" onClick={() => login()}>Log In</Button>
