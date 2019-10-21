@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import AppWrapper from './components/AppWrapper';
 import * as serviceWorker from './serviceWorker';
 
 import { Auth0Provider } from "./utils/react-auth0-wrapper";
 import config from "./utils/auth_config.json";
+
+import 'bootstrap/dist/css/bootstrap.css';
+// Put any other imports below so that CSS from your
+// components takes precedence over default styles.
+
 //import history from "./utils/history";
 
 /*
@@ -41,7 +46,7 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
 /*    scope={defaultScopes}*/
   >
-    <App />
+    <AppWrapper />
   </Auth0Provider>,
   document.getElementById('root')
 );

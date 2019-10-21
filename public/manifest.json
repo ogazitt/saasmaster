@@ -21,6 +21,14 @@
       "src": "SaaSMaster.png",
       "type": "image/png",
       "sizes": "70x70"
+    },
+    {
+      "src": "gmaps.png",
+      "type": "image/png"
+    },   
+    {
+      "src": "quickbooks.png",
+      "type": "image/png"
     }    
   ],
   "start_url": ".",

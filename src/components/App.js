@@ -12,10 +12,10 @@ import '@trendmicro/react-navbar/dist/react-navbar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 // React Navbar
-import StickyNavbar from './components/StickyNavbar';
+import StickyNavbar from './StickyNavbar';
 
-import BusinessSideNav from './components/BusinessSideNav';
-import EmployeesSideNav from './components/EmployeesSideNav';
+import BusinessSideNav from './BusinessSideNav';
+import EmployeesSideNav from './EmployeesSideNav';
 
 const App = () => {
   const [state, setState] = useState({ tab: 'business' });
