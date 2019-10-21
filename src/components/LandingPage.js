@@ -29,6 +29,7 @@ const LandingPage = () => {
       //scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
       //scope: 'https://www.googleapis.com/auth/business.manage', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
       //approval_prompt: 'force' // google rejected.  OLD verified - always prompts for OAuth delegated authz
+      redirect_uri: `${window.location.origin}/home`,
     });
   }
 
@@ -36,7 +37,8 @@ const LandingPage = () => {
     loginWithRedirect({
       access_type: 'offline', // unverified - asks for offline access
       connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
-      mode: 'signUp'
+      redirect_uri: `${window.location.origin}/home`,
+      saasmaster_mode: 'signUp',
     });
   }
 
@@ -49,38 +51,38 @@ const LandingPage = () => {
         <p>Master all your SaaS tools from one console</p>
       </header>
 
-      <div class="Landing-features row">
-        <div class="col col--4">
+      <div className="Landing-features row">
+        <div className="col col--4">
           Connect all of the tools you use to manage your online business identity
         </div>
-        <div class="col col--4">
+        <div className="col col--4">
           Manage all of your business settings from one place
         </div>
-        <div class="col col--4">
+        <div className="col col--4">
           Provision and manage your employee payroll and HR from a single place
         </div>
       </div>
 
-      <div class="Landing-features row">
-        <div class="col col--4">
-          <i class="soc-icon fa fa-facebook-square"></i>
-          <i class="soc-icon fa fa-google"></i>
-          <i class="soc-icon fa fa-twitter"></i>
-          <i class="soc-icon fa fa-linkedin"></i>
+      <div className="Landing-features row">
+        <div className="col col--4">
+          <i className="soc-icon fa fa-facebook-square"></i>
+          <i className="soc-icon fa fa-google"></i>
+          <i className="soc-icon fa fa-twitter"></i>
+          <i className="soc-icon fa fa-linkedin"></i>
         </div>
-        <div class="col col--4">
+        <div className="col col--4">
           <img width="80px" src="gmaps.png" alt="google maps"/>
         </div>
-        <div class="col col--4">
+        <div className="col col--4">
           <img width="30px" src="quickbooks.png" alt="quickbooks"/>
         </div>
       </div>
 
-      <div class="Landing-action row">
-        <div class="col col--6">
+      <div className="Landing-action row">
+        <div className="col col--6">
           <Button size="lg" variant="info" onClick={() => signUp()}>Sign Up</Button>          
         </div>
-        <div class="col col--6">
+        <div className="col col--6">
           <Button size="lg" onClick={() => login()}>Log In</Button>
         </div>
       </div>
