@@ -7,7 +7,7 @@ import Highlight from './Highlight';
 const ExternalApi = () => {
   const [showResult, setShowResult] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-  const { getTokenSilently, getIdTokenClaims } = useAuth0();
+  const { getTokenSilently } = useAuth0();
 
   const callApi = async () => {
 
