@@ -27,11 +27,10 @@ const ConnectionsPage = () => {
     load();
   }
 
-  /*
-  if (isLoaded) {
+  // if results have loaded already, then show those results
+  if (isLoaded && !showResult) {
     setShowResult(true);
   }
-  */
 
   // initiate forcing load of connections data
   //load();
@@ -39,7 +38,8 @@ const ConnectionsPage = () => {
   return(
     <div>
       <h1>Connections</h1>
-      <button onClick={load}>Load</button>
+      <button onClick={load}>Refresh</button>
+      <br/>
       <br/>
       { 
         showResult ? <Highlight>{JSON.stringify(connections, null, 2)}</Highlight> : <div/>
