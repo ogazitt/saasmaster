@@ -19,17 +19,16 @@ const LandingPage = () => {
   const login = () => {
     loginWithRedirect({
       access_type: 'offline', // unverified - asks for offline access
-      //connection_scope: 'https://www.googleapis.com/auth/business.manage', // unverified BUT THIS MAY BE IT
       //connection: 'google-oauth2',
-      connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
       //connection_scope: 'https://www.googleapis.com/auth/contacts.readonly',
-      //scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
+      // this is how to combine more than one permission
+      //connection_scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts.readonly', 
+      //connection_scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/business.manage',
+      //connection_scope: 'https://www.googleapis.com/auth/calendar',
+      // this is the Google business scope, but can't actually use it!
+      //connection_scope: 'https://www.googleapis.com/auth/business.manage', 
       //prompt: 'consent',  // this re-prompts consent and returns refresh token
-      // commenting out scope removes the BUG where I need to log in twice to show authenticated!!
-      //scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
-      //scope: 'https://www.googleapis.com/auth/business.manage', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
-      //approval_prompt: 'force' // google rejected.  OLD verified - always prompts for OAuth delegated authz
-      redirect_uri: `${window.location.origin}/home`,
+      redirect_uri: `${window.location.origin}`,
     });
   }
 
@@ -37,7 +36,7 @@ const LandingPage = () => {
     loginWithRedirect({
       access_type: 'offline', // unverified - asks for offline access
       connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
-      redirect_uri: `${window.location.origin}/home`,
+      redirect_uri: `${window.location.origin}`,
       saasmaster_mode: 'signUp',
     });
   }
@@ -80,10 +79,10 @@ const LandingPage = () => {
 
       <div className="Landing-action row">
         <div className="col col--6">
-          <Button size="lg" variant="info" onClick={() => signUp()}>Sign Up</Button>          
+          <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Sign Up</Button>          
         </div>
         <div className="col col--6">
-          <Button size="lg" onClick={() => login()}>Log In</Button>
+          <Button size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
         </div>
       </div>
 

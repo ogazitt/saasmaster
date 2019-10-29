@@ -8,6 +8,7 @@ const AppWrapper = () => {
   const { loading, isAuthenticated } = useAuth0()
   if (loading) {
     return (
+      //<LandingPage />
       <Loading />
     );
   }

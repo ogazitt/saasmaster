@@ -5,6 +5,7 @@ import AppWrapper from './components/AppWrapper';
 import * as serviceWorker from './serviceWorker';
 
 import { Auth0Provider } from "./utils/react-auth0-wrapper";
+import { ConnectionsProvider } from "./utils/connections";
 import config from "./utils/auth_config.json";
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -31,7 +32,9 @@ const onRedirectCallback = appState => {
     document.title,
     appState && appState.targetUrl
       ? appState.targetUrl
-      : window.location.pathname
+//      : `${window.location.pathname}/home`
+//      : window.location.pathname
+      : `${window.location.origin}/home`
   );
 };
 
@@ -46,7 +49,9 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
 /*    scope={defaultScopes}*/
   >
-    <AppWrapper />
+    <ConnectionsProvider>
+      <AppWrapper />
+    </ConnectionsProvider>
   </Auth0Provider>,
   document.getElementById('root')
 );

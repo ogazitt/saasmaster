@@ -10,12 +10,14 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { useRoutes, navigate } from 'hookrouter';
 import HomePage from './HomePage'
 import AboutPage from './AboutPage'
+import ConnectionsPage from './ConnectionsPage'
 import NotFoundPage from './NotFoundPage'
 
 const routes = {
   '/': () => <HomePage />,
   '/home': () => <HomePage />,
   '/about': () => <AboutPage />,
+  '/conns': () => <ConnectionsPage />,
 /*    '/products': () => <ProductOverview />,
     '/products/:id': ({id}) => <ProductDetails id={id} />*/
 };
@@ -57,6 +59,14 @@ const BusinessSideNav = () => {
                   </NavIcon>
                   <NavText>
                       Charts
+                  </NavText>
+              </NavItem>
+              <NavItem eventKey="conns">
+                  <NavIcon>
+                      <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                  </NavIcon>
+                  <NavText>
+                      Connections
                   </NavText>
               </NavItem>
             </SideNav.Nav>
