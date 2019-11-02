@@ -41,7 +41,7 @@
     {
       "src": "instagram-logo.png",
       "type": "image/png"
-    },    
+    }    
   ],
   "start_url": ".",
   "display": "standalone",
