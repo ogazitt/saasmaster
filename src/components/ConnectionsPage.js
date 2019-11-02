@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useConnections } from '../utils/connections';
 import Loading from './Loading';
 import Highlight from './Highlight';
+import Connections from './Connections';
 
 const ConnectionsPage = () => {
   const { loading, isLoaded, loadConnections, connections } = useConnections();
@@ -42,8 +43,9 @@ const ConnectionsPage = () => {
       <br/>
       <br/>
       { 
-        showResult ? <Highlight>{JSON.stringify(connections, null, 2)}</Highlight> : <div/>
-      }
+//        showResult ? <Highlight>{JSON.stringify(connections, null, 2)}</Highlight> : <div/>
+        showResult ? <Connections/> : <div/>
+}
     </div>
   );
 };

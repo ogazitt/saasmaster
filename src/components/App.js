@@ -39,7 +39,7 @@ const App = () => {
       <div style={{
             position: 'relative',
             height: 'calc(100vh - 40px)',
-            width: 'calc(100vh - 140px)'
+            width: 'calc(100vw - 140px)'
         }}>
 
         {state.tab === 'business' &&
