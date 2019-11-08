@@ -16,6 +16,7 @@ import StickyNavbar from './StickyNavbar';
 
 import BusinessSideNav from './BusinessSideNav';
 import EmployeesSideNav from './EmployeesSideNav';
+import ProfilePage from './ProfilePage';
 
 const App = () => {
   const [state, setState] = useState({ tab: 'business' });
@@ -47,6 +48,9 @@ const App = () => {
         }
         {state.tab === 'employees' &&
           <EmployeesSideNav />
+        }
+        {state.tab === 'profile' &&
+          <ProfilePage />
         }
       </div>
   </div>

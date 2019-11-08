@@ -88,7 +88,7 @@ const StickyNavbar = ({ state, actions }) => {
                 title={ user.name }
                 style={{ position: 'fixed', right: 0 }}
               >
-                <MenuItem eventKey="profile">Profile</MenuItem>
+                <MenuItem eventKey="profile" onSelect={actions.selectTab}>Profile</MenuItem>
                 <MenuItem divider />
                 <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>Logout</MenuItem>
               </NavDropdown> :
