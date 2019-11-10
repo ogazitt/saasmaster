@@ -9,14 +9,16 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 import { useRoutes, navigate } from 'hookrouter';
 import HomePage from './HomePage'
-import AboutPage from './AboutPage'
+import GooglePage from './GooglePage'
+import FacebookPage from './FacebookPage'
 import ConnectionsPage from './ConnectionsPage'
 import NotFoundPage from './NotFoundPage'
 
 const routes = {
   '/': () => <HomePage />,
   '/home': () => <HomePage />,
-  '/about': () => <AboutPage />,
+  '/google': () => <GooglePage />,
+  '/facebook': () => <FacebookPage />,
   '/conns': () => <ConnectionsPage />,
 /*    '/products': () => <ProductOverview />,
     '/products/:id': ({id}) => <ProductDetails id={id} />*/
@@ -53,12 +55,20 @@ const BusinessSideNav = () => {
                       Website
                   </NavText>
               </NavItem>
-              <NavItem eventKey="about">
+              <NavItem eventKey="google">
                   <NavIcon>
-                      <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                      <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
                   </NavIcon>
                   <NavText>
-                      Charts
+                      Google
+                  </NavText>
+              </NavItem>
+              <NavItem eventKey="facebook">
+                  <NavIcon>
+                      <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
+                  </NavIcon>
+                  <NavText>
+                      Facebook
                   </NavText>
               </NavItem>
               <NavItem eventKey="conns">

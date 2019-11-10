@@ -23,7 +23,7 @@ const ExternalApi = () => {
         urlObject.port = 8080;
       }
 
-      const url = urlObject + 'timesheets';
+      const url = urlObject + 'google';
 
       const response = await fetch(url, {
         headers: {

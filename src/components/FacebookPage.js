@@ -3,7 +3,7 @@ import { useAuth0 } from "../utils/react-auth0-wrapper";
 import ExternalApi from './ExternalApi';
 import Loading from './Loading';
 
-const AboutPage = () => {
+const FacebookPage = () => {
   const { loading, isAuthenticated } = useAuth0();
 
   if (loading) {
@@ -12,7 +12,7 @@ const AboutPage = () => {
 
   return(
     <div>
-      <h1>About</h1>
+      <h1>Facebook</h1>
       { 
         isAuthenticated ? 
         <ExternalApi /> :
@@ -22,4 +22,4 @@ const AboutPage = () => {
   )
 }
 
-export default AboutPage
+export default FacebookPage
