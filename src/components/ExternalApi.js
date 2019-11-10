@@ -23,7 +23,8 @@ const ExternalApi = () => {
         urlObject.port = 8080;
       }
 
-      const url = urlObject + 'google';
+      //const url = urlObject + 'google';
+      const url = urlObject + 'facebook';
 
       const response = await fetch(url, {
         headers: {
