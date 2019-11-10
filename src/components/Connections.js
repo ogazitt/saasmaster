@@ -18,8 +18,12 @@ const connectionList = {
 };
 
 const Connections = () => {
-  const { loading, isLoaded, loadConnections, connections } = useConnections();
+  const { connections, loaded } = useConnections();
 
+  if (!loaded) {
+    return (<div>Error encountered loading connections :(  Please try refreshing!</div>)
+  }
+  
   return (
     <CardDeck>
     {

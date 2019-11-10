@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useConnections } from '../utils/connections';
 import Loading from './Loading';
-import Highlight from './Highlight';
 import Connections from './Connections';
 
 const ConnectionsPage = () => {
-  const { loading, isLoaded, loadConnections, connections } = useConnections();
+  const { loading, loaded, loadConnections } = useConnections();
   const [showResult, setShowResult] = useState(false);
-  const [loadingConnections, setLoadingConnections] = useState(false);
+  const [didLoad, setDidLoad] = useState(false);
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading) {
@@ -16,20 +15,17 @@ const ConnectionsPage = () => {
 
   // force load of connections data
   const load = async () => { 
-    setShowResult(false);
-    setLoadingConnections(true);
     await loadConnections();
-    setShowResult(true);
-    setLoadingConnections(false);
   };
 
   // if haven't loaded connections yet, do so now
-  if (!isLoaded && !loadingConnections) {
+  if (!loading && !didLoad) {
     load();
+    setDidLoad(true);
   }
 
   // if results have loaded already, then show those results
-  if (isLoaded && !showResult) {
+  if (loaded && !showResult) {
     setShowResult(true);
   }
 
@@ -43,9 +39,8 @@ const ConnectionsPage = () => {
       <br/>
       <br/>
       { 
-//        showResult ? <Highlight>{JSON.stringify(connections, null, 2)}</Highlight> : <div/>
         showResult ? <Connections/> : <div/>
-}
+      }
     </div>
   );
 };

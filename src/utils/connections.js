@@ -6,9 +6,9 @@ export const useConnections = () => useContext(ConnectionsContext);
 export const ConnectionsProvider = ({
   children
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [connections, setConnections] = useState();
   const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [connections, setConnections] = useState();
 
   const { getTokenSilently } = useAuth0();
 
@@ -48,18 +48,18 @@ export const ConnectionsProvider = ({
       if (response.ok) {
         const responseData = await response.json();
         setConnections(responseData);
-        setIsLoaded(true);
+        setLoaded(true);
       } else {
         console.error(`loadConnections error: ${response}`);
         setConnections({});
-        setIsLoaded(false);
+        setLoaded(false);
       }
 
       setLoading(false);
     } catch (error) {
       console.error(`loadConnections exception caught: ${error}`);
       setConnections({});
-      setIsLoaded(false);
+      setLoaded(false);
       setLoading(false);
     }  
   };
@@ -67,7 +67,7 @@ export const ConnectionsProvider = ({
   return (
     <ConnectionsContext.Provider
       value={{
-        isLoaded,
+        loaded,
         connections,
         loading,
         loadConnections,
