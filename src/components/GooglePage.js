@@ -48,7 +48,7 @@ const GooglePage = () => {
       }
 
       const responseData = await response.json();
-      const items = responseData && responseData.items || null;
+      const items = responseData && responseData.items;
 
       setLoaded(true);
       setLoading(false);
