@@ -27,6 +27,23 @@ const onRedirectCallback = appState => {
 // after login
 
 const onRedirectCallback = appState => {
+  // if this login was a result of linking, then redirect to /conns
+  const linking = localStorage.getItem('linking');
+  if (linking) {
+    if (linking === 'login') {
+      // completed the linking process - remove storage keys
+      localStorage.removeItem('linking');
+      localStorage.removeItem('primary');
+    }  
+    
+    window.history.replaceState(
+      {},
+      document.title,
+      `${window.location.origin}/conns`
+    );
+    return;
+  }
+
   window.history.replaceState(
     {},
     document.title,

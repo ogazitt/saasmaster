@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { useConnections } from '../utils/connections';
 import Loading from './Loading';
-import Connections from './Connections';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import CardDeck from 'react-bootstrap/CardDeck';
+
 
 // testing link API
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 
 const ConnectionsPage = () => {
-  const { loading, loaded, loadConnections } = useConnections();
+  const { loading, loaded, loadConnections, connections } = useConnections();
   const [showResult, setShowResult] = useState(false);
   const [didLoad, setDidLoad] = useState(false);
 
   // testing link API
-  const { getTokenSilently } = useAuth0();
-  const [userId, setUserId] = useState();
+  const { user, getTokenSilently, loginWithRedirect, logout } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading) {
@@ -37,7 +39,7 @@ const ConnectionsPage = () => {
   }
 
   // testing link API
-  const call = async (action) => { 
+  const call = async (action, primaryUserId, secondaryUserId) => { 
     try {
       const token = await getTokenSilently();
       
@@ -60,7 +62,8 @@ const ConnectionsPage = () => {
         },
         body: JSON.stringify({ 
             action: action,
-            secondaryUserId: userId 
+            primaryUserId: primaryUserId,
+            secondaryUserId: secondaryUserId 
           })
       });
       
@@ -71,17 +74,47 @@ const ConnectionsPage = () => {
 
       const responseData = await response.json();
       console.log(responseData);
+
+      if (action === 'link') {
+        const [provider] = primaryUserId.split('|');
+        // log back in with the primary account 
+        loginWithRedirect({
+          access_type: 'offline', 
+          connection: provider,
+          redirect_uri: `${window.location.origin}`
+        });
+      } else {
+        // refresh the page
+        load();
+      }
     } catch (error) {
       console.error(error);
       return;
     }
   };  
 
-  const link = () => { call('link') }
-  const unlink = () => { call('unlink') }
+  const link = async (provider) => { 
+    // store the currently logged in userid (will be used as primary)
+    localStorage.setItem('linking', 'linking');
+    localStorage.setItem('primary', user.sub);
+    
+    // need to sign in with new IdP
+    loginWithRedirect({
+      access_type: 'offline', // unverified - asks for offline access
+      connection: provider,
+      redirect_uri: `${window.location.origin}`
+    });
+  }
 
-  // initiate forcing load of connections data
-  //load();
+  const linking = localStorage.getItem('linking');
+  if (linking === 'linking') {
+    // move the state machine from 'linking' to 'login'
+    localStorage.setItem('linking', 'login');
+    const primaryUserId = localStorage.getItem('primary');
+
+    // link the accounts
+    call('link', primaryUserId, user.sub);
+  }
 
   return(
     <div>
@@ -90,13 +123,55 @@ const ConnectionsPage = () => {
       <br/>
       <br/>
       { 
-        showResult ? <Connections/> : <div/>
+//        showResult ? <Connections/> : <div/>
+        showResult ? 
+        <CardDeck>
+        {
+          connections.map((connection, key) => {
+            // set up some variables
+            const connected = connection.connected;
+            const uid = `${connection.provider}|${connection.userId}`;
+            var border, variant, action, buttonText;
+            switch (connected) {
+              case 'linked':
+                border = 'success';
+                variant = 'danger';
+                action = () => { call('unlink', null, uid) };
+                buttonText = 'Disconnect';
+                break;
+              case 'base':
+                border = 'success';
+                break;
+              default: 
+                border = 'secondary';
+                variant = 'primary';
+                action = () => { link(connection.provider) };
+                buttonText = 'Connect';
+                break;
+            }
+
+            return (
+              <Card 
+                key={key} 
+                //border={ connected ? 'success' : 'secondary' }
+                border={ border }
+                style={{ maxWidth: '150px', textAlign: 'center' }}>
+                <center><Card.Img variant="top" src={connection.image} style={{ width: '8rem', marginTop: '10px' }}/></center>
+                <Card.Body>
+                  { connected != 'base' ? 
+                   <Button variant={ variant } onClick={ action }>
+                     { buttonText }
+                   </Button>
+                   : <center>Base Identity</center>
+                   }
+                </Card.Body>
+              </Card>    
+            )
+          })
+        }
+        </CardDeck>
+        : <div/>     
       }
-      <br />
-      <br />
-      <input value={userId} onInput={e => setUserId(e.target.value)}/>
-      <button onClick={link}>Link</button>
-      <button onClick={unlink}>Unlink</button>
     </div>
   );
 };
