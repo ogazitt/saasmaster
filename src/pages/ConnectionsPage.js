@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useConnections } from '../utils/connections';
-import Loading from './Loading';
+import Loading from '../components/Loading';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import CardDeck from 'react-bootstrap/CardDeck';

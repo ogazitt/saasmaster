@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import AppWrapper from './components/AppWrapper';
+import AppWrapper from './pages/AppWrapper';
 import * as serviceWorker from './serviceWorker';
 
 import { Auth0Provider } from "./utils/react-auth0-wrapper";
@@ -14,15 +14,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 //import history from "./utils/history";
 
-/*
-const onRedirectCallback = appState => {
-  history.push(
-    appState && appState.targetUrl
-      ? appState.targetUrl
-      : window.location.pathname
-  );
-};
-*/
 // A function that routes the user to the right place
 // after login
 

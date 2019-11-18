@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 import { useConnections } from "../utils/connections";
 import callApi from "../utils/callApi";
-import Loading from './Loading';
+import Loading from '../components/Loading';
 import CardDeck from 'react-bootstrap/CardDeck';
 
-const ProviderPage = ({ providerName, connectionName, endpoint, dataIndex, card }) => {
+const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card }) => {
 
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -79,4 +79,4 @@ const ProviderPage = ({ providerName, connectionName, endpoint, dataIndex, card 
   );
 }
 
-export default ProviderPage;
+export default BaseProvider;

@@ -12,10 +12,10 @@ import '@trendmicro/react-navbar/dist/react-navbar.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 // React Navbar
-import StickyNavbar from './StickyNavbar';
+import StickyNavbar from '../components/StickyNavbar';
 
-import BusinessSideNav from './BusinessSideNav';
-import EmployeesSideNav from './EmployeesSideNav';
+import BusinessSideNav from '../components/BusinessSideNav';
+import EmployeesSideNav from '../components/EmployeesSideNav';
 import ProfilePage from './ProfilePage';
 
 const App = () => {

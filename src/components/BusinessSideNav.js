@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
+import { useRoutes, navigate } from 'hookrouter';
 
 import 'font-awesome/css/font-awesome.min.css';
 
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-
-// Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
-import { useRoutes, navigate } from 'hookrouter';
-import HomePage from './HomePage'
-import GooglePage from './GooglePage'
-import FacebookPage from './FacebookPage'
-import ConnectionsPage from './ConnectionsPage'
-import NotFoundPage from './NotFoundPage'
+// import pages
+import HomePage from '../pages/HomePage'
+import ConnectionsPage from '../pages/ConnectionsPage'
+import NotFoundPage from '../pages/NotFoundPage'
 
+// import data provider pages
+import GooglePage from '../providers/Google'
+import FacebookPage from '../providers/Facebook'
+
+// define routes
 const routes = {
   '/': () => <HomePage />,
   '/home': () => <HomePage />,

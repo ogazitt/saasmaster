@@ -1,5 +1,16 @@
 import React from 'react'
+import BaseProvider from './BaseProvider'
 import Card from 'react-bootstrap/Card'
+
+const GooglePage = () => {
+  return BaseProvider({ 
+    providerName: 'Google',
+    connectionName: 'google-oauth2',
+    endpoint: 'google',
+    dataIndex: 'items',
+    card: GoogleCard
+  })
+}
 
 const GoogleCard = ({item, key}) => {
   const { summary, backgroundColor } = item
@@ -14,4 +25,4 @@ const GoogleCard = ({item, key}) => {
   )
 }
 
-export default GoogleCard
+export default GooglePage

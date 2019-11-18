@@ -1,6 +1,6 @@
 import React from 'react'
-import Loading from './Loading'
-import Highlight from './Highlight'
+import Loading from '../components/Loading'
+import Highlight from '../components/Highlight'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 
 const HomePage = () => {

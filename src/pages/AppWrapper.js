@@ -3,7 +3,7 @@ import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from "../utils/connections";
 import App from './App'
 import LandingPage from './LandingPage'
-import Loading from './Loading'
+import Loading from '../components/Loading'
 
 const AppWrapper = () => {
   const { loading, isAuthenticated } = useAuth0()

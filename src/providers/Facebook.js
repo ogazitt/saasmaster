@@ -1,5 +1,16 @@
 import React from 'react'
+import BaseProvider from './BaseProvider'
 import Card from 'react-bootstrap/Card'
+
+const FacebookPage = () => {
+  return BaseProvider({ 
+    providerName: 'Facebook',
+    connectionName: 'facebook',
+    endpoint: 'facebook',
+    dataIndex: 'data',
+    card: FacebookCard
+  })
+}
 
 const FacebookCard = ({item, key}) => {
   const { name, category_list } = item;
@@ -16,4 +27,4 @@ const FacebookCard = ({item, key}) => {
   )
 }
 
-export default FacebookCard
+export default FacebookPage

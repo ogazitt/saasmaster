@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button'
 
 const ConnectionCard = ({item, key}) => {
   const connected = item.connected;
