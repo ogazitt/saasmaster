@@ -29,70 +29,62 @@ const routes = {
 // https://fb.me/react-invalid-hook-call
 
 const BusinessSideNav = () => {
-    // create state variables for selected tab and expanded state
-    const [selected, setSelected] = useState('home')
-    const [expanded, setExpanded] = useState(false)
+  // create state variables for selected tab and expanded state
+  const currentPath = window.location.pathname;
+  const [selected, setSelected] = useState(currentPath === '/' ? 'home' : currentPath.substring(1));
+  const [expanded, setExpanded] = useState(false)
 
-    const routeResult = useRoutes(routes);
+  const routeResult = useRoutes(routes);
 
-    return (
-      <div>  
-        <SideNav
-            onSelect={(selected) => {
-              setSelected(selected)
-              navigate(`/${selected}`)
-              // Add your code here
-          }}
-            onToggle={(expanded) => {
-              setExpanded(expanded)
-              // Add your code here
-          }}>
-          <SideNav.Toggle />
-          <SideNav.Nav defaultSelected={selected}>
-              <NavItem eventKey="home">
-                  <NavIcon>
-                      <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                      Website
-                  </NavText>
-              </NavItem>
-              <NavItem eventKey="google">
-                  <NavIcon>
-                      <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                      Google
-                  </NavText>
-              </NavItem>
-              <NavItem eventKey="facebook">
-                  <NavIcon>
-                      <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                      Facebook
-                  </NavText>
-              </NavItem>
-              <NavItem eventKey="conns">
-                  <NavIcon>
-                      <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
-                  </NavIcon>
-                  <NavText>
-                      Connections
-                  </NavText>
-              </NavItem>
-            </SideNav.Nav>
-        </SideNav>
-        <div style={{
-          marginLeft: expanded ? 240 : 64,
-          padding: '1px 0 0 20px',
-          textAlign: 'left'
+  return (
+    <div>  
+      <SideNav
+        onSelect={(selected) => {
+        setSelected(selected)
+        navigate(`/${selected}`)
+          // Add your code here
+        }}
+        onToggle={(expanded) => {
+          setExpanded(expanded)
+          // Add your code here
         }}>
-          { routeResult || <NotFoundPage /> }
-        </div>
-
+        <SideNav.Toggle />
+        <SideNav.Nav defaultSelected={selected}>
+          <NavItem eventKey="home">
+            <NavIcon>
+              <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
+            </NavIcon>
+            <NavText>Website</NavText>
+          </NavItem>
+          <NavItem eventKey="google">
+            <NavIcon>
+              <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
+            </NavIcon>
+            <NavText>Google</NavText>
+          </NavItem>
+          <NavItem eventKey="facebook">
+            <NavIcon>
+              <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
+            </NavIcon>
+            <NavText>Facebook</NavText>
+          </NavItem>
+          <NavItem eventKey="conns">
+            <NavIcon>
+              <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+            </NavIcon>
+            <NavText>Connections</NavText>
+          </NavItem>
+        </SideNav.Nav>
+      </SideNav>
+      <div style={{
+        marginLeft: expanded ? 240 : 64,
+        padding: '1px 0 0 20px',
+        textAlign: 'left'
+      }}>
+        { routeResult || <NotFoundPage /> }
       </div>
-    );
-  }
+    </div>
+  );
+}
 //}
 export default BusinessSideNav;
