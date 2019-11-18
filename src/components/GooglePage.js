@@ -1,23 +1,29 @@
 import React, { useState } from 'react'
 import { useAuth0 } from "../utils/react-auth0-wrapper";
+import { useConnections } from "../utils/connections";
 import Loading from './Loading';
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
 
 
 const GooglePage = () => {
+  // set the provider name
+  const providerName = 'google-oauth2';
+
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const [loadedData, setLoadedData] = useState(false);
   const { getTokenSilently } = useAuth0();
+
+  const { connections } = useConnections();
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading) {
     return <Loading />
   }
-
-  // force load of profile data
-  const load = async () => { 
+  
+  // load data from provider
+  const loadData = async () => { 
     setLoading(true);
     try {
       const token = await getTokenSilently();
@@ -41,7 +47,7 @@ const GooglePage = () => {
       
       if (!response.ok) {
         console.error(response);
-        setLoaded(true);
+        setLoadedData(true);
         setLoading(false);
         setData(null);
         return;
@@ -50,32 +56,45 @@ const GooglePage = () => {
       const responseData = await response.json();
       const items = responseData && responseData.items;
 
-      setLoaded(true);
+      setLoadedData(true);
       setLoading(false);
       setData(items);
     } catch (error) {
       console.error(error);
-      setLoaded(true);
+      setLoadedData(true);
       setLoading(false);
       setData(null);
       return;
     }
   };
 
-  // if haven't loaded profile yet, do so now
-  if (!loaded) {
-    load();
+  // find whether we are connected to the provider
+  const connection = connections && connections.find(el => el.provider === providerName);
+  if (!connection || !connection.connected) {
+    // need to connect first
+    // TODO: button to move to settings page
+    return(
+      <div>
+        <br/>
+        <h2>Please connect to Google</h2>
+      </div>
+    )
+  }
+
+  // if haven't loaded data yet, do so now
+  if (!loadedData) {
+    loadData();
     return <Loading />;
   }
 
   return(
     <div>
       <h1>Google</h1>
-      <button onClick={load}>Refresh</button>
+      <button onClick={loadData}>Refresh</button>
       <br/>
       <br/>
       { 
-        loaded && data ? 
+        loadedData && data ? 
           <CardDeck>
           {
             data.map((item, key) => {

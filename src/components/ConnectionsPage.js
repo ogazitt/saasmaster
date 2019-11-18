@@ -4,17 +4,12 @@ import Loading from './Loading';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import CardDeck from 'react-bootstrap/CardDeck';
-
-
-// testing link API
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 
 const ConnectionsPage = () => {
   const { loading, loaded, loadConnections, connections } = useConnections();
   const [showResult, setShowResult] = useState(false);
   const [didLoad, setDidLoad] = useState(false);
-
-  // testing link API
   const { user, getTokenSilently, loginWithRedirect, logout } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -38,7 +33,7 @@ const ConnectionsPage = () => {
     setShowResult(true);
   }
 
-  // testing link API
+  // call the link / unlink user API
   const call = async (action, primaryUserId, secondaryUserId) => { 
     try {
       const token = await getTokenSilently();
@@ -93,19 +88,23 @@ const ConnectionsPage = () => {
     }
   };  
 
+  // start the account linking process
+  // linking state machine: null => linking => login => null
   const link = async (provider) => { 
-    // store the currently logged in userid (will be used as primary)
+    // move the state machine from null to 'linking'
     localStorage.setItem('linking', 'linking');
+    // store the currently logged in userid (will be used as primary)
     localStorage.setItem('primary', user.sub);
     
     // need to sign in with new IdP
     loginWithRedirect({
-      access_type: 'offline', // unverified - asks for offline access
+      access_type: 'offline', 
       connection: provider,
       redirect_uri: `${window.location.origin}`
     });
   }
 
+  // get the state of the linking state machine
   const linking = localStorage.getItem('linking');
   if (linking === 'linking') {
     // move the state machine from 'linking' to 'login'
@@ -123,7 +122,6 @@ const ConnectionsPage = () => {
       <br/>
       <br/>
       { 
-//        showResult ? <Connections/> : <div/>
         showResult ? 
         <CardDeck>
         {
@@ -153,12 +151,11 @@ const ConnectionsPage = () => {
             return (
               <Card 
                 key={key} 
-                //border={ connected ? 'success' : 'secondary' }
                 border={ border }
                 style={{ maxWidth: '150px', textAlign: 'center' }}>
                 <center><Card.Img variant="top" src={connection.image} style={{ width: '8rem', marginTop: '10px' }}/></center>
                 <Card.Body>
-                  { connected != 'base' ? 
+                  { connected !== 'base' ? 
                    <Button variant={ variant } onClick={ action }>
                      { buttonText }
                    </Button>
