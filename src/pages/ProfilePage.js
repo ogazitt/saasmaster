@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import Highlight from '../components/Highlight'
-import { useAuth0 } from "../utils/react-auth0-wrapper";
+import { useAuth0 } from '../utils/react-auth0-wrapper'
+import callApi from '../utils/callApi'
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const [loadedData, setLoadedData] = useState(false);
   const { getTokenSilently } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -17,52 +18,25 @@ const ProfilePage = () => {
   // force load of profile data
   const load = async () => { 
     setLoading(true);
-    try {
-      const token = await getTokenSilently();
-      
-      // construct API service URL
-      const baseUrl = window.location.origin;
-      const urlObject = new URL(baseUrl);
 
-      // replace port for local development from 3000 to 8080
-      if (urlObject.port && urlObject.port > 80) {
-        urlObject.port = 8080;
-      }
+    const token = await getTokenSilently();
+    const [response, error] = await callApi(token, 'profile');
 
-      const url = urlObject + 'profile';
-
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      
-      if (!response.ok) {
-        console.error(response);
-        setLoaded(true);
-        setLoading(false);
-        setProfile(response);
-        return;
-        //return(<div/>);
-      }
-
-      const responseData = await response.json();
-
-      setLoaded(true);
+    if (error || !response.ok) {
+      setLoadedData(true);
       setLoading(false);
-      setProfile(responseData);
-    } catch (error) {
-      console.error(error);
-      setLoaded(true);
-      setLoading(false);
-      setProfile(error);
+      setProfile(response);
       return;
-      //return(<div/>);
     }
+
+    const responseData = await response.json();
+    setLoadedData(true);
+    setLoading(false);
+    setProfile(responseData);
   };
 
   // if haven't loaded profile yet, do so now
-  if (!loaded) {
+  if (!loadedData) {
     load();
     return <Loading />;
   }
@@ -78,7 +52,7 @@ const ProfilePage = () => {
       <br/>
       <br/>
       { 
-        loaded ? <Highlight>{JSON.stringify(profile, null, 2)}</Highlight> : <div/>
+        loadedData ? <Highlight>{JSON.stringify(profile, null, 2)}</Highlight> : <div/>
       }
     </div>
   );
