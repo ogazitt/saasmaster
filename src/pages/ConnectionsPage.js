@@ -10,7 +10,7 @@ const ConnectionsPage = () => {
   const { loading, loaded, loadConnections, connections } = useConnections();
   const [showResult, setShowResult] = useState(false);
   const [didLoad, setDidLoad] = useState(false);
-  const { user, getTokenSilently, loginWithRedirect, logout } = useAuth0();
+  const { user, getTokenSilently, loginWithRedirect } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading) {
