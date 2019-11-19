@@ -41,6 +41,10 @@
     {
       "src": "instagram-logo.png",
       "type": "image/png"
+    },   
+    {
+      "src": "twitter-logo.png",
+      "type": "image/png"
     }    
   ],
   "start_url": ".",

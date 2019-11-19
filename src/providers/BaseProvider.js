@@ -34,7 +34,7 @@ const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card 
     }
 
     const responseData = await response.json();
-    const items = responseData && responseData[dataIndex];
+    const items = responseData && (dataIndex ? responseData[dataIndex] : responseData);
 
     setLoadedData(true);
     setLoading(false);
