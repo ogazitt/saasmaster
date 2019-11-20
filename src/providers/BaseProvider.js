@@ -5,7 +5,7 @@ import callApi from "../utils/callApi";
 import Loading from '../components/Loading';
 import CardDeck from 'react-bootstrap/CardDeck';
 
-const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card }) => {
+const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card, func, selected }) => {
 
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -70,7 +70,7 @@ const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card 
         loadedData && data ? 
           <CardDeck>
           {
-            data.map((item, key) => card({ item, key }))
+            data.map((item, key) => card({ item, key, func, selected }))
           }
           </CardDeck>
         : <div />

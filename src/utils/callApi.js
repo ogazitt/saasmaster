@@ -1,4 +1,4 @@
-const callApi = async (token, path) => { 
+const callApi = async (token, path, headers = {}) => { 
 
   try {
     // construct API service URL
@@ -11,11 +11,10 @@ const callApi = async (token, path) => {
     }
 
     const url = urlObject + path;
+    headers.Authorization = `Bearer ${token}`;
 
     const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: headers
     });
     
     return [response, null];
