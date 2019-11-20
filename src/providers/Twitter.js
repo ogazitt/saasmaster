@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card'
 
 const TwitterPage = () => {
   return BaseProvider({ 
-    providerName: 'Twitter',
+    pageTitle: 'Twitter mentions',
     connectionName: 'twitter',
     endpoint: 'twitter',
     dataIndex: null,

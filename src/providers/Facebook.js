@@ -9,10 +9,13 @@ import { useAuth0 } from "../utils/react-auth0-wrapper";
 const FacebookPage = () => {
   const [data, setData] = useState();
   const [selected, setSelected] = useState();
+  const [pageId, setPageId] = useState();
   const { getTokenSilently } = useAuth0();
 
   const getPage = async (key, id, accessToken) => {
+    // store the state associated with the selected page
     setSelected(key);
+    setPageId(id);
 
     const token = await getTokenSilently();
     const endpoint = `facebook/reviews/${id}`;
@@ -34,19 +37,20 @@ const FacebookPage = () => {
   return (
     <div>
       <BaseProvider 
-        providerName='Facebook'
+        pageTitle='Facebook pages'
         connectionName='facebook'
+        onLoadHandler={ () => { setData(null); setSelected(null) }}
         endpoint='facebook'
         dataIndex='data'
         card={FacebookCard}
-        func={getPage}
+        onClickHandler={getPage}
         selected={selected}>          
       </BaseProvider>
       <br/>
       { data ? 
         <CardDeck>
         {
-          data.map((item, key) => ReviewCard({ item, key }))
+          data.map((item, key) => ReviewCard({ item, key, id: pageId }))
         }
         </CardDeck>
       : <div/>
@@ -55,35 +59,39 @@ const FacebookPage = () => {
   )
 }
 
-const FacebookCard = ({item, key, func, selected}) => {
+const FacebookCard = ({item, key, onClickHandler, selected}) => {
   const { name, category_list, id, access_token} = item;
   const category = category_list && category_list[0].name;
-  const backColor = (key === selected) ? 'green' : 'black';
+  const border = (key === selected) ? 'primary' : 'gray';
 
   const loadPageComments = () => {
-    func(key, id, access_token);
+    onClickHandler(key, id, access_token);
   }
 
   return (
     <Card className="text-center" onClick={ loadPageComments }
-      key={key} 
-      style={{ maxWidth: '200px', textAlign: 'center', color: backColor }}>
+      key={key} border={border}
+      style={{ maxWidth: '250px' }}>
       <Card.Header>{ name }</Card.Header>
       <Card.Body>
         <Card.Title>{ category }</Card.Title>
+        <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Link to page</Card.Link>
+        <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to reviews</Card.Link>
       </Card.Body>
     </Card>    
   )
 }
 
-const ReviewCard = ({item, key}) => {
+const ReviewCard = ({item, key, id}) => {
   const date = new Date(item.created_time).toLocaleString();
+  const border = (item.recommendation_type === 'positive' ? 'success' : 
+                 item.recommendation_type === 'negative' ? 'danger' : 'gray');
   return(
-    <Card style={{ maxWidth: '400px' }}>
+    <Card key={ key } style={{ maxWidth: '400px' }} border={ border } text={ border }>
       <Card.Header>{date}</Card.Header>
       <Card.Body>
-        <Card.Title>{item.recommendation_type}</Card.Title>
         <Card.Text>{item.review_text}</Card.Text>
+        <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to review</Card.Link>
       </Card.Body>
     </Card>
   )

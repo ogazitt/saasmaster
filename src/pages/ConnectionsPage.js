@@ -18,13 +18,13 @@ const ConnectionsPage = () => {
   }
 
   // force load of connections data
-  const load = async () => { 
+  const loadData = async () => { 
     await loadConnections();
   };
 
   // if haven't loaded connections yet, do so now
   if (!loading && !didLoad) {
-    load();
+    loadData();
     setDidLoad(true);
   }
 
@@ -80,7 +80,7 @@ const ConnectionsPage = () => {
         });
       } else {
         // refresh the page
-        load();
+        loadData();
       }
     } catch (error) {
       console.error(error);
@@ -117,9 +117,11 @@ const ConnectionsPage = () => {
 
   return(
     <div>
-      <h1>Connections</h1>
-      <button onClick={load}>Refresh</button>
       <br/>
+      <div class="provider-header">
+        <Button onClick={loadData}><i class="fa fa-refresh"></i></Button>
+        <h3 class="provider-title">Connections</h3>
+      </div>
       <br/>
       { 
         showResult ? 

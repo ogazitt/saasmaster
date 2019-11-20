@@ -12,8 +12,10 @@ const HomePage = () => {
   
   return (
     <div>
-      <h1>Home</h1>
-      <img src="SaaSMaster.png" alt="logo"/>
+      <br/>
+      <div className="provider-header">
+        <img src="SaaSMaster.png" alt="logo"/>
+      </div>
       <br/>
       {user && <Highlight>{JSON.stringify(user, null, 2)}</Highlight>}
       {user && <Highlight>{JSON.stringify(getIdTokenClaims(), null, 2)}</Highlight>}

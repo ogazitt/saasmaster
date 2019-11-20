@@ -34,3 +34,14 @@
   left: 0;
   right: 0;
 }
+
+.provider-header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.provider-title {
+  margin-left: 15px;
+  margin-bottom: 0px;
+}
+

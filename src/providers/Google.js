@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card'
 
 const GooglePage = () => {
   return BaseProvider({ 
-    providerName: 'Google',
+    pageTitle: 'Google calendars',
     connectionName: 'google-oauth2',
     endpoint: 'google',
     dataIndex: 'items',

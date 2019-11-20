@@ -3,6 +3,7 @@ import Loading from '../components/Loading'
 import Highlight from '../components/Highlight'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import callApi from '../utils/callApi'
+import Button from 'react-bootstrap/Button';
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({});
@@ -16,7 +17,7 @@ const ProfilePage = () => {
   }
 
   // force load of profile data
-  const load = async () => { 
+  const loadData = async () => { 
     setLoading(true);
 
     const token = await getTokenSilently();
@@ -37,7 +38,7 @@ const ProfilePage = () => {
 
   // if haven't loaded profile yet, do so now
   if (!loadedData) {
-    load();
+    loadData();
     return <Loading />;
   }
 
@@ -47,9 +48,11 @@ const ProfilePage = () => {
       padding: '1px 0 0 20px',
       textAlign: 'left'
     }}>
-      <h1>Profile</h1>
-      <button onClick={load}>Refresh</button>
       <br/>
+      <div class="provider-header">
+        <Button onClick={loadData}><i class="fa fa-refresh"></i></Button>
+        <h3 class="provider-title">Profile</h3>
+      </div>
       <br/>
       { 
         loadedData ? <Highlight>{JSON.stringify(profile, null, 2)}</Highlight> : <div/>

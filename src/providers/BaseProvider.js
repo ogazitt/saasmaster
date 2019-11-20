@@ -4,8 +4,18 @@ import { useConnections } from "../utils/connections";
 import callApi from "../utils/callApi";
 import Loading from '../components/Loading';
 import CardDeck from 'react-bootstrap/CardDeck';
+import Button from 'react-bootstrap/Button';
 
-const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card, func, selected }) => {
+const BaseProvider = ({ 
+    pageTitle, 
+    connectionName, 
+    onLoadHandler,
+    endpoint, 
+    dataIndex, 
+    card, 
+    onClickHandler, 
+    selected 
+  }) => {
 
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -22,6 +32,9 @@ const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card,
   // load data from provider
   const loadData = async () => { 
     setLoading(true);
+
+    // invoke the on load handler function if supplied by provider
+    onLoadHandler && onLoadHandler();
 
     const token = await getTokenSilently();
     const [response, error] = await callApi(token, endpoint);
@@ -43,13 +56,13 @@ const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card,
 
   // find whether we are connected to the provider
   const connection = connections && connections.find(el => el.provider === connectionName);
-  if (!connection || !connection.connected) {
+  if (loadedData && (!connection || !connection.connected)) {
     // need to connect first
     // TODO: button to move to settings page
     return(
       <div>
         <br/>
-        <h2>{`Please connect to ${providerName}`}</h2>
+        <h2>{`Please connect to ${pageTitle}`}</h2>
       </div>
     )
   }
@@ -62,15 +75,17 @@ const BaseProvider = ({ providerName, connectionName, endpoint, dataIndex, card,
 
   return(
     <div>
-      <h1>{providerName}</h1>
-      <button onClick={loadData}>Refresh</button>
       <br/>
+      <div class="provider-header">
+        <Button onClick={loadData}><i class="fa fa-refresh"></i></Button>
+        <h3 class="provider-title">{pageTitle}</h3>
+      </div>
       <br/>
       { 
         loadedData && data ? 
           <CardDeck>
           {
-            data.map((item, key) => card({ item, key, func, selected }))
+            data.map((item, key) => card({ item, key, onClickHandler, selected }))
           }
           </CardDeck>
         : <div />
