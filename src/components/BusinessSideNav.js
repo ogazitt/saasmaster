@@ -15,6 +15,7 @@ import NotFoundPage from '../pages/NotFoundPage'
 import GooglePage from '../providers/Google'
 import FacebookPage from '../providers/Facebook'
 import TwitterPage from '../providers/Twitter'
+import InstagramPage from '../providers/Instagram'
 
 // define routes
 const routes = {
@@ -22,6 +23,7 @@ const routes = {
   '/home': () => <HomePage />,
   '/google': () => <GooglePage />,
   '/facebook': () => <FacebookPage />,
+  '/instagram': () => <InstagramPage />,
   '/twitter': () => <TwitterPage />,
   '/conns': () => <ConnectionsPage />,
 /*    '/products': () => <ProductOverview />,
@@ -69,6 +71,12 @@ const BusinessSideNav = () => {
               <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
             </NavIcon>
             <NavText>Facebook</NavText>
+          </NavItem>
+          <NavItem eventKey="instagram">
+            <NavIcon>
+              <i className="fa fa-fw fa-instagram" style={{ fontSize: '1.75em' }} />
+            </NavIcon>
+            <NavText>Instagram</NavText>
           </NavItem>
           <NavItem eventKey="twitter">
             <NavIcon>

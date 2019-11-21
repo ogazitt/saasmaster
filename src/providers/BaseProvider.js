@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { navigate } from 'hookrouter';
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 import { useConnections } from "../utils/connections";
 import callApi from "../utils/callApi";
@@ -57,20 +58,30 @@ const BaseProvider = ({
     setData(items);
   };
 
-  if (loadedData && data) {
-    // find whether we are connected to the provider
-    const connection = connections && connections.find && connections.find(el => el.provider === connectionName);
-    if (!connection || !connection.connected) {
-      // need to connect first
-      // TODO: button to move to settings page
-      const [provider] = pageTitle.split(' ');
-      return(
-        <div>
-          <br/>
-          <h3>{`Please connect to ${provider}`}</h3>
-        </div>
-      )
-    }
+  // if connections not loaded, set an error message
+  if (!connections || !connections.find) {
+    return(
+      <div>
+        <i className="fa fa-frown-o"/>
+        <span>&nbsp;{errorMessage}</span>
+      </div>
+    )
+  }
+
+  // find whether we are connected to the provider
+  const connection = connections.find(el => el.provider === connectionName);
+  if (!connection || !connection.connected) {
+    // need to connect first
+    // TODO: button to move to settings page
+    const [provider] = pageTitle.split(' ');
+    return(
+      <div>
+        <br/>
+        <Button onClick={ () => { navigate('/conns') }}>
+          {`Connect to ${provider}`} 
+        </Button>
+      </div>
+    )
   }
 
   // if haven't loaded data yet, do so now
