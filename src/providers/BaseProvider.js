@@ -59,14 +59,15 @@ const BaseProvider = ({
 
   if (loadedData && data) {
     // find whether we are connected to the provider
-    const connection = connections && connections.find(el => el.provider === connectionName);
+    const connection = connections && connections.find && connections.find(el => el.provider === connectionName);
     if (!connection || !connection.connected) {
       // need to connect first
       // TODO: button to move to settings page
+      const [provider] = pageTitle.split(' ');
       return(
         <div>
           <br/>
-          <h2>{`Please connect to ${pageTitle}`}</h2>
+          <h3>{`Please connect to ${provider}`}</h3>
         </div>
       )
     }

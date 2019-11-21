@@ -131,7 +131,7 @@ const ConnectionsPage = () => {
       </div>
       <br/>
       { 
-        showResult ? 
+        showResult && connections && connections.map ? 
         <CardDeck>
         {
           connections.map((connection, key) => {
