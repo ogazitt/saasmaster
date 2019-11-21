@@ -20,6 +20,7 @@ const BaseProvider = ({
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   const { getTokenSilently } = useAuth0();
 
   const { connections } = useConnections();
@@ -43,6 +44,7 @@ const BaseProvider = ({
       setLoadedData(true);
       setLoading(false);
       setData(null);
+      setErrorMessage("Can't reach server - try refreshing later");
       return;
     }
 
@@ -51,20 +53,23 @@ const BaseProvider = ({
 
     setLoadedData(true);
     setLoading(false);
+    setErrorMessage(null);
     setData(items);
   };
 
-  // find whether we are connected to the provider
-  const connection = connections && connections.find(el => el.provider === connectionName);
-  if (loadedData && (!connection || !connection.connected)) {
-    // need to connect first
-    // TODO: button to move to settings page
-    return(
-      <div>
-        <br/>
-        <h2>{`Please connect to ${pageTitle}`}</h2>
-      </div>
-    )
+  if (loadedData && data) {
+    // find whether we are connected to the provider
+    const connection = connections && connections.find(el => el.provider === connectionName);
+    if (!connection || !connection.connected) {
+      // need to connect first
+      // TODO: button to move to settings page
+      return(
+        <div>
+          <br/>
+          <h2>{`Please connect to ${pageTitle}`}</h2>
+        </div>
+      )
+    }
   }
 
   // if haven't loaded data yet, do so now
@@ -88,7 +93,13 @@ const BaseProvider = ({
             data.map((item, key) => card({ item, key, onClickHandler, selected }))
           }
           </CardDeck>
-        : <div />
+        : errorMessage ? 
+          <div>
+            <i className="fa fa-frown-o"/>
+            <span>&nbsp;{errorMessage}</span>
+          </div>
+          :
+          <div />
       }
     </div>
   );

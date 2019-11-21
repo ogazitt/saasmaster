@@ -10,6 +10,7 @@ const ConnectionsPage = () => {
   const { loading, loaded, loadConnections, connections } = useConnections();
   const [showResult, setShowResult] = useState(false);
   const [didLoad, setDidLoad] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   const { user, getTokenSilently, loginWithRedirect } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -28,9 +29,15 @@ const ConnectionsPage = () => {
     setDidLoad(true);
   }
 
-  // if results have loaded already, then show those results
-  if (loaded && !showResult) {
-    setShowResult(true);
+  // if tried to load already, either display the results or an error
+  if (didLoad) {
+    if (loaded && connections) {
+      errorMessage && setErrorMessage(null);
+      !showResult && setShowResult(true);
+    } else {
+      showResult && setShowResult(false);
+      !errorMessage && setErrorMessage("Can't reach server - try refreshing later");
+    }
   }
 
   // call the link / unlink user API
@@ -169,7 +176,13 @@ const ConnectionsPage = () => {
           })
         }
         </CardDeck>
-        : <div/>     
+        : errorMessage ? 
+        <div>
+          <i className="fa fa-frown-o"/>
+          <span>&nbsp;{errorMessage}</span>
+        </div>
+        :
+        <div />
       }
     </div>
   );
