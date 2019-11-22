@@ -40,17 +40,17 @@ const BusinessSideNav = () => {
 
   const routeResult = useRoutes(routes);
 
+  const selectTab = (selected) => {
+    setSelected(selected)
+    navigate(`/${selected}`)
+  }
+
   return (
     <div>  
       <SideNav
-        onSelect={(selected) => {
-        setSelected(selected)
-        navigate(`/${selected}`)
-          // Add your code here
-        }}
-        onToggle={(expanded) => {
+        onSelect={ selectTab }
+        onToggle={ (expanded) => {
           setExpanded(expanded)
-          // Add your code here
         }}>
         <SideNav.Toggle />
         <SideNav.Nav defaultSelected={selected}>

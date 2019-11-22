@@ -7,7 +7,6 @@ const InstagramPage = () => {
     pageTitle: 'Instagram posts',
     connectionName: 'instagram',
     endpoint: 'instagram',
-    dataIndex: 'data',
     card: InstagramCard
   })
 }

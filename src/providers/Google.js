@@ -7,7 +7,6 @@ const GooglePage = () => {
     pageTitle: 'Google calendars',
     connectionName: 'google-oauth2',
     endpoint: 'google',
-    dataIndex: 'items',
     card: GoogleCard
   })
 }

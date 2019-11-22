@@ -12,7 +12,6 @@ const BaseProvider = ({
     connectionName, 
     onLoadHandler,
     endpoint, 
-    dataIndex, 
     card, 
     onClickHandler, 
     selected 
@@ -49,8 +48,8 @@ const BaseProvider = ({
       return;
     }
 
-    const responseData = await response.json();
-    const items = responseData && (dataIndex ? responseData[dataIndex] : responseData);
+    // items always come back as an array
+    const items = await response.json();
 
     setLoadedData(true);
     setLoading(false);
@@ -94,7 +93,7 @@ const BaseProvider = ({
     <div>
       <br/>
       <div class="provider-header">
-        <Button onClick={loadData}><i class="fa fa-refresh"></i></Button>
+        <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
         <h3 class="provider-title">{pageTitle}</h3>
       </div>
       <br/>

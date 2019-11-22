@@ -7,7 +7,6 @@ const TwitterPage = () => {
     pageTitle: 'Twitter mentions',
     connectionName: 'twitter',
     endpoint: 'twitter',
-    dataIndex: null,
     card: TwitterCard
   })
 }
