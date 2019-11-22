@@ -1,5 +1,6 @@
 import React from 'react'
 import BaseProvider from './BaseProvider'
+import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
 
 const InstagramPage = () => {
@@ -7,21 +8,27 @@ const InstagramPage = () => {
     pageTitle: 'Instagram posts',
     connectionName: 'instagram',
     endpoint: 'instagram',
-    card: InstagramCard
+    control: InstagramCards
   })
 }
 
-const InstagramCard = ({item, key}) => {
-  const { summary, backgroundColor } = item
-  return (
-    <Card 
-      key={key} 
-      style={{ maxWidth: '150px', textAlign: 'center', color: backgroundColor }}>
-      <Card.Body>
-        <Card.Title className="text-center">{ summary }</Card.Title>
-      </Card.Body>
-    </Card>    
-  )
-}
+const InstagramCards = ({data}) => 
+  <CardDeck>
+  {
+    data && data.map ? data.map((item, key) => {
+      const { summary, backgroundColor } = item
+      return (
+        <Card 
+          key={key} 
+          style={{ maxWidth: '150px', textAlign: 'center', color: backgroundColor }}>
+          <Card.Body>
+            <Card.Title className="text-center">{ summary }</Card.Title>
+          </Card.Body>
+        </Card>
+      )
+    })
+    : <span>No data to display :)</span>
+  }
+  </CardDeck>
 
 export default InstagramPage

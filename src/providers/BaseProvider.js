@@ -4,15 +4,14 @@ import { useAuth0 } from "../utils/react-auth0-wrapper";
 import { useConnections } from "../utils/connections";
 import callApi from "../utils/callApi";
 import Loading from '../components/Loading';
-import CardDeck from 'react-bootstrap/CardDeck';
 import Button from 'react-bootstrap/Button';
 
 const BaseProvider = ({ 
     pageTitle, 
     connectionName, 
-    onLoadHandler,
     endpoint, 
     control, 
+    onLoadHandler,
     onClickHandler, 
     selected 
   }) => {
