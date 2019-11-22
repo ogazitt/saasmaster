@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import BaseProvider from './BaseProvider'
+import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
-//import CardDeck from 'react-bootstrap/CardDeck';
 
 import callApi from '../utils/callApi';
 import { useAuth0 } from "../utils/react-auth0-wrapper";
@@ -49,14 +49,14 @@ const FacebookPage = () => {
     dataField: 'date',
     text: 'Date',
     sort: true,
-    headerStyle: (colum, colIndex) => {
+    headerStyle: (column, colIndex) => {
       return { width: '220px' };
     }
   }, {
     dataField: 'type',
     text: 'Type',
     sort: true,
-    headerStyle: (colum, colIndex) => {
+    headerStyle: (column, colIndex) => {
       return { width: '100px' };
     }
   }, {
@@ -71,19 +71,12 @@ const FacebookPage = () => {
         connectionName='facebook'
         onLoadHandler={ () => { setData(null); setSelected(null) }}
         endpoint='facebook'
-        card={FacebookCard}
+        control={PageCards}
         onClickHandler={getPage}
         selected={selected}>          
       </BaseProvider>
       <br/>
       { data && data.length > 0 ? 
-        /*
-        <CardDeck>
-        {
-          data.map((item, key) => ReviewCard({ item, key, id: pageId }))
-        }
-        </CardDeck>
-        */
         <div>
           <h4>Reviews</h4>
           <DataTable columns={columns} data={data} keyField="date" />
@@ -94,42 +87,32 @@ const FacebookPage = () => {
   )
 }
 
-const FacebookCard = ({item, key, onClickHandler, selected}) => {
-  const { name, category_list, id, access_token} = item;
-  const category = category_list && category_list[0].name;
-  const border = (key === selected) ? 'primary' : 'gray';
-
-  const loadPageComments = () => {
-    onClickHandler(key, id, access_token);
+const PageCards = ({data, onClickHandler, selected}) => 
+  <CardDeck>
+  {
+    data && data.map ? data.map((item, key) => {
+      const { name, category_list, id, access_token} = item;
+      const category = category_list && category_list[0].name;
+      const border = (key === selected) ? 'primary' : 'gray';
+    
+      const loadPageComments = () => {
+        onClickHandler(key, id, access_token);
+      }
+      return (
+        <Card className="text-center" onClick={ loadPageComments }
+          key={key} border={border}
+          style={{ maxWidth: '250px' }}>
+          <Card.Header>{ name }</Card.Header>
+          <Card.Body>
+            <Card.Title>{ category }</Card.Title>
+            <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Link to page</Card.Link>
+            <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to reviews</Card.Link>
+          </Card.Body>
+        </Card>
+      )
+    })
+    : <span>No data to display :)</span>
   }
-
-  return (
-    <Card className="text-center" onClick={ loadPageComments }
-      key={key} border={border}
-      style={{ maxWidth: '250px' }}>
-      <Card.Header>{ name }</Card.Header>
-      <Card.Body>
-        <Card.Title>{ category }</Card.Title>
-        <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Link to page</Card.Link>
-        <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to reviews</Card.Link>
-      </Card.Body>
-    </Card>    
-  )
-}
-
-const ReviewCard = ({item, key, id}) => {
-  const date = new Date(item.created_time).toLocaleString();
-  const border = (item.recommendation_type === 'positive' ? 'success' : 
-                 item.recommendation_type === 'negative' ? 'danger' : 'gray');
-  return(
-    <Card key={ key } style={{ maxWidth: '400px' }} border={ border } text={ border }>
-      <Card.Header>{date}</Card.Header>
-      <Card.Body>
-        <Card.Text>{item.review_text}</Card.Text>
-        <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to review</Card.Link>
-      </Card.Body>
-    </Card>
-  )
-}
+  </CardDeck>
 
 export default FacebookPage

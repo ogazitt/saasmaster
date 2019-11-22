@@ -49,9 +49,9 @@ const ProfilePage = () => {
       textAlign: 'left'
     }}>
       <br/>
-      <div class="provider-header">
-        <Button onClick={loadData}><i class="fa fa-refresh"></i></Button>
-        <h3 class="provider-title">Profile</h3>
+      <div className="provider-header">
+        <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
+        <h3 className="provider-title">Profile</h3>
       </div>
       <br/>
       { 

@@ -12,7 +12,7 @@ const BaseProvider = ({
     connectionName, 
     onLoadHandler,
     endpoint, 
-    card, 
+    control, 
     onClickHandler, 
     selected 
   }) => {
@@ -92,18 +92,14 @@ const BaseProvider = ({
   return(
     <div>
       <br/>
-      <div class="provider-header">
+      <div className="provider-header">
         <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
-        <h3 class="provider-title">{pageTitle}</h3>
+        <h3 className="provider-title">{pageTitle}</h3>
       </div>
       <br/>
       { 
         loadedData && data ? 
-          <CardDeck>
-          {
-            data.map((item, key) => card({ item, key, onClickHandler, selected }))
-          }
-          </CardDeck>
+          control({data, onClickHandler, selected})
         : errorMessage ? 
           <div>
             <i className="fa fa-frown-o"/>
