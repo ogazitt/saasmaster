@@ -10,6 +10,7 @@ const DataTable = ({data, columns, keyField}) => {
       columns={ columns }
       striped hover condensed
       bordered={ false }
+      noDataIndication="No data to display :)"
       selectRow={ { mode: 'checkbox', clickToSelect: true } }
       />
   )

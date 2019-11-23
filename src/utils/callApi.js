@@ -1,4 +1,4 @@
-const callApi = async (token, path, headers = {}) => { 
+const callApi = async (token, path, forceRefresh = false, headers = {}) => { 
 
   try {
     // construct API service URL
@@ -10,7 +10,9 @@ const callApi = async (token, path, headers = {}) => {
       urlObject.port = 8080;
     }
 
-    const url = urlObject + path;
+    const urlPath = urlObject + path,
+    url = forceRefresh ? `${urlPath}?refresh=true` : urlPath; 
+
     headers.Authorization = `Bearer ${token}`;
 
     const response = await fetch(url, {

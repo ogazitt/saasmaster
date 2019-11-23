@@ -30,14 +30,14 @@ const BaseProvider = ({
   }
   
   // load data from provider
-  const loadData = async () => { 
+  const loadData = async (forceRefresh = false) => { 
     setLoading(true);
 
     // invoke the on load handler function if supplied by provider
     onLoadHandler && onLoadHandler();
 
     const token = await getTokenSilently();
-    const [response, error] = await callApi(token, endpoint);
+    const [response, error] = await callApi(token, endpoint, forceRefresh);
 
     if (error || !response.ok) {
       setLoadedData(true);
@@ -54,7 +54,7 @@ const BaseProvider = ({
     setLoading(false);
     setErrorMessage(null);
     setData(items);
-  };
+  }
 
   // if connections not loaded, set an error message
   if (!connections || !connections.find) {
@@ -92,16 +92,15 @@ const BaseProvider = ({
     <div>
       <br/>
       <div className="provider-header">
-        <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
+        <Button onClick={() => { loadData(true) }}>
+          <i className="fa fa-refresh"></i>
+        </Button>
         <h3 className="provider-title">{pageTitle}</h3>
       </div>
       <br/>
-      { 
-        children
-        //control({data})
-      }
+      { children }
     </div>
-  );
+  )
 }
 
-export default BaseProvider;
+export default BaseProvider

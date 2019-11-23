@@ -34,7 +34,7 @@ const PageCards = ({data}) => {
     const headers = {
       token: accessToken
     };
-    const [response, error] = await callApi(token, endpoint, headers);
+    const [response, error] = await callApi(token, endpoint, false, headers);
 
     if (error || !response.ok) {
       setReviewsData(null);
@@ -42,7 +42,7 @@ const PageCards = ({data}) => {
     }
 
     const items = await response.json();
-    if (items) {
+    if (items && items.map) {
       const data = items.map(item => {
         return { 
           date: new Date(item.created_time).toLocaleString(),
@@ -104,7 +104,7 @@ const PageCards = ({data}) => {
       </CardDeck>
       <br/>
       { 
-        reviewsData && reviewsData.length > 0 ? 
+        reviewsData ? 
         <div>
           <h4>Reviews</h4>
           <DataTable columns={columns} data={reviewsData} keyField="date" />
