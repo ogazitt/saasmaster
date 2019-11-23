@@ -10,13 +10,13 @@ const BaseProvider = ({
     pageTitle, 
     connectionName, 
     endpoint, 
-    control, 
+    //control, 
     onLoadHandler,
-    onClickHandler, 
-    selected 
+    setData,
+    children
   }) => {
 
-  const [data, setData] = useState();
+  //const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -97,15 +97,8 @@ const BaseProvider = ({
       </div>
       <br/>
       { 
-        loadedData && data ? 
-          control({data, onClickHandler, selected})
-        : errorMessage ? 
-          <div>
-            <i className="fa fa-frown-o"/>
-            <span>&nbsp;{errorMessage}</span>
-          </div>
-          :
-          <div />
+        children
+        //control({data})
       }
     </div>
   );

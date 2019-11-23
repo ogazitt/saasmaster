@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BaseProvider from './BaseProvider'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
 
 const InstagramPage = () => {
-  return BaseProvider({ 
-    pageTitle: 'Instagram posts',
-    connectionName: 'instagram',
-    endpoint: 'instagram',
-    control: InstagramCards
-  })
+  const [data, setData] = useState();
+  return (
+    <BaseProvider 
+      pageTitle='Instagram posts'
+      connectionName='instagram'
+      endpoint='instagram'
+      setData={ setData }>
+        <InstagramCards data={data}/>
+    </BaseProvider>
+  )
 }
 
 const InstagramCards = ({data}) => 
@@ -26,8 +30,8 @@ const InstagramCards = ({data}) =>
           </Card.Body>
         </Card>
       )
-    })
-    : <span>No data to display :)</span>
+    }) :
+    <span>No data to display :)</span>
   }
   </CardDeck>
 
