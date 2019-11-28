@@ -2,6 +2,10 @@
   "name": "saasmaster",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ogazitt/saasmaster.git"
+  },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.3.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
