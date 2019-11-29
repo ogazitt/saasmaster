@@ -3,15 +3,13 @@
 }
 
 .Landing-logo {
+  height: 100px;
 /*  height: 50px; /*10vmin;*/
-  height: 20vmin;
 }
 
 .Landing-header {
-  background-color: #282c34;
-  /*min-height: 10vh;*/
+  background-color: #db3d44;
   min-height: 50vh;
-  /* height: 50px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,18 +27,18 @@
   font-size: calc(6px + 2vmin);
   color: #282c34;
   align-items: center;
-  padding: 20px;
 }
 
 .Landing-action {
   min-height: 20vh;
-  background-color: #282c34;
+  background-color: #3d0104;
+/*  background-color: #282c34; */
   font-size: calc(10px + 2vmin);
   color: white;
   align-items: center;
-  padding: 20px;
 }
 
 .soc-icon {
   padding: 15px;
+  color: #db3d44;
 }

@@ -23,6 +23,11 @@
       "sizes": "70x70"
     },
     {
+      "src": "SaaSMaster-logo-220.png",
+      "type": "image/png",
+      "sizes": "220x220"
+    },
+    {
       "src": "gmaps.png",
       "type": "image/png"
     },   

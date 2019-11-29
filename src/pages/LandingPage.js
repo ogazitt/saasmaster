@@ -44,45 +44,51 @@ const LandingPage = () => {
   return (
     <div className="Landing">
       <header className="Landing-header">
-        <img src="SaaSMaster.png" className="Landing-logo" alt="logo"/>
+        <img src="SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
         <br/>
         <h1>SaaS Master</h1>
-        <p>Master all your SaaS tools from one console</p>
+        <p>Master your online reputation</p>
       </header>
 
-      <div className="Landing-features row">
-        <div className="col col--4">
-          Connect all of the tools you use to manage your online business identity
+      <div className="container-fluid">
+        <div className="Landing-features row">
+          <div className="col col--4">
+            Connect all of the tools you use for your online business identity
+          </div>
+          <div className="col col--4">
+            View all user feedback for your business from one console
+          </div>
+          <div className="col col--4">
+            Effortlessly prioritize and reply to positive and negative feedback
+          </div>
         </div>
-        <div className="col col--4">
-          Manage all of your business settings from one place
-        </div>
-        <div className="col col--4">
-          Provision and manage your employee payroll and HR from a single place
-        </div>
-      </div>
 
-      <div className="Landing-features row">
-        <div className="col col--4">
-          <i className="soc-icon fa fa-facebook-square"></i>
-          <i className="soc-icon fa fa-google"></i>
-          <i className="soc-icon fa fa-twitter"></i>
-          <i className="soc-icon fa fa-linkedin"></i>
+        <div className="Landing-features row">
+          <div className="col col--4">
+            <i className="soc-icon fa fa-lg fa-facebook-square"></i>
+            <i className="soc-icon fa fa-lg fa-google"></i>
+            <i className="soc-icon fa fa-lg fa-twitter"></i>
+            <i className="soc-icon fa fa-lg fa-instagram"></i>
+          </div>
+          <div className="col col--4">
+            <i className="soc-icon fa fa-lg fa-comment-o"></i>
+            <i className="soc-icon fa fa-lg fa-heart-o"></i>
+            <i className="soc-icon fa fa-lg fa-hashtag"></i>
+            <i className="soc-icon fa fa-lg fa-map-marker"></i>
+          </div>
+          <div className="col col--4">
+            <i className="soc-icon fa fa-lg fa-thumbs-o-up"></i>
+            <i className="soc-icon fa fa-lg fa-thumbs-o-down"></i>
+          </div>
         </div>
-        <div className="col col--4">
-          <img width="80px" src="gmaps.png" alt="google maps"/>
-        </div>
-        <div className="col col--4">
-          <img width="30px" src="quickbooks.png" alt="quickbooks"/>
-        </div>
-      </div>
 
-      <div className="Landing-action row">
-        <div className="col col--6">
-          <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Sign Up</Button>          
-        </div>
-        <div className="col col--6">
-          <Button size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+        <div className="Landing-action row">
+          <div className="col col--6">
+            <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Sign Up</Button>          
+          </div>
+          <div className="col col--6">
+            <Button size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+          </div>
         </div>
       </div>
 
