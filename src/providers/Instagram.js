@@ -11,7 +11,7 @@ const InstagramPage = () => {
       connectionName='instagram'
       endpoint='instagram'
       setData={ setData }>
-        <InstagramCards data={data}/>
+      <InstagramCards data={data}/>
     </BaseProvider>
   )
 }

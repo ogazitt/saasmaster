@@ -10,7 +10,7 @@ const TwitterPage = () => {
       connectionName='twitter'
       endpoint='twitter'
       setData={ setData }>
-        <TweetTable data={data}/>
+      <TweetTable data={data}/>
     </BaseProvider>
   )
 }
@@ -21,14 +21,21 @@ const TweetTable = ({data}) => {
     text: 'Date',
     sort: true,
     headerStyle: (column, colIndex) => {
-      return { width: '220px' };
+      return { width: '200px' };
+    }
+  }, {
+    dataField: 'type',
+    text: 'Type',
+    sort: true,
+    headerStyle: (column, colIndex) => {
+      return { width: '80px' };
     }
   }, {
     dataField: 'user',
     text: 'User',
     sort: true,
     headerStyle: (column, colIndex) => {
-      return { width: '100px' };
+      return { width: '120px' };
     }
   }, {
     dataField: 'name',
@@ -43,10 +50,14 @@ const TweetTable = ({data}) => {
   }];
 
   const tweets = data && data.map && data.map(item => {
+    const sentiment = parseFloat(item.__sentimentScore);
+    const type = sentiment > 0.1 ? 'positive' : 
+      sentiment < -0.1 ? 'negative' : 'neutral';
     return {
       date: new Date(item.created_at).toLocaleString(),
       user: item.user.screen_name,
       name: item.user.name,
+      type: type,
       text: item.text
     }
   });

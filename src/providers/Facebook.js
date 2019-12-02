@@ -15,7 +15,7 @@ const FacebookPage = () => {
       connectionName='facebook'
       endpoint='facebook'
       setData={setData}>
-        <PageCards data={data} />
+      <PageCards data={data} />
     </BaseProvider>
   )
 }

@@ -11,7 +11,7 @@ const GooglePage = () => {
       connectionName='google-oauth2'
       endpoint='google'
       setData={ setData }>
-        <CalendarCards data={data}/>
+      <CalendarCards data={data}/>
     </BaseProvider>
   )
 }
