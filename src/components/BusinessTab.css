@@ -27,4 +27,8 @@
 .navText {
   font-size: 1.75em;
 }
+
+.sidenav.expanded {
+  min-width: 200px;
+}
 */

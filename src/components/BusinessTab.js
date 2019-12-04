@@ -34,7 +34,7 @@ const BusinessTab = () => {
   const currentPath = window.location.pathname;
   const [selected, setSelected] = useState(currentPath === '/' ? 'home' : currentPath.substring(1));
   const [expanded, setExpanded] = useState(false);
-  const expandedWidth = 240;
+  const expandedWidth = 200;
   const collapsedWidth = 64;
 
   const routeResult = useRoutes(routes);
@@ -53,9 +53,9 @@ const BusinessTab = () => {
         top: 40,
         height: 'calc(100vh - 40px)',
         }}>
-        <SideNav
+        <SideNav style={{ minWidth: expanded ? expandedWidth : collapsedWidth }}
           onSelect={ selectTab }
-          onToggle={ (expanded) => {
+          onToggle={ (expanded) => {            
             setExpanded(expanded)
           }}>
           <SideNav.Toggle />
