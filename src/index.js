@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import AppWrapper from './pages/AppWrapper';
 import * as serviceWorker from './serviceWorker';
 
@@ -8,14 +7,16 @@ import { Auth0Provider } from "./utils/react-auth0-wrapper";
 import { ConnectionsProvider } from "./utils/connections";
 import config from "./utils/auth_config.json";
 
+// import bootstrap and font-awesome CSS
 import 'bootstrap/dist/css/bootstrap.css';
-// Put any other imports below so that CSS from your
-// components takes precedence over default styles.
+import 'font-awesome/css/font-awesome.min.css';
+
+// import local styles after default styles so they take precedence
+import './index.css';
 
 //import history from "./utils/history";
 
-// A function that routes the user to the right place
-// after login
+// A function that routes the user to the right place after login
 
 const onRedirectCallback = appState => {
   // if this login was a result of linking, then redirect to /conns

@@ -1,10 +1,6 @@
 import React from 'react';
 
-import 'font-awesome/css/font-awesome.min.css';
-
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-
-// Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 class EmployeesSideNav extends React.Component {

@@ -1,57 +1,23 @@
-/*
-import Anchor from '@trendmicro/react-anchor';
-import Dropdown from '@trendmicro/react-dropdown';
-*/
+import React from 'react';
+import PropTypes from 'prop-types';
+
+// import navbar component and styles
 import Navbar from '@trendmicro/react-navbar';
 import { Nav, NavDropdown, NavItem, MenuItem } from '@trendmicro/react-navs';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { StickyContainer, Sticky } from 'react-sticky';
-//import styles from './index.styl';
+import '@trendmicro/react-dropdown/dist/react-dropdown.css';
+import '@trendmicro/react-navs/dist/react-navs.css';
+import '@trendmicro/react-navbar/dist/react-navbar.css';
+import './StickyNavbar.css';
+
 import { useAuth0 } from "../utils/react-auth0-wrapper";
-
-import Loading from './Loading'
-
-/*
-const PageContent = () => (
-    <div
-        style={{
-            border: '1px solid #ddd',
-            backgroundColor: '#f5f5f5',
-            height: 600,
-            marginTop: 15
-        }}
-    >
-        <div className="container-fluid">
-            <h3>Page Content</h3>
-        </div>
-    </div>
-);
-*/
+import Loading from './Loading';
 
 const StickyNavbar = ({ state, actions }) => {
-  const { loading, user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { loading, user, logout } = useAuth0();
   if (loading) {
     return (
       <Loading />
     );
-  }
-
-  const login = () => {
-    loginWithRedirect({
-      access_type: 'offline', // unverified - asks for offline access
-      //connection_scope: 'https://www.googleapis.com/auth/business.manage', // unverified BUT THIS MAY BE IT
-      //connection_scope: 'https://www.googleapis.com/auth/business.manage', // unverified BUT THIS MAY BE IT
-      connection: 'google-oauth2',
-      connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
-      //connection_scope: 'https://www.googleapis.com/auth/contacts.readonly',
-      //scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
-      //prompt: 'consent',  // this re-prompts consent and returns refresh token
-      // commenting out scope removes the BUG where I need to log in twice to show authenticated!!
-      //scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
-      //scope: 'https://www.googleapis.com/auth/business.manage', // verified - asks for scope, results in isAuth = false, but session cookie persists and next invocation is authenticated (?!)
-      //approval_prompt: 'force' // google rejected.  OLD verified - always prompts for OAuth delegated authz
-    });
   }
 
   const logoutWithRedirect = () => {
@@ -61,59 +27,38 @@ const StickyNavbar = ({ state, actions }) => {
   }
 
   return (
-    <StickyContainer>
-      <Sticky>
-        <Navbar>
-          <Navbar.Header>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Nav
-            navStyle="navbar"
-            activeKey={state.tab}
-          >
-            <NavItem className="text-center" style={{ minWidth: 65 }}>
-              <i className="fa fa-star" style={{ color: '#fff' }} />
-            </NavItem>
-            <NavItem eventKey="business" onSelect={actions.selectTab}>
-              My Business
-            </NavItem>
-            <NavItem eventKey="employees" onSelect={actions.selectTab}>
-              My Employees
-            </NavItem>
-            {isAuthenticated ?
-              <NavDropdown
-                autoOpen
-                pullRight
-                eventKey="administration"
-                title={ user.name }
-                style={{ position: 'fixed', right: 0 }}
-              >
-                <MenuItem eventKey="profile" onSelect={actions.selectTab}>Profile</MenuItem>
-                <MenuItem divider />
-                <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>Logout</MenuItem>
-              </NavDropdown> :
-              <NavItem eventKey="login" onSelect={() => { login() }} style={{ position: 'fixed', right: 0 }}>
-                Login
-              </NavItem>
-            }
-          </Nav>
-        </Navbar>
-        {/*
-        <Button
-            className={classNames(styles.navbarBtn, styles.navbarRight)}
-            btnStyle="flat"
-            onClick={() => {
-                window.location = url;
-            }}
+    <div className="stickyNavBar">
+      <Navbar>
+        <Navbar.Header>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Nav
+          navStyle="navbar"
+          activeKey={state.tab}
         >
-          <i className="fa fa-github" />
-          GitHub
-        </Button>*/}
-      </Sticky>
-      {/* }
-      <PageContent />
-      */}
-    </StickyContainer>
+          <NavItem className="text-center" style={{ minWidth: 65 }}>
+            <i className="fa fa-star" style={{ color: '#fff' }} />
+          </NavItem>
+          <NavItem eventKey="business" onSelect={actions.selectTab}>
+            My Business
+          </NavItem>
+          <NavItem eventKey="employees" onSelect={actions.selectTab}>
+            My Employees
+          </NavItem>
+          <NavDropdown
+            autoOpen
+            pullRight
+            eventKey="administration"
+            title={ user.name }
+            style={{ position: 'fixed', right: 0, zIndex: 50 }}
+          >
+            <MenuItem eventKey="profile" onSelect={actions.selectTab}>Profile</MenuItem>
+            <MenuItem divider />
+            <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>Logout</MenuItem>
+          </NavDropdown>
+        </Nav>
+      </Navbar>
+    </div>
   );
 };
 

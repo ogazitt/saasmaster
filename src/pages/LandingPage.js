@@ -1,6 +1,5 @@
 import React from 'react'
 import './LandingPage.css'
-import 'font-awesome/css/font-awesome.min.css';
 
 import Loading from '../components/Loading';
 import { useAuth0 } from "../utils/react-auth0-wrapper";

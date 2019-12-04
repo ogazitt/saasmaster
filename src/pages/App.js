@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import 'font-awesome/css/font-awesome.min.css';
-
-// Be sure to include styles at some point, probably during your bootstraping
-import '@trendmicro/react-dropdown/dist/react-dropdown.css';
-import '@trendmicro/react-navs/dist/react-navs.css';
-import '@trendmicro/react-navbar/dist/react-navbar.css';
-
-// Be sure to include styles at some point, probably during your bootstraping
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-
-// React Navbar
+// Top Navbar
 import StickyNavbar from '../components/StickyNavbar';
 
-import BusinessSideNav from '../components/BusinessSideNav';
-import EmployeesSideNav from '../components/EmployeesSideNav';
+// Tabs contain the complete control tree 
+import BusinessTab from '../components/BusinessTab';
+import EmployeesTab from '../components/EmployeesTab';
+
+// Profile page
 import ProfilePage from './ProfilePage';
 
 const App = () => {
@@ -32,22 +25,23 @@ const App = () => {
   });
 
   return (
-    <div className="App">
+    <div>
       <StickyNavbar
           state={state}
           actions={actions}
       />
       <div style={{
             position: 'relative',
+            top: '40px',
             height: 'calc(100vh - 40px)',
             width: 'calc(100vw - 140px)'
         }}>
 
         {state.tab === 'business' &&
-          <BusinessSideNav />
+          <BusinessTab />
         }
         {state.tab === 'employees' &&
-          <EmployeesSideNav />
+          <EmployeesTab />
         }
         {state.tab === 'profile' &&
           <ProfilePage />

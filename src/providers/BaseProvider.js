@@ -10,13 +10,11 @@ const BaseProvider = ({
     pageTitle, 
     connectionName, 
     endpoint, 
-    //control, 
     onLoadHandler,
     setData,
     children
   }) => {
 
-  //const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -90,15 +88,15 @@ const BaseProvider = ({
 
   return(
     <div>
-      <br/>
       <div className="provider-header">
         <Button onClick={() => { loadData(true) }}>
           <i className="fa fa-refresh"></i>
         </Button>
         <h3 className="provider-title">{pageTitle}</h3>
       </div>
-      <br/>
+      <div>
       { children }
+      </div>
     </div>
   )
 }

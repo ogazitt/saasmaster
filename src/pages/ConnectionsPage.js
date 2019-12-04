@@ -124,12 +124,10 @@ const ConnectionsPage = () => {
 
   return(
     <div>
-      <br/>
       <div className="provider-header">
         <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
         <h3 className="provider-title">Connections</h3>
       </div>
-      <br/>
       { 
         showResult && connections && connections.map ? 
         <CardDeck>

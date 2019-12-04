@@ -48,12 +48,10 @@ const ProfilePage = () => {
       padding: '1px 0 0 20px',
       textAlign: 'left'
     }}>
-      <br/>
       <div className="provider-header">
         <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
         <h3 className="provider-title">Profile</h3>
       </div>
-      <br/>
       { 
         loadedData ? <Highlight>{JSON.stringify(profile, null, 2)}</Highlight> : <div/>
       }
