@@ -34,7 +34,8 @@ const App = () => {
             position: 'relative',
             top: '40px',
             height: 'calc(100vh - 40px)',
-            width: 'calc(100vw - 140px)'
+            //width: 'calc(100vw - 140px)'
+            width: '100vw'
         }}>
 
         {state.tab === 'business' &&

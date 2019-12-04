@@ -34,7 +34,7 @@ const BusinessTab = () => {
   const currentPath = window.location.pathname;
   const [selected, setSelected] = useState(currentPath === '/' ? 'home' : currentPath.substring(1));
   const [expanded, setExpanded] = useState(false);
-  const expandedWidth = 180;
+  const expandedWidth = 240;
   const collapsedWidth = 64;
 
   const routeResult = useRoutes(routes);
@@ -102,7 +102,7 @@ const BusinessTab = () => {
       <div style={{
         position: 'relative',
         left: expanded ? expandedWidth : collapsedWidth,
-        width: `calc(100vw - 140px - ${expanded ? expandedWidth : collapsedWidth }px)`,
+        width: `calc(100vw - 20px - ${expanded ? expandedWidth : collapsedWidth }px)`,
         padding: '1px 0 0 20px',
         textAlign: 'left'
       }}>
