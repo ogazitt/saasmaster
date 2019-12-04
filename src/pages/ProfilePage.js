@@ -3,7 +3,7 @@ import Loading from '../components/Loading'
 import Highlight from '../components/Highlight'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import callApi from '../utils/callApi'
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button'
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({});
@@ -39,14 +39,15 @@ const ProfilePage = () => {
   // if haven't loaded profile yet, do so now
   if (!loadedData) {
     loadData();
-    return <Loading />;
+    return <Loading />
   }
 
   return(
     <div style={{
       marginLeft: 20,
       padding: '1px 0 0 20px',
-      textAlign: 'left'
+      textAlign: 'left',
+      width: 'calc(100vw - 60px)'
     }}>
       <div className="provider-header">
         <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
