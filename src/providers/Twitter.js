@@ -26,6 +26,11 @@ const TweetTable = ({data, setData}) => {
   const [showAll, setShowAll] = useState(false);
   const { getTokenSilently } = useAuth0();
 
+  const urlFormatter = (cell, row) => {
+    const tweetId = `https://twitter.com/i/web/status/${row.id}`;
+    return <a href={tweetId} target="_">{cell}</a>
+  }
+
   const columns = [{
     dataField: 'date',
     text: 'Date',
@@ -56,7 +61,8 @@ const TweetTable = ({data, setData}) => {
     }
   }, {
     dataField: 'text',
-    text: 'Text'    
+    text: 'Text',
+    formatter: urlFormatter
   }];
 
   // build up the list of handled records

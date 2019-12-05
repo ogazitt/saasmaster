@@ -5,6 +5,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 const DataTable = ({data, columns, keyField, selectRow, hiddenRows}) => {
   return (
     <BootstrapTable 
+      bootstrap4="true"
       keyField={ keyField } 
       data={ data }
       columns={ columns }
