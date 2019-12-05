@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import BaseProvider from './BaseProvider'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
-
-import callApi from '../utils/callApi';
-import { useAuth0 } from "../utils/react-auth0-wrapper";
 import DataTable from '../components/DataTable';
+
+import { get } from '../utils/api';
+import { useAuth0 } from "../utils/react-auth0-wrapper";
 
 const FacebookPage = () => {
   const [data, setData] = useState();
@@ -34,7 +34,7 @@ const PageCards = ({data}) => {
     const headers = {
       token: accessToken
     };
-    const [response, error] = await callApi(token, endpoint, false, headers);
+    const [response, error] = await get(token, endpoint, false, headers);
 
     if (error || !response.ok) {
       setReviewsData(null);

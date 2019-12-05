@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import Highlight from '../components/Highlight'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
-import callApi from '../utils/callApi'
+import { get } from '../utils/api'
 import Button from 'react-bootstrap/Button'
 
 const ProfilePage = () => {
@@ -21,7 +21,7 @@ const ProfilePage = () => {
     setLoading(true);
 
     const token = await getTokenSilently();
-    const [response, error] = await callApi(token, 'profile');
+    const [response, error] = await get(token, 'profile');
 
     if (error || !response.ok) {
       setLoadedData(true);

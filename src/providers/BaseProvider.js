@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { navigate } from 'hookrouter';
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 import { useConnections } from "../utils/connections";
-import callApi from "../utils/callApi";
+import { get } from "../utils/api";
 import Loading from '../components/Loading';
 import Button from 'react-bootstrap/Button';
 
@@ -35,7 +35,7 @@ const BaseProvider = ({
     onLoadHandler && onLoadHandler();
 
     const token = await getTokenSilently();
-    const [response, error] = await callApi(token, endpoint, forceRefresh);
+    const [response, error] = await get(token, endpoint, forceRefresh);
 
     if (error || !response.ok) {
       setLoadedData(true);
