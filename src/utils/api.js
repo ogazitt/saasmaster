@@ -3,7 +3,7 @@
 //   get - make a get call
 //   post - make a post call
 
-exports.get = async (token, path, forceRefresh = false, headers = {}) => { 
+export async function get(token, path, forceRefresh = false, headers = {}) { 
   try {
     // construct API service URL
     const baseUrl = window.location.origin;
@@ -28,9 +28,9 @@ exports.get = async (token, path, forceRefresh = false, headers = {}) => {
     console.error(error);
     return [null, error];
   }
-};
+}
 
-exports.post = async (token, path, data) => { 
+export async function post(token, path, data) { 
   try {
     // construct API service URL
     const baseUrl = window.location.origin;
@@ -62,4 +62,4 @@ exports.post = async (token, path, data) => {
     console.error(error);
     return [null, error];
   }
-};
+}
