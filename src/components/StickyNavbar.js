@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 // import navbar component and styles
-import Navbar from '@trendmicro/react-navbar';
-import { Nav, NavDropdown, NavItem, MenuItem } from '@trendmicro/react-navs';
-import '@trendmicro/react-dropdown/dist/react-dropdown.css';
-import '@trendmicro/react-navs/dist/react-navs.css';
-import '@trendmicro/react-navbar/dist/react-navbar.css';
-import './StickyNavbar.css';
+import Navbar from '@trendmicro/react-navbar'
+import { Nav, NavDropdown, NavItem, MenuItem } from '@trendmicro/react-navs'
+import '@trendmicro/react-dropdown/dist/react-dropdown.css'
+import '@trendmicro/react-navs/dist/react-navs.css'
+import '@trendmicro/react-navbar/dist/react-navbar.css'
+import './StickyNavbar.css'
 
-import { useAuth0 } from "../utils/react-auth0-wrapper";
-import Loading from './Loading';
+import { useAuth0 } from '../utils/react-auth0-wrapper'
+import Loading from './Loading'
 
-const StickyNavbar = ({ tab, actions }) => {
+const StickyNavbar = ({ state, actions }) => {
   const { loading, user, logout } = useAuth0();
   if (loading) {
     return (
       <Loading />
-    );
+    )
   }
 
   const logoutWithRedirect = () => {
@@ -34,7 +34,7 @@ const StickyNavbar = ({ tab, actions }) => {
         </Navbar.Header>
         <Nav
           navStyle="navbar"
-          activeKey={tab}
+          activeKey={state.tab}
         >
           <NavItem className="stickyNavBarLogo text-center" style={{ width: 65 }}>
             <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
@@ -59,12 +59,12 @@ const StickyNavbar = ({ tab, actions }) => {
         </Nav>
       </Navbar>
     </div>
-  );
-};
+  )
+}
 
 StickyNavbar.propTypes = {
-  tab: PropTypes.string,
+  tab: PropTypes.object,
   actions: PropTypes.object
-};
+}
 
-export default StickyNavbar;
+export default StickyNavbar

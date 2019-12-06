@@ -16,24 +16,9 @@ import FacebookPage from '../providers/Facebook'
 import TwitterPage from '../providers/Twitter'
 import InstagramPage from '../providers/Instagram'
 
-// define routes
-const routes = {
-  '/business': () => <HomePage />,
-  '/business/home': () => <HomePage />,
-  '/business/google': () => <GooglePage />,
-  '/business/facebook': () => <FacebookPage />,
-  '/business/instagram': () => <InstagramPage />,
-  '/business/twitter': () => <TwitterPage />,
-  '/business/conns': () => <ConnectionsPage />,
-/*    '/products': () => <ProductOverview />,
-    '/products/:id': ({id}) => <ProductDetails id={id} />*/
-};
-
 const BusinessTab = () => {
-  // create state variables for selected tab and expanded state
+  // create state variables for current path (which determines selected tab) and expanded state
   const currentPath = window.location.pathname;
-  //const [selected, setSelected] = useState(currentPath === '/business' ? '/business/home' : currentPath);
-  const [selected, setSelected] = useState(currentPath);
   const [expanded, setExpanded] = useState(false);
 
   // constants that describe the top offset (to honor NavBar) and SidNav width
@@ -41,12 +26,22 @@ const BusinessTab = () => {
   const collapsedWidth = 64;
   const topOffset = 50;
 
-  const routeResult = useRoutes(routes);
-
   const selectTab = (selected) => {
-    setSelected(selected)
     navigate(`${selected}`)
   }
+
+  // define routes
+  const routes = {
+    '/business': () => <HomePage />,
+    '/business/home': () => <HomePage />,
+    '/business/google': () => <GooglePage />,
+    '/business/facebook': () => <FacebookPage />,
+    '/business/instagram': () => <InstagramPage />,
+    '/business/twitter': () => <TwitterPage />,
+    '/business/conns': () => <ConnectionsPage />,
+  };
+
+  const routeResult = useRoutes(routes);
 
   return (
     <div>  
@@ -63,7 +58,7 @@ const BusinessTab = () => {
             setExpanded(expanded)
           }}>
           <SideNav.Toggle />
-          <SideNav.Nav defaultSelected={selected}>
+          <SideNav.Nav selected={currentPath}>
             <NavItem eventKey="/business/home">
               <NavIcon>
                 <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />

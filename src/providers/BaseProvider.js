@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { navigate } from 'hookrouter';
+import { navigate } from 'hookrouter'
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 import { useConnections } from "../utils/connections";
 import { get } from "../utils/api";
@@ -73,7 +73,7 @@ const BaseProvider = ({
     return(
       <div>
         <br/>
-        <Button onClick={ () => { navigate('/conns') }}>
+        <Button onClick={ () => { navigate('/business/conns') }}>
           {`Connect to ${provider}`} 
         </Button>
       </div>

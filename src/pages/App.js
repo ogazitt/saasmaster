@@ -21,7 +21,7 @@ const routes = {
 };
 
 const App = () => {
-  const [tab, setTab] = useState('/business');
+  const [state, setState] = useState( { tab: '/business' } );
   const [actions] = useState({
     selectTab: (eventKey) => {
       if (!eventKey) {
@@ -29,7 +29,7 @@ const App = () => {
       }
 
       const tab = eventKey.replace(/\..+/g, '');
-      setTab(tab);
+      setState({ tab: tab });
       navigate(tab);
     }
   });
@@ -44,7 +44,7 @@ const App = () => {
   return (
     <div>
       <StickyNavbar
-          state={tab}
+          state={state}
           actions={actions}
       />
       <div style={{
