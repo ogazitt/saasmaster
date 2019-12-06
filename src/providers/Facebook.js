@@ -75,37 +75,47 @@ const PageCards = ({data}) => {
 
   return (
     <div>
-      <CardDeck>
-      {
-        data && data.map ? data.map((item, key) => {
-          const { name, category_list, id, access_token} = item;
-          const category = category_list && category_list[0].name;
-          const border = (key === selected) ? 'primary' : 'gray';
-        
-          const loadPageComments = () => {
-            getPage(key, id, access_token);
-          }
+      <div style={{ 
+        position: "fixed",
+        background: "white",
+        width: "100%",
+        marginTop: "-1px",
+        zIndex: 5
+      }}>
+        <CardDeck>
+        {
+          data && data.map ? data.map((item, key) => {
+            const { name, category_list, id, access_token} = item;
+            const category = category_list && category_list[0].name;
+            const border = (key === selected) ? 'primary' : 'gray';
+          
+            const loadPageComments = () => {
+              getPage(key, id, access_token);
+            }
 
-          return (
-            <Card className="text-center" onClick={ loadPageComments }
-              key={key} border={border}
-              style={{ maxWidth: '250px' }}>
-              <Card.Header>{ name }</Card.Header>
-              <Card.Body>
-                <Card.Title>{ category }</Card.Title>
-                <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Link to page</Card.Link>
-                <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to reviews</Card.Link>
-              </Card.Body>
-            </Card>
-          )
-        })
-        : <span>No data to display :)</span>
-      }
-      </CardDeck>
-      <br/>
+            return (
+              <Card className="text-center" onClick={ loadPageComments }
+                key={key} border={border}
+                style={{ maxWidth: '250px' }}>
+                <Card.Header>{ name }</Card.Header>
+                <Card.Body>
+                  <Card.Title>{ category }</Card.Title>
+                  <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Link to page</Card.Link>
+                  <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to reviews</Card.Link>
+                </Card.Body>
+              </Card>
+            )
+          })
+          : <span>No data to display :)</span>
+        }
+        </CardDeck>
+      </div>
       { 
         reviewsData ? 
-        <div>
+        <div style={{
+          position: "relative", 
+          top: 170
+        }}>
           <h4>Reviews</h4>
           <DataTable columns={columns} data={reviewsData} keyField="date" />
         </div> :
