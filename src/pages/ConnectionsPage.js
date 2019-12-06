@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import CardDeck from 'react-bootstrap/CardDeck';
 import { useAuth0 } from "../utils/react-auth0-wrapper";
+import { post } from '../utils/api';
 
 const ConnectionsPage = () => {
   const { loading, loaded, loadConnections, connections } = useConnections();
@@ -44,33 +45,14 @@ const ConnectionsPage = () => {
   const call = async (action, primaryUserId, secondaryUserId) => { 
     try {
       const token = await getTokenSilently();
-      
-      // construct API service URL
-      const baseUrl = window.location.origin;
-      const urlObject = new URL(baseUrl);
-
-      // replace port for local development from 3000 to 8080
-      if (urlObject.port && urlObject.port > 80) {
-        urlObject.port = 8080;
-      }
-
-      const url = urlObject + 'link';
-
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ 
-            action: action,
-            primaryUserId: primaryUserId,
-            secondaryUserId: secondaryUserId 
-          })
+      const body = JSON.stringify({ 
+        action: action,
+        primaryUserId: primaryUserId,
+        secondaryUserId: secondaryUserId 
       });
-      
-      if (!response.ok) {
-        console.error(response);
+
+      const [response, error] = await post(token, 'link', body);
+      if (error || !response.ok) {
         return;
       }
 

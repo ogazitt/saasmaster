@@ -31,7 +31,7 @@ const onRedirectCallback = appState => {
     window.history.replaceState(
       {},
       document.title,
-      `${window.location.origin}/conns`
+      `${window.location.origin}/business/conns`
     );
     return;
   }
