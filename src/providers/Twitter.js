@@ -168,7 +168,9 @@ const TweetTable = ({data, setData}) => {
         </ButtonRow>
         <div style={{
           position: "relative",
-          top: 60
+          top: 60,
+          overflow: "auto",
+          maxHeight: `calc(100vh - 220px)`        
         }}>
           <DataTable 
             columns={columns} 
