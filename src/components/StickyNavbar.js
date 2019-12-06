@@ -12,7 +12,7 @@ import './StickyNavbar.css';
 import { useAuth0 } from "../utils/react-auth0-wrapper";
 import Loading from './Loading';
 
-const StickyNavbar = ({ state, actions }) => {
+const StickyNavbar = ({ tab, actions }) => {
   const { loading, user, logout } = useAuth0();
   if (loading) {
     return (
@@ -34,15 +34,15 @@ const StickyNavbar = ({ state, actions }) => {
         </Navbar.Header>
         <Nav
           navStyle="navbar"
-          activeKey={state.tab}
+          activeKey={tab}
         >
           <NavItem className="stickyNavBarLogo text-center" style={{ width: 65 }}>
-            <img src="SaaSMaster-logo-220.png" height="40px" alt="logo"/>
+            <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
-          <NavItem className="navBarItem" eventKey="business" onSelect={actions.selectTab}>
+          <NavItem className="navBarItem" eventKey="/business" onSelect={actions.selectTab}>
             My Business
           </NavItem>
-          <NavItem className="navBarItem" eventKey="employees" onSelect={actions.selectTab}>
+          <NavItem className="navBarItem" eventKey="/employees" onSelect={actions.selectTab}>
             My Employees
           </NavItem>
           <NavDropdown className="navBarItem" 
@@ -52,7 +52,7 @@ const StickyNavbar = ({ state, actions }) => {
             title={ user.name }
             style={{ position: 'fixed', right: 0, zIndex: 50 }}
           >
-            <MenuItem eventKey="profile" onSelect={actions.selectTab}>Profile</MenuItem>
+            <MenuItem eventKey="/profile" onSelect={actions.selectTab}>Profile</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>Logout</MenuItem>
           </NavDropdown>
@@ -63,7 +63,7 @@ const StickyNavbar = ({ state, actions }) => {
 };
 
 StickyNavbar.propTypes = {
-  state: PropTypes.object,
+  tab: PropTypes.string,
   actions: PropTypes.object
 };
 

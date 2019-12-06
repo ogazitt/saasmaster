@@ -57,7 +57,7 @@ const ProfilePage = () => {
         loadedData ? <Highlight>{JSON.stringify(profile, null, 2)}</Highlight> : <div/>
       }
     </div>
-  );
-};
+  )
+}
 
 export default ProfilePage

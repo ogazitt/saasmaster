@@ -1,28 +1,42 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from 'react'
+import { useRoutes, navigate, useRedirect } from 'hookrouter'
+import './App.css'
 
 // Top Navbar
-import StickyNavbar from '../components/StickyNavbar';
+import StickyNavbar from '../components/StickyNavbar'
 
 // Tabs contain the complete control tree 
-import BusinessTab from '../components/BusinessTab';
-import EmployeesTab from '../components/EmployeesTab';
+import BusinessTab from '../components/BusinessTab'
+import EmployeesTab from '../components/EmployeesTab'
 
-// Profile page
-import ProfilePage from './ProfilePage';
+// Other pages
+import ProfilePage from './ProfilePage'
+import NotFoundPage from './NotFoundPage'
+
+// define routes
+const routes = {
+  '/business/:page': ({page}) => <BusinessTab />,
+  '/employees': () => <EmployeesTab />,
+  '/profile': () => <ProfilePage />,
+};
 
 const App = () => {
-  const [state, setState] = useState({ tab: 'business' });
+  const [tab, setTab] = useState('/business');
   const [actions] = useState({
-    selectTab: (eventKey, event) => {
+    selectTab: (eventKey) => {
       if (!eventKey) {
         return;
       }
 
       const tab = eventKey.replace(/\..+/g, '');
-      setState({ tab });
+      setTab(tab);
+      navigate(tab);
     }
   });
+
+  useRedirect('/', '/business/home');
+  useRedirect('/business', '/business/home');
+  const routeResult = useRoutes(routes);
 
   // offset from top to honor the height of the StickyNavbar
   const topOffset = 50;
@@ -30,7 +44,7 @@ const App = () => {
   return (
     <div>
       <StickyNavbar
-          state={state}
+          state={tab}
           actions={actions}
       />
       <div style={{
@@ -39,19 +53,10 @@ const App = () => {
             height: `calc(100vh - ${topOffset}px)`,
             width: '100vw'
         }}>
-
-        {state.tab === 'business' &&
-          <BusinessTab />
-        }
-        {state.tab === 'employees' &&
-          <EmployeesTab />
-        }
-        {state.tab === 'profile' &&
-          <ProfilePage />
-        }
+        { routeResult || <NotFoundPage /> }
       </div>
   </div>
-  );
+  )
 }
 
-export default App;
+export default App

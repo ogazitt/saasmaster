@@ -7,7 +7,7 @@ const HomePage = () => {
   const { loading, user } = useAuth0();
 
   if (loading) {
-    return <Loading />;
+    return <Loading />
   }
   
   return (

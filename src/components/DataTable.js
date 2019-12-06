@@ -7,7 +7,7 @@ const DataTable = ({data, columns, keyField, selectRow, hiddenRows}) => {
   return (
     <BootstrapTable 
       className="dataTable" 
-      bootstrap4="true"
+      bootstrap4
       keyField={ keyField } 
       data={ data }
       columns={ columns }

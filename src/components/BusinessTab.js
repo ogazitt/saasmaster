@@ -18,13 +18,13 @@ import InstagramPage from '../providers/Instagram'
 
 // define routes
 const routes = {
-  '/': () => <HomePage />,
-  '/home': () => <HomePage />,
-  '/google': () => <GooglePage />,
-  '/facebook': () => <FacebookPage />,
-  '/instagram': () => <InstagramPage />,
-  '/twitter': () => <TwitterPage />,
-  '/conns': () => <ConnectionsPage />,
+  '/business': () => <HomePage />,
+  '/business/home': () => <HomePage />,
+  '/business/google': () => <GooglePage />,
+  '/business/facebook': () => <FacebookPage />,
+  '/business/instagram': () => <InstagramPage />,
+  '/business/twitter': () => <TwitterPage />,
+  '/business/conns': () => <ConnectionsPage />,
 /*    '/products': () => <ProductOverview />,
     '/products/:id': ({id}) => <ProductDetails id={id} />*/
 };
@@ -32,7 +32,8 @@ const routes = {
 const BusinessTab = () => {
   // create state variables for selected tab and expanded state
   const currentPath = window.location.pathname;
-  const [selected, setSelected] = useState(currentPath === '/' ? 'home' : currentPath.substring(1));
+  //const [selected, setSelected] = useState(currentPath === '/business' ? '/business/home' : currentPath);
+  const [selected, setSelected] = useState(currentPath);
   const [expanded, setExpanded] = useState(false);
 
   // constants that describe the top offset (to honor NavBar) and SidNav width
@@ -44,7 +45,7 @@ const BusinessTab = () => {
 
   const selectTab = (selected) => {
     setSelected(selected)
-    navigate(`/${selected}`)
+    navigate(`${selected}`)
   }
 
   return (
@@ -63,37 +64,37 @@ const BusinessTab = () => {
           }}>
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected={selected}>
-            <NavItem eventKey="home">
+            <NavItem eventKey="/business/home">
               <NavIcon>
                 <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText">Website</NavText>
             </NavItem>
-            <NavItem eventKey="google">
+            <NavItem eventKey="/business/google">
               <NavIcon>
                 <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText>Google</NavText>
             </NavItem>
-            <NavItem eventKey="facebook">
+            <NavItem eventKey="/business/facebook">
               <NavIcon>
                 <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText>Facebook</NavText>
             </NavItem>
-            <NavItem eventKey="instagram">
+            <NavItem eventKey="/business/instagram">
               <NavIcon>
                 <i className="fa fa-fw fa-instagram" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText>Instagram</NavText>
             </NavItem>
-            <NavItem eventKey="twitter">
+            <NavItem eventKey="/business/twitter">
               <NavIcon>
                 <i className="fa fa-fw fa-twitter" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText>Twitter</NavText>
             </NavItem>
-            <NavItem eventKey="conns">
+            <NavItem eventKey="/business/conns">
               <NavIcon>
                 <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
               </NavIcon>
@@ -112,7 +113,7 @@ const BusinessTab = () => {
         { routeResult || <NotFoundPage /> }
       </div>
     </div>
-  );
+  )
 }
 
-export default BusinessTab;
+export default BusinessTab
