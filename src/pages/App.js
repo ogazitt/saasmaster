@@ -24,6 +24,9 @@ const App = () => {
     }
   });
 
+  // offset from top to honor the height of the StickyNavbar
+  const topOffset = 50;
+
   return (
     <div>
       <StickyNavbar
@@ -32,9 +35,8 @@ const App = () => {
       />
       <div style={{
             position: 'relative',
-            top: '40px',
-            height: 'calc(100vh - 40px)',
-            //width: 'calc(100vw - 140px)'
+            top: topOffset,
+            height: `calc(100vh - ${topOffset}px)`,
             width: '100vw'
         }}>
 

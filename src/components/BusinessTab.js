@@ -34,8 +34,11 @@ const BusinessTab = () => {
   const currentPath = window.location.pathname;
   const [selected, setSelected] = useState(currentPath === '/' ? 'home' : currentPath.substring(1));
   const [expanded, setExpanded] = useState(false);
+
+  // constants that describe the top offset (to honor NavBar) and SidNav width
   const expandedWidth = 200;
   const collapsedWidth = 64;
+  const topOffset = 50;
 
   const routeResult = useRoutes(routes);
 
@@ -50,8 +53,8 @@ const BusinessTab = () => {
         width: expanded ? expandedWidth : collapsedWidth,
         position: 'fixed', 
         left: 0,
-        top: 40,
-        height: 'calc(100vh - 40px)',
+        top: topOffset,
+        height: `calc(100vh - ${topOffset}px)`
         }}>
         <SideNav style={{ minWidth: expanded ? expandedWidth : collapsedWidth }}
           onSelect={ selectTab }

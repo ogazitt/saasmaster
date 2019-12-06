@@ -27,8 +27,8 @@ const StickyNavbar = ({ state, actions }) => {
   }
 
   return (
-    <div className="stickyNavBar">
-      <Navbar>
+    <div className="stickyNavBarContainer">
+      <Navbar className="stickyNavBar">
         <Navbar.Header>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -36,16 +36,17 @@ const StickyNavbar = ({ state, actions }) => {
           navStyle="navbar"
           activeKey={state.tab}
         >
-          <NavItem className="text-center" style={{ minWidth: 65 }}>
-            <i className="fa fa-star" style={{ color: '#fff' }} />
+          <NavItem className="stickyNavBarLogo text-center" style={{ width: 65 }}>
+            {/*<i className="fa fa-star" style={{ color: '#fff' }} />*/}
+            <img src="SaaSMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
-          <NavItem eventKey="business" onSelect={actions.selectTab}>
+          <NavItem className="navBarItem" eventKey="business" onSelect={actions.selectTab}>
             My Business
           </NavItem>
-          <NavItem eventKey="employees" onSelect={actions.selectTab}>
+          <NavItem className="navBarItem" eventKey="employees" onSelect={actions.selectTab}>
             My Employees
           </NavItem>
-          <NavDropdown
+          <NavDropdown className="navBarItem" 
             autoOpen
             pullRight
             eventKey="administration"
