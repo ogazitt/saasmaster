@@ -43,7 +43,7 @@ const onRedirectCallback = appState => {
       ? appState.targetUrl
 //      : `${window.location.pathname}/home`
 //      : window.location.pathname
-      : `${window.location.origin}/home`
+      : `${window.location.origin}/business/home`
   );
 };
 

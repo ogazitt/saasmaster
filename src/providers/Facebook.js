@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import BaseProvider from './BaseProvider'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
-import DataTable from '../components/DataTable';
+import FilterTable from '../components/FilterTable'
 
-import { get } from '../utils/api';
-import { useAuth0 } from "../utils/react-auth0-wrapper";
+import { get } from '../utils/api'
+import { useAuth0 } from '../utils/react-auth0-wrapper'
 
 const FacebookPage = () => {
   const [data, setData] = useState();
@@ -22,12 +22,13 @@ const FacebookPage = () => {
 
 const PageCards = ({data}) => {
   const [reviewsData, setReviewsData] = useState();
+  const [reviews, setReviews] = useState();
   const [selected, setSelected] = useState();
   const { getTokenSilently } = useAuth0();
 
   const getPage = async (key, id, accessToken) => {
     // store the state associated with the selected page
-    setSelected(key);
+    setSelected(id);
 
     const token = await getTokenSilently();
     const endpoint = `facebook/reviews/${id}`;
@@ -38,19 +39,22 @@ const PageCards = ({data}) => {
 
     if (error || !response.ok) {
       setReviewsData(null);
+      setReviews(null);
       return;
     }
 
     const items = await response.json();
     if (items && items.map) {
+      setReviewsData(items);
       const data = items.map(item => {
         return { 
+          created_time: item.created_time,
           date: new Date(item.created_time).toLocaleString(),
           type: item.recommendation_type,
           text: item.review_text
         } 
       });
-      setReviewsData(data);
+      setReviews(data);
     }
   }
 
@@ -87,7 +91,7 @@ const PageCards = ({data}) => {
           data && data.map ? data.map((item, key) => {
             const { name, category_list, id, access_token} = item;
             const category = category_list && category_list[0].name;
-            const border = (key === selected) ? 'primary' : 'gray';
+            const border = (id === selected) ? 'primary' : 'gray';
           
             const loadPageComments = () => {
               getPage(key, id, access_token);
@@ -117,7 +121,14 @@ const PageCards = ({data}) => {
           top: 170
         }}>
           <h4>Reviews</h4>
-          <DataTable columns={columns} data={reviewsData} keyField="date" />
+          <FilterTable
+            data={reviewsData}
+            setData={setReviewsData}
+            dataRows={reviews}
+            columns={columns}
+            keyField="created_time"
+            path={`facebook/reviews/${selected}`}
+            />
         </div> :
         <div/>
       }
