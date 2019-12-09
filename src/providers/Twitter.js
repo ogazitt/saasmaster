@@ -22,6 +22,12 @@ const TweetTable = ({data, setData}) => {
     return <a href={tweetId} target="_">{cell}</a>
   }
 
+  const typeFormatter = (cell, row, rowIndex, formatExtraData) => {
+    return (
+      <i className={ formatExtraData[cell] } />
+    )
+  }
+
   const columns = [{
     dataField: 'date',
     text: 'Date',
@@ -35,6 +41,13 @@ const TweetTable = ({data, setData}) => {
     sort: true,
     headerStyle: (column, colIndex) => {
       return { width: '80px' };
+    },
+    align: 'center',
+    formatter: typeFormatter,
+    formatExtraData: {
+      positive: 'fa fa-thumbs-up fa-2x text-success',
+      neutral: 'fa fa-minus fa-2x',
+      negative: 'fa fa-thumbs-down fa-2x text-danger'
     }
   }, {
     dataField: 'user',

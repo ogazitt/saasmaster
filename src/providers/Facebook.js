@@ -58,6 +58,12 @@ const PageCards = ({data}) => {
     }
   }
 
+  const typeFormatter = (cell, row, rowIndex, formatExtraData) => {
+    return (
+      <i className={ formatExtraData[cell] } />
+    )
+  }
+
   const columns = [{
     dataField: 'date',
     text: 'Date',
@@ -71,6 +77,13 @@ const PageCards = ({data}) => {
     sort: true,
     headerStyle: (column, colIndex) => {
       return { width: '100px' };
+    },
+    align: 'center',
+    formatter: typeFormatter,
+    formatExtraData: {
+      positive: 'fa fa-thumbs-up fa-2x text-success',
+      neutral: 'fa fa-minus fa-2x',
+      negative: 'fa fa-thumbs-down fa-2x text-danger'
     }
   }, {
     dataField: 'text',
