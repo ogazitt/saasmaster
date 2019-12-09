@@ -142,13 +142,13 @@ const ConnectionsPage = () => {
                 key={key} 
                 border={ border }
                 style={{ maxWidth: '150px', textAlign: 'center' }}>
-                <center><Card.Img variant="top" src={connection.image} style={{ width: '8rem', marginTop: '10px' }}/></center>
+                <center><Card.Img variant="top" src={connection.image} style={{ width: '6rem', marginTop: '20px' }}/></center>
                 <Card.Body>
                   { connected !== 'base' ? 
                    <Button variant={ variant } onClick={ action }>
                      { buttonText }
                    </Button>
-                   : <center>Base Identity</center>
+                   : <center className='text-success' style={{marginTop: 5}}>Main Login</center>
                    }
                 </Card.Body>
               </Card>    
