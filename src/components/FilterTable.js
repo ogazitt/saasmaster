@@ -12,7 +12,8 @@ const FilterTable = ({
   dataRows, // processed data rows 
   columns,  // columns
   keyField, // key field for both data and dataRows
-  path      // API path to call back to update __handled field
+  path,     // API path to call back to update __handled field
+  maxHeight // control height 
 }) => {
   const [hiddenRowKeys, setHiddenRowKeys] = useState();
   const [showAll, setShowAll] = useState(false);
@@ -97,7 +98,7 @@ const FilterTable = ({
       setShowAll(true);
     }
   }
-
+  console.log(maxHeight)
   return (
     dataRows && dataRows.length > 0 ? 
       <div>
@@ -109,7 +110,7 @@ const FilterTable = ({
           position: "relative",
           top: 60,
           overflow: "auto",
-          maxHeight: `calc(100vh - 220px)`        
+          maxHeight: maxHeight
         }}>
           <DataTable 
             columns={columns} 

@@ -26,7 +26,7 @@ const PageCards = ({data}) => {
   const [selected, setSelected] = useState();
   const { getTokenSilently } = useAuth0();
 
-  const getPage = async (key, id, accessToken) => {
+  const getPage = async (id, accessToken) => {
     // store the state associated with the selected page
     setSelected(id);
 
@@ -84,6 +84,7 @@ const PageCards = ({data}) => {
         background: "white",
         width: "100%",
         marginTop: "-1px",
+        height: "151px",
         zIndex: 5
       }}>
         <CardDeck>
@@ -94,7 +95,7 @@ const PageCards = ({data}) => {
             const border = (id === selected) ? 'primary' : 'gray';
           
             const loadPageComments = () => {
-              getPage(key, id, access_token);
+              getPage(id, access_token);
             }
 
             return (
@@ -117,10 +118,15 @@ const PageCards = ({data}) => {
       { 
         reviewsData ? 
         <div style={{
-          position: "relative", 
-          top: 170
+          position: "fixed", 
+          top: 310
         }}>
-          <h4>Reviews</h4>
+          <div style={{
+            position: "sticky",
+            top: 0
+          }}>
+            <h4>Reviews</h4>
+          </div>
           <FilterTable
             data={reviewsData}
             setData={setReviewsData}
@@ -128,6 +134,7 @@ const PageCards = ({data}) => {
             columns={columns}
             keyField="created_time"
             path={`facebook/reviews/${selected}`}
+            maxHeight="calc(100vh - 420px)"
             />
         </div> :
         <div/>
