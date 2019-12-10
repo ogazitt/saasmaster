@@ -108,7 +108,7 @@ const ConnectionsPage = () => {
     <div>
       <div className="provider-header">
         <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
-        <h3 className="provider-title">Connections</h3>
+        <h4 className="provider-title">Connections</h4>
       </div>
       { 
         showResult && connections && connections.map ? 

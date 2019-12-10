@@ -92,7 +92,7 @@ const BaseProvider = ({
         <Button onClick={() => { loadData(true) }}>
           <i className="fa fa-refresh"></i>
         </Button>
-        <h3 className="provider-title">{pageTitle}</h3>
+        <h4 className="provider-title">{pageTitle}</h4>
       </div>
       <div>
       { children }

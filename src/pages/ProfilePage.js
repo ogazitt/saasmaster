@@ -51,7 +51,7 @@ const ProfilePage = () => {
     }}>
       <div className="provider-header">
         <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
-        <h3 className="provider-title">Profile</h3>
+        <h4 className="provider-title">Profile</h4>
       </div>
       { 
         loadedData ? <Highlight>{JSON.stringify(profile, null, 2)}</Highlight> : <div/>

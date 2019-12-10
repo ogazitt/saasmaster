@@ -20,13 +20,7 @@ const FilterTable = ({
   const { getTokenSilently } = useAuth0();
 
   // build up the list of handled records
-  console.log(data);
   let handled = data.filter(r => r.__handled).map(r => r[keyField]);
-  console.log(handled);
-  const han = data.filter(r => r.__handled === true);
-  console.log(`han: ${han}`);
-  const newhan = han.map(r => r[keyField]);
-  console.log(`newhan: ${newhan}`);
 
   // if the hidden row keys array doesn't yet exist, initialize it
   if (handled.length > 0 && !hiddenRowKeys) {
@@ -98,7 +92,7 @@ const FilterTable = ({
       setShowAll(true);
     }
   }
-  console.log(maxHeight)
+
   return (
     dataRows && dataRows.length > 0 ? 
       <div>
