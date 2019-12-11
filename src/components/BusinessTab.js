@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { useRoutes, navigate } from 'hookrouter';
+import React, { useState } from 'react'
+import { useRoutes, navigate } from 'hookrouter'
 
 // side nav control and styles
-import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
+import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 
 // import pages
 import HomePage from '../pages/HomePage'
 import ConnectionsPage from '../pages/ConnectionsPage'
+import AlertsPage from '../pages/AlertsPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // import data provider pages
@@ -34,6 +35,7 @@ const BusinessTab = () => {
   const routes = {
     '/business': () => <HomePage />,
     '/business/home': () => <HomePage />,
+    '/business/alerts': () => <AlertsPage />,
     '/business/google': () => <GooglePage />,
     '/business/facebook': () => <FacebookPage />,
     '/business/instagram': () => <InstagramPage />,
@@ -59,11 +61,17 @@ const BusinessTab = () => {
           }}>
           <SideNav.Toggle />
           <SideNav.Nav selected={currentPath}>
-            <NavItem eventKey="/business/home">
+          <NavItem eventKey="/business/home">
               <NavIcon>
                 <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText">Website</NavText>
+              <NavText className="navText">Dashboard</NavText>
+            </NavItem>
+            <NavItem eventKey="/business/alerts">
+              <NavIcon>
+                <i className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText className="navText">Alerts</NavText>
             </NavItem>
             <NavItem eventKey="/business/google">
               <NavIcon>
