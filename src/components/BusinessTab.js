@@ -61,7 +61,7 @@ const BusinessTab = () => {
           <SideNav.Nav selected={currentPath}>
             <NavItem eventKey="/business/home">
               <NavIcon>
-                <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText">Website</NavText>
             </NavItem>

@@ -18,7 +18,7 @@ const TwitterPage = () => {
 
 const TweetTable = ({data, setData}) => {
   const urlFormatter = (cell, row) => {
-    const tweetId = `https://twitter.com/i/web/status/${row.id}`;
+    const tweetId = `https://twitter.com/i/web/status/${row.id_str}`;
     return <a href={tweetId} target="_">{cell}</a>
   }
 
@@ -46,7 +46,7 @@ const TweetTable = ({data, setData}) => {
     formatter: typeFormatter,
     formatExtraData: {
       positive: 'fa fa-thumbs-up fa-2x text-success',
-      neutral: 'fa fa-minus fa-2x',
+      neutral: 'fa fa-minus fa-2x text-warning',
       negative: 'fa fa-thumbs-down fa-2x text-danger'
     }
   }, {
@@ -70,16 +70,12 @@ const TweetTable = ({data, setData}) => {
   }];
 
   const tweets = data && data.map && data.map(item => {
-    const sentiment = parseFloat(item.__sentimentScore);
-    const type = sentiment > 0.1 ? 'positive' : 
-      sentiment < -0.1 ? 'negative' : 'neutral';
-
     return {
       id_str: item.id_str,
       date: new Date(item.created_at).toLocaleString(),
       user: item.user.screen_name,
       name: item.user.name,
-      type: type,
+      type: item.__sentiment,
       text: item.text
     }
   });

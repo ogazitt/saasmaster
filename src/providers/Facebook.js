@@ -82,7 +82,7 @@ const PageCards = ({data}) => {
     formatter: typeFormatter,
     formatExtraData: {
       positive: 'fa fa-thumbs-up fa-2x text-success',
-      neutral: 'fa fa-minus fa-2x',
+      neutral: 'fa fa-minus fa-2x text-warning',
       negative: 'fa fa-thumbs-down fa-2x text-danger'
     }
   }, {

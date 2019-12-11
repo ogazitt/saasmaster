@@ -17,7 +17,7 @@ const PieChart = ({
       labelPosition={60}
       labelStyle={{
         fontFamily: 'sans-serif',
-        fontSize: '5px'
+        fontSize: '10px'
       }}
       lengthAngle={360}
       lineWidth={20}

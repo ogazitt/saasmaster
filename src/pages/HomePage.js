@@ -87,41 +87,34 @@ const HomePage = () => {
   }
 
   const sentimentValues = ['positive', 'neutral', 'negative'];
-  const colors = ['#E38627', '#C13C37', '#6A2135'];
+  //const colors = ['#E38627', '#C13C37', '#6A2135'];
+  const colors = ['#28a745', '#ffc107', '#dc3545'];
+
   const legend = {
     domain: sentimentValues,
     range: colors
   };
 
-  // normalize the metadata score values into the [sentimentValues] range
-  const normalizedMD = metadata && metadata.map(item => {
-    const provider = item.provider;
-    const sentiment = parseFloat(item.__sentimentScore);
-    const type = sentiment > 0.1 ? sentimentValues[0] : 
-      sentiment < -0.1 ? sentimentValues[2] : sentimentValues[1];
-    return { provider, type };
-  });
-
   // compute the pie data
-  const pieDataAll = normalizedMD && sentimentValues.map((val, index) => {
+  const pieDataAll = metadata && sentimentValues.map((val, index) => {
     return (
       {
         color: colors[index],
         title: val,
-        value: normalizedMD.filter(m => m.type === val).length
+        value: metadata.filter(m => m.__sentiment === val).length
       }
     )
   });
 
   const providers = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
 
-  const providerPieDataArray = normalizedMD && providers && providers.map(p => {
+  const providerPieDataArray = metadata && providers && providers.map(p => {
     const array = sentimentValues.map((val, index) => {
       return (
         {
           color: colors[index],
           title: val,
-          value: normalizedMD.filter(m => m.provider === p && m.type === val).length
+          value: metadata.filter(m => m.provider === p && m.__sentiment === val).length
         }
       )
     });
@@ -131,7 +124,6 @@ const HomePage = () => {
     }
   });
 
-  console.log(providerPieDataArray);
   return (
     metadata ?
     <div>
@@ -154,14 +146,17 @@ const HomePage = () => {
           <div style={{ display: 'flex' /* horizontal layout of charts */ }}>
           <div style={{ margin: 10 }}>
             <PieChart data={pieDataAll}/>
-            <center style={{ marginTop: 10 }}>All</center>
+            <center className="text-muted" style={{ marginTop: 3, fontSize: '1.75em', fontWeight: 'bold' }}>All</center>
           </div>
 
           { 
             providerPieDataArray && providerPieDataArray.length > 0 && providerPieDataArray.map(p => 
               <div style={{ margin: 10 }}>
                 <PieChart data={p.pieData}/>
-                <center style={{ marginTop: 10 }}>{p.providerName}</center>
+                <center style={{ marginTop: 10 }}>
+                  <i className={`fa fa-fw fa-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />
+                  {/*p.providerName*/}
+                </center>
               </div>
             )
           }
