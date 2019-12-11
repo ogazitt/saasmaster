@@ -4,12 +4,17 @@ import CheckboxGroup from '../components/CheckboxGroup'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
 import { useConnections } from '../utils/connections'
-//import { useAuth0 } from '../utils/react-auth0-wrapper'
+import { useAuth0 } from '../utils/react-auth0-wrapper'
+import { get } from '../utils/api'
 
 const HomePage = () => {
-  // const { loading, user } = useAuth0();
+  const [loadMetadata, setLoadMetadata] = useState(true);
+  const [errorMessage, setErrorMessage] = useState();
+  const [metadata, setMetadata] = useState();
+  const [checkboxState, setCheckboxState] = useState();
+
+  const { getTokenSilently } = useAuth0();
   const { loading, connections } = useConnections();
-  const [state, setState] = useState();
 
   if (loading) {
     return <Loading />
@@ -26,61 +31,109 @@ const HomePage = () => {
     )
   }
 
+  // function to load metadata from service
+  const retrieveMetadata = async() => {
+    setLoadMetadata(false);
+
+    const token = await getTokenSilently();
+    const [response, error] = await get(token, 'metadata');
+
+    if (error || !response.ok) {
+      setMetadata(null);
+      setErrorMessage("Can't reach server - try refreshing later");
+      return;
+    }
+
+    // items always come back as an array
+    const items = await response.json();
+
+    setErrorMessage(null);
+    setMetadata(items);
+  }
+
+  // invoke the load metadata function if we haven't done so yet
+  if (loadMetadata) {
+    retrieveMetadata();
+  }
+
   // if haven't initialized the state yet, set it now
-  if (!state) {
+  if (!checkboxState) {
     // create item list - one for each connection
     const items = {};
     for (const c of connections) {
       // take first element of name in the format like google-oauth2
-      const [providerName] = c.provider.split('-');
+      const providerName = c.provider;
+      const [providerTitle] = providerName.split('-');
       items[providerName] = { 
         name: `dashboardCB-${providerName}`,
+        title: providerTitle,
         state: c.connected ? true : false
       }
     }
-    setState(items);
+    setCheckboxState(items);
   }
-  
+
   // event handler for checkbox group
   const onSelect = (event) => {
     // make a copy of state
-    const items = { ...state };
+    const items = { ...checkboxState };
 
     // checkbox name is in the form `dashboardCB-${name}`
-    const name = event.target.name && event.target.name.split('-')[1];
+    const name = event.target.name && event.target.name.split('dashboardCB-')[1];
     if (name && items[name]) {
       items[name].state = !items[name].state;
-      setState(items);
+      setCheckboxState(items);
     }
   }
 
+  const sentimentValues = ['positive', 'neutral', 'negative'];
+  const colors = ['#E38627', '#C13C37', '#6A2135'];
   const legend = {
-    domain: ['positive', 'neutral', 'negative'],
-    range: ['#E38627', '#C13C37', '#6A2135']
-   //range: ['#66d981', '#71f5ef', '#4899f1', '#7d81f6']
-  }
+    domain: sentimentValues,
+    range: colors
+  };
 
-  const pieData = [
-    {
-      color: '#E38627',
-      title: 'One',
-      value: 10
-    },
-    {
-      color: '#C13C37',
-      title: 'Two',
-      value: 15
-    },
-    {
-      color: '#6A2135',
-      title: 'Three',
-      value: 20
+  // normalize the metadata score values into the [sentimentValues] range
+  const normalizedMD = metadata && metadata.map(item => {
+    const provider = item.provider;
+    const sentiment = parseFloat(item.__sentimentScore);
+    const type = sentiment > 0.1 ? sentimentValues[0] : 
+      sentiment < -0.1 ? sentimentValues[2] : sentimentValues[1];
+    return { provider, type };
+  });
+
+  // compute the pie data
+  const pieDataAll = normalizedMD && sentimentValues.map((val, index) => {
+    return (
+      {
+        color: colors[index],
+        title: val,
+        value: normalizedMD.filter(m => m.type === val).length
+      }
+    )
+  });
+
+  const providers = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
+
+  const providerPieDataArray = normalizedMD && providers && providers.map(p => {
+    const array = sentimentValues.map((val, index) => {
+      return (
+        {
+          color: colors[index],
+          title: val,
+          value: normalizedMD.filter(m => m.provider === p && m.type === val).length
+        }
+      )
+    });
+    return {
+      providerName: checkboxState[p].title,
+      pieData: array
     }
-  ];
+  });
 
-  const providers = state && Object.keys(state).filter(p => state[p].state);
-
+  console.log(providerPieDataArray);
   return (
+    metadata ?
     <div>
       <div className="provider-header">
         <h4>Sentiment Dashboard</h4>
@@ -88,7 +141,7 @@ const HomePage = () => {
       <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
         <div style={{ marginTop: 50 }}>
           <CheckboxGroup 
-            state={state}
+            state={checkboxState}
             onSelect={onSelect}
           />
         </div>
@@ -100,15 +153,15 @@ const HomePage = () => {
           </div>
           <div style={{ display: 'flex' /* horizontal layout of charts */ }}>
           <div style={{ margin: 10 }}>
-            <PieChart data={pieData}/>
+            <PieChart data={pieDataAll}/>
             <center style={{ marginTop: 10 }}>All</center>
           </div>
 
           { 
-            providers && providers.length > 0 && providers.map(p => 
+            providerPieDataArray && providerPieDataArray.length > 0 && providerPieDataArray.map(p => 
               <div style={{ margin: 10 }}>
-                <PieChart data={pieData}/>
-                <center style={{ marginTop: 10 }}>{p}</center>
+                <PieChart data={p.pieData}/>
+                <center style={{ marginTop: 10 }}>{p.providerName}</center>
               </div>
             )
           }
@@ -116,6 +169,15 @@ const HomePage = () => {
         </div>
       </div>
     </div>
+    : errorMessage ? 
+    <div className="provider-header">
+      <h4>
+        <i className="fa fa-frown-o"/>
+        <span>&nbsp;Can't reach service - try refreshing later</span>
+      </h4>
+    </div>
+    :
+    <div />
   )
 }
 

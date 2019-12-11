@@ -17,7 +17,7 @@ const CheckboxGroup = ({
         state && Object.keys(state).map(item =>
           <Card.Subtitle className="text-muted">
             <Form.Group>
-              <Form.Check label={<span>&nbsp;{item}</span>}
+              <Form.Check label={<span>&nbsp;{state[item].title}</span>}
                 type="checkbox"
                 key={item}
                 name={state[item].name}
