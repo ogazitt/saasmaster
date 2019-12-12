@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useAuth0 } from "../utils/react-auth0-wrapper";
+import React, { useState, useEffect, useContext } from 'react'
+import { useAuth0 } from './react-auth0-wrapper'
+import { get } from './api'
 
 export const ConnectionsContext = React.createContext();
 export const useConnections = () => useContext(ConnectionsContext);
@@ -28,33 +29,18 @@ export const ConnectionsProvider = ({
       setLoading(true);
       const token = await getTokenSilently();
       
-      // construct API service URL
-      const baseUrl = window.location.origin;
-      const urlObject = new URL(baseUrl);
+      const [response, error] = await get(token, 'connections');
 
-      // replace port for local development from 3000 to 8080
-      if (urlObject.port && urlObject.port > 80) {
-        urlObject.port = 8080;
-      }
-
-      const url = urlObject + 'connections';
-
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      
-      if (response.ok) {
+      if (error || !response.ok) {
+        setConnections({});
+        console.error(`loadConnections error: ${error}`);
+        setLoaded(false);
+      } else {
         const responseData = await response.json();
         setConnections(responseData);
         setLoaded(true);
-      } else {
-        console.error(`loadConnections error: ${response}`);
-        setConnections({});
-        setLoaded(false);
       }
-
+  
       setLoading(false);
     } catch (error) {
       console.error(`loadConnections exception caught: ${error}`);
