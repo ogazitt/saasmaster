@@ -9,6 +9,7 @@ import { get } from '../utils/api'
 
 const HomePage = () => {
   const [loadMetadata, setLoadMetadata] = useState(true);
+  const [loadedMetadata, setLoadedMetadata] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const [metadata, setMetadata] = useState();
   const [checkboxState, setCheckboxState] = useState();
@@ -41,20 +42,45 @@ const HomePage = () => {
     if (error || !response.ok) {
       setMetadata(null);
       setErrorMessage("Can't reach server - try refreshing later");
+      setLoadedMetadata(true);
       return;
     }
 
     // items always come back as an array
     const items = await response.json();
-
-    setErrorMessage(null);
-    setMetadata(items);
+    if (!items || items.length === undefined) {
+      setErrorMessage("Error getting data from service - try refreshing later");
+    } else {
+      setErrorMessage(null);
+      setMetadata(items);  
+    }
+    setLoadedMetadata(true);
   }
 
   // invoke the load metadata function if we haven't done so yet
   if (loadMetadata) {
     retrieveMetadata();
+    return;
   }
+
+  // while we haven't completed loading metadata, display loading screen
+  if (!loadedMetadata) {
+    return <Loading />
+  }
+
+  // if an error occurred, display it now
+  if (errorMessage) {
+    return (
+      <div className="provider-header">
+        <h4>
+          <i className="fa fa-frown-o"/>
+          <span>&nbsp;{errorMessage}</span>
+        </h4>
+      </div>
+    )
+  }
+
+  // if we've reached this far, metadata has been successfully loaded!
 
   // if haven't initialized the state yet, set it now
   if (!checkboxState) {
@@ -96,7 +122,7 @@ const HomePage = () => {
   };
 
   // compute the pie data
-  const pieDataAll = metadata && sentimentValues.map((val, index) => {
+  const pieDataAll = sentimentValues.map((val, index) => {
     return (
       {
         color: colors[index],
@@ -108,7 +134,7 @@ const HomePage = () => {
 
   const providers = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
 
-  const providerPieDataArray = metadata && providers && providers.map(p => {
+  const providerPieDataArray = providers && providers.map(p => {
     const array = sentimentValues.map((val, index) => {
       return (
         {
@@ -125,7 +151,6 @@ const HomePage = () => {
   });
 
   return (
-    metadata ?
     <div>
       <div className="provider-header">
         <h4>Sentiment Dashboard</h4>
@@ -164,15 +189,6 @@ const HomePage = () => {
         </div>
       </div>
     </div>
-    : errorMessage ? 
-    <div className="provider-header">
-      <h4>
-        <i className="fa fa-frown-o"/>
-        <span>&nbsp;Can't reach service - try refreshing later</span>
-      </h4>
-    </div>
-    :
-    <div />
   )
 }
 
