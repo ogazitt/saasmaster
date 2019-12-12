@@ -52,6 +52,17 @@ const FilterTable = ({
     const token = await getTokenSilently();
     const ids = dataRows.map(r => r[keyField]);
 
+    const metadata = data.map(r => {
+      const id = r[keyField];
+      const isHandled = handled.find(h => h === id) ? true : false;
+
+      // adjust the local state of the current row
+      r.__handled = isHandled;
+      // return an entry with the id and the handled flag
+      return { id, __handled: isHandled }
+    });
+
+    /*
     // create an object of objects
     // { id1: { __handled: true }, id2: { __handled: false } }
     const dataObj = {};
@@ -62,7 +73,7 @@ const FilterTable = ({
       // adjust the local state of the tweet array
       const row = data.find(r => r[keyField] === entry);
       row.__handled = isHandled;
-    }
+    }*/
 
     // hide the rows that have been marked read 
     // do this before posting the operation to the API in order to 
@@ -72,7 +83,8 @@ const FilterTable = ({
         
     // post to the twitter mentions API that can handle multiple
     // entries at at time
-    const [response, error] = await post(token, path, JSON.stringify(dataObj));
+    //const [response, error] = await post(token, path, JSON.stringify(dataObj));
+    const [response, error] = await post(token, path, JSON.stringify(metadata));
     if (error || !response.ok) {
       return;
     }
