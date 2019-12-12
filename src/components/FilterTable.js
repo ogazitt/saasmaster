@@ -4,7 +4,7 @@ import ButtonRow from '../components/ButtonRow'
 import Button from 'react-bootstrap/Button'
 
 import { post } from '../utils/api'
-import { useAuth0 } from "../utils/react-auth0-wrapper";
+import { useAuth0 } from '../utils/react-auth0-wrapper'
 
 const FilterTable = ({
   data,     // raw data array returned from API
@@ -50,7 +50,6 @@ const FilterTable = ({
   
   const markRead = async () => {
     const token = await getTokenSilently();
-    const ids = dataRows.map(r => r[keyField]);
 
     const metadata = data.map(r => {
       const id = r[keyField];
@@ -62,28 +61,13 @@ const FilterTable = ({
       return { id, __handled: isHandled }
     });
 
-    /*
-    // create an object of objects
-    // { id1: { __handled: true }, id2: { __handled: false } }
-    const dataObj = {};
-    for (const entry of ids) {
-      const isHandled = handled.find(id => id === entry) ? true : false;
-      dataObj[entry] = { __handled: isHandled };
-
-      // adjust the local state of the tweet array
-      const row = data.find(r => r[keyField] === entry);
-      row.__handled = isHandled;
-    }*/
-
     // hide the rows that have been marked read 
     // do this before posting the operation to the API in order to 
     // update the display without waiting for the network operation
     setHiddenRowKeys(handled);
     setShowAll(false);
         
-    // post to the twitter mentions API that can handle multiple
-    // entries at at time
-    //const [response, error] = await post(token, path, JSON.stringify(dataObj));
+    // post to the twitter mentions API that can handle multiple entries at at time
     const [response, error] = await post(token, path, JSON.stringify(metadata));
     if (error || !response.ok) {
       return;

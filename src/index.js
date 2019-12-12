@@ -1,20 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import AppWrapper from './pages/AppWrapper';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import AppWrapper from './pages/AppWrapper'
+import * as serviceWorker from './serviceWorker'
 
-import { Auth0Provider } from "./utils/react-auth0-wrapper";
-import { ConnectionsProvider } from "./utils/connections";
-import config from "./utils/auth_config.json";
+import { Auth0Provider } from './utils/react-auth0-wrapper'
+import { ConnectionsProvider } from './utils/connections'
+import { MetadataProvider } from './utils/metadata'
+import config from './utils/auth_config.json'
 
 // import bootstrap and font-awesome CSS
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'font-awesome/css/font-awesome.min.css'
 
 // import local styles after default styles so they take precedence
-import './index.css';
+import './index.css'
 
-//import history from "./utils/history";
+//import history from './utils/history'
 
 // A function that routes the user to the right place after login
 
@@ -59,7 +60,9 @@ ReactDOM.render(
 /*    scope={defaultScopes}*/
   >
     <ConnectionsProvider>
-      <AppWrapper />
+      <MetadataProvider>
+        <AppWrapper />
+      </MetadataProvider>
     </ConnectionsProvider>
   </Auth0Provider>,
   document.getElementById('root')

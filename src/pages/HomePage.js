@@ -4,24 +4,18 @@ import CheckboxGroup from '../components/CheckboxGroup'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
 import { useConnections } from '../utils/connections'
-import { useAuth0 } from '../utils/react-auth0-wrapper'
-import { get } from '../utils/api'
+import { useMetadata } from '../utils/metadata'
 
 const HomePage = () => {
-  const [loadMetadata, setLoadMetadata] = useState(true);
-  const [loadedMetadata, setLoadedMetadata] = useState(false);
-  const [errorMessage, setErrorMessage] = useState();
-  const [metadata, setMetadata] = useState();
+  const { loading: loadingConnections, connections } = useConnections();
+  const { loading: loadingMetadata, metadata } = useMetadata();
   const [checkboxState, setCheckboxState] = useState();
 
-  const { getTokenSilently } = useAuth0();
-  const { loading, connections } = useConnections();
-
-  if (loading) {
+  if (loadingConnections || loadingMetadata) {
     return <Loading />
   }
-
-  if (!connections || !connections.length > 0) {
+  
+  if (!connections || !connections.length > 0 || !metadata) {
     return (
       <div className="provider-header">
         <h4>
@@ -31,56 +25,6 @@ const HomePage = () => {
       </div>
     )
   }
-
-  // function to load metadata from service
-  const retrieveMetadata = async() => {
-    setLoadMetadata(false);
-
-    const token = await getTokenSilently();
-    const [response, error] = await get(token, 'metadata');
-
-    if (error || !response.ok) {
-      setMetadata(null);
-      setErrorMessage("Can't reach server - try refreshing later");
-      setLoadedMetadata(true);
-      return;
-    }
-
-    // items always come back as an array
-    const items = await response.json();
-    if (!items || items.length === undefined) {
-      setErrorMessage("Error getting data from service - try refreshing later");
-    } else {
-      setErrorMessage(null);
-      setMetadata(items);  
-    }
-    setLoadedMetadata(true);
-  }
-
-  // invoke the load metadata function if we haven't done so yet
-  if (loadMetadata) {
-    retrieveMetadata();
-    return;
-  }
-
-  // while we haven't completed loading metadata, display loading screen
-  if (!loadedMetadata) {
-    return <Loading />
-  }
-
-  // if an error occurred, display it now
-  if (errorMessage) {
-    return (
-      <div className="provider-header">
-        <h4>
-          <i className="fa fa-frown-o"/>
-          <span>&nbsp;{errorMessage}</span>
-        </h4>
-      </div>
-    )
-  }
-
-  // if we've reached this far, metadata has been successfully loaded!
 
   // if haven't initialized the state yet, set it now
   if (!checkboxState) {

@@ -14,7 +14,6 @@ export const MetadataProvider = ({
   const { getTokenSilently } = useAuth0();
 
   const loadMetadata = async () => {
-
     try {
       setLoading(true);
       const token = await getTokenSilently();
@@ -22,7 +21,7 @@ export const MetadataProvider = ({
       const [response, error] = await get(token, 'metadata');
 
       if (error || !response.ok) {
-        setMetadata({});
+        setMetadata([]);
         console.error(`loadMetadata error: ${error}`);
         setLoaded(false);
       } else {
@@ -34,11 +33,11 @@ export const MetadataProvider = ({
       setLoading(false);
     } catch (error) {
       console.error(`loadMetadata exception caught: ${error}`);
-      setMetadata({});
+      setMetadata([]);
       setLoaded(false);
       setLoading(false);
     }  
-  };
+  }
 
   return (
     <MetadataContext.Provider
