@@ -17,7 +17,7 @@ const CheckboxGroup = ({
         state && Object.keys(state).map(item => {
           const label = <i className={`fa fa-fw fa-${state[item].title} text-muted`} style={{ fontSize: '1.2em' }} />
           return (
-            <Card.Subtitle>
+            <Card.Subtitle key={item}>
               <Form.Group>
                 <Form.Check label={<span>&nbsp;{label}</span>}
                   type="checkbox"

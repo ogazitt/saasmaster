@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 
 import { post } from '../utils/api'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
+import { useMetadata } from '../utils/metadata'
 
 const FilterTable = ({
   data,     // raw data array returned from API
@@ -18,6 +19,7 @@ const FilterTable = ({
   const [hiddenRowKeys, setHiddenRowKeys] = useState();
   const [showAll, setShowAll] = useState(false);
   const { getTokenSilently } = useAuth0();
+  const { loadMetadata } = useMetadata();
 
   // build up the list of handled records
   let handled = data.filter(r => r.__handled).map(r => r[keyField]);
@@ -76,6 +78,9 @@ const FilterTable = ({
     // retrieve the new dataset, which will trigger a repaint
     const items = await response.json();
     setData(items);
+
+    // trigger refreshing metadata (so that alerts display updated data)
+    (async () => loadMetadata())();
   }
 
   const toggleShow = () => {

@@ -19,7 +19,6 @@ const BaseProvider = ({
   const [loadedData, setLoadedData] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const { getTokenSilently } = useAuth0();
-
   const { connections } = useConnections();
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -41,7 +40,7 @@ const BaseProvider = ({
       setLoadedData(true);
       setLoading(false);
       setData(null);
-      setErrorMessage("Can't reach server - try refreshing later");
+      setErrorMessage("Can't reach service - try refreshing later");
       return;
     }
 
@@ -56,10 +55,11 @@ const BaseProvider = ({
 
   // if connections not loaded, set an error message
   if (!connections || !connections.find) {
+    console.log('!connections')
     return(
       <div className="provider-header">
         <i className="fa fa-frown-o"/>
-        <span>&nbsp;{errorMessage}</span>
+        <span>&nbsp;Can't reach service - try refreshing later</span>
       </div>
     )
   }
@@ -68,7 +68,6 @@ const BaseProvider = ({
   const connection = connections.find(el => el.provider === connectionName);
   if (!connection || !connection.connected) {
     // need to connect first
-    // TODO: button to move to settings page
     const [provider] = pageTitle.split(' ');
     return(
       <div>
@@ -83,7 +82,6 @@ const BaseProvider = ({
   // if haven't loaded data yet, do so now
   if (!loadedData) {
     loadData();
-    return <Loading />;
   }
 
   return(
@@ -95,7 +93,7 @@ const BaseProvider = ({
         <h4 className="provider-title">{pageTitle}</h4>
       </div>
       <div>
-      { children }
+      { errorMessage ? <span>{errorMessage}</span> : children }
       </div>
     </div>
   )

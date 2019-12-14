@@ -117,10 +117,9 @@ const HomePage = () => {
             <PieChart data={pieDataAll}/>
             <center className="text-muted" style={{ marginTop: 3, fontSize: '1.75em', fontWeight: 'bold' }}>All</center>
           </div>
-
           { 
             providerPieDataArray && providerPieDataArray.length > 0 && providerPieDataArray.map(p => 
-              <div style={{ margin: 10 }}>
+              <div style={{ margin: 10 }} key={p.providerName}>
                 <PieChart data={p.pieData}/>
                 <center style={{ marginTop: 10 }}>
                   <i className={`fa fa-fw fa-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />

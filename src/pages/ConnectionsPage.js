@@ -26,8 +26,9 @@ const ConnectionsPage = () => {
 
   // if haven't loaded connections yet, do so now
   if (!loading && !didLoad) {
-    loadData();
     setDidLoad(true);
+    loadData();
+    return;
   }
 
   // if tried to load already, either display the results or an error
@@ -165,7 +166,7 @@ const ConnectionsPage = () => {
         <div />
       }
     </div>
-  );
-};
+  )
+}
 
-export default ConnectionsPage;
+export default ConnectionsPage
