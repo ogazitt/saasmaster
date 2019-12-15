@@ -22,12 +22,6 @@ const HomePage = () => {
     return <Loading />
   }
 
-  /*
-  if (loadingConnections || loadingMetadata) {
-    return <Loading />
-  }
-  */
-  
   if (!connections || !connections.length > 0 || !metadata) {
     return (
       <div className="provider-header">
@@ -44,13 +38,17 @@ const HomePage = () => {
     // create item list - one for each connection
     const items = {};
     for (const c of connections) {
+      // if not connected, don't add it to the list
+      if (!c.connected) {
+        continue;
+      }
       // take first element of name in the format like google-oauth2
       const providerName = c.provider;
       const [providerTitle] = providerName.split('-');
       items[providerName] = { 
         name: `dashboardCB-${providerName}`,
         title: providerTitle,
-        state: c.connected ? true : false
+        state: true
       }
     }
     setCheckboxState(items);
@@ -114,14 +112,14 @@ const HomePage = () => {
           <i className={ loading ? "fa fa-spinner" : "fa fa-refresh" }></i>
         </Button>
         <h4 className="provider-title">Sentiment dashboard</h4>
-      </div>
-      <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
-        <div style={{ marginTop: 50 }}>
+        <div style={{ marginLeft: 50 }}>
           <CheckboxGroup 
             state={checkboxState}
             onSelect={onSelect}
           />
         </div>
+      </div>
+      <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
         <div style={{ marginLeft: 25 /* vertical layout */}}>
           <div style={{ height: 50, marginLeft: 50 }}>
             <center>
@@ -139,7 +137,6 @@ const HomePage = () => {
                 <PieChart data={p.pieData}/>
                 <center style={{ marginTop: 10 }}>
                   <i className={`fa fa-fw fa-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />
-                  {/*p.providerName*/}
                 </center>
               </div>
             )

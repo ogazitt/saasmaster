@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import Highlight from '../components/Highlight'
 import CheckboxGroup from '../components/CheckboxGroup'
-import Legend from '../components/Legend'
+import StackedAreaChart from '../components/StackedAreaChart'
+import StackedLineChart from '../components/StackedLineChart'
 import Button from 'react-bootstrap/Button'
 
 import { useAuth0 } from '../utils/react-auth0-wrapper'
@@ -14,6 +15,7 @@ const HistoryPage = () => {
   const [loadedData, setLoadedData] = useState(false);
   const [checkboxState, setCheckboxState] = useState();
   const [refresh, setRefresh] = useState(false);
+  const [providers, setProviders] = useState();
 
   const { getTokenSilently } = useAuth0();
 
@@ -22,7 +24,7 @@ const HistoryPage = () => {
     return <Loading />
   }
 
-  // force load of history data
+  // load history data
   const loadData = async () => { 
     setLoading(true);
     setRefresh(true);
@@ -48,19 +50,32 @@ const HistoryPage = () => {
   // if haven't loaded profile yet, do so now
   if (!loadedData && !loading) {
     loadData();
+    return;
   }
 
-  // get the set of unique providers returned in metadata
-  const providerSet = new Set();
-  for (const h of history) {
-    const keys = Object.keys(h).filter(k => k !== 'timestamp');
-    keys.forEach(providerSet.add, providerSet);
+  // can't proceed until we've received the history
+  if (!history || !history.length > 0) {
+    return null;
   }
-  const providers = Array.from(providerSet);
-  console.log(providers);
+
+  const sentimentValues = ['negative', 'neutral', 'positive'];
+  const colors = ['#dc3545', '#ffc107', '#28a745'];
+
+  // get the set of unique providers returned in metadata, if haven't yet
+  if (!providers && history && history.length > 0) {
+    const set = new Set();
+    for (const h of history) {
+      const keys = Object.keys(h).filter(k => 
+        k !== 'timestamp' && k !== 'averageScore' && 
+        !sentimentValues.find(v => v === k));
+      keys.forEach(set.add, set);
+    }
+    setProviders(Array.from(set));
+    return;
+  }
 
   // if haven't initialized the state yet, set it now
-  if (!checkboxState && history.length > 0) {
+  if (!checkboxState && history.length > 0 && providers && providers.length > 0) {
     // create item list - one for each connection
     const items = {};
     for (const p of providers) {
@@ -73,6 +88,11 @@ const HistoryPage = () => {
       }
     }
     setCheckboxState(items);
+  }
+
+  // can't proceed until we've created the checkboxState
+  if (!checkboxState) {
+    return;
   }
 
   // event handler for checkbox group
@@ -88,30 +108,60 @@ const HistoryPage = () => {
     }
   }
 
-  const sentimentValues = ['positive', 'neutral', 'negative'];
-  //const colors = ['#E38627', '#C13C37', '#6A2135'];
-  const colors = ['#28a745', '#ffc107', '#dc3545'];
+  // create the checked providers list
+  const checkedProviders = providers && providers.filter(p => checkboxState[p].state);
 
-  const legend = {
-    domain: sentimentValues,
-    range: colors
-  };
+  // set up areas definitions and data for all sentiment stacked column charts
 
-  /*
-  // compute the pie data
-  const pieDataAll = sentimentValues.map((val, index) => {
-    return (
-      {
-        color: colors[index],
-        title: val,
-        value: metadata.filter(m => m.__sentiment === val).length
-      }
-    )
+  // areas for StackedAreaChart showing composite of all sentiments over time
+  const areas = sentimentValues.map((sentiment, index) => {
+    return {
+      dataKey: sentiment,
+      stackId: "a",
+      fill: colors[index]
+    }
   });
-  */
 
-  //const providers = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
+  // prepare data by converting timestamp to a date
+  var options = { year: '2-digit', month: '2-digit', day: '2-digit' };  
+  const allData = history.map(h => { 
+    const date = new Date(h.timestamp).toLocaleDateString("en-US", options)
+    return { ...h, date }
+  });
 
+  // create an array of provider-specific data
+  const providerDataArray = checkedProviders && checkedProviders.map(provider => 
+    allData.map(d => {
+      return { ...d[provider], date: d.date, provider }
+    })
+  );
+  
+  // set up lines definitions and data for sentiment score line chart
+
+  // lines for StackedLineChart showing sentiment scores over time
+  const providerColors = ['#8884d8', "#82ca9d", '#dc3545']
+  const lines = checkedProviders && checkedProviders.map((provider, index) => {
+    return {
+      dataKey: provider,
+      stroke: providerColors[index]
+    }
+  });
+  // add the line for the total composite score
+  lines && lines.push({
+    dataKey: 'all',
+    stroke: 'blue'
+  });
+
+  // prepare data for sentiment score line chart
+  const sentimentLineData = allData.map(d => {
+    const entry = { date: d.date };
+    for (const p of checkedProviders) {
+      entry[p] = d[p].averageScore * 100 + 50;
+    }
+    entry.all = d.averageScore * 100 + 50;
+    return entry;
+  });
+  
   return(
     <div>
       <div className="provider-header">
@@ -119,42 +169,50 @@ const HistoryPage = () => {
           <i className={ refresh ? "fa fa-spinner" : "fa fa-refresh" }></i>
         </Button>
         <h4 className="provider-title">Sentiment history</h4>
-      </div>
-      { 
-        loadedData ? <Highlight>{JSON.stringify(history, null, 2)}</Highlight> : <div/>
-      }
-
-      <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
-        <div style={{ marginTop: 50 }}>
+        <div style={{ marginLeft: 50 }}>
           <CheckboxGroup 
             state={checkboxState}
             onSelect={onSelect}
           />
         </div>
-        <div style={{ marginLeft: 25 /* vertical layout */}}>
-          <div style={{ height: 50, marginLeft: 50 }}>
-            <center>
-              <Legend scale={legend}/>
-            </center>
-          </div>
-          <div style={{ display: 'flex' /* horizontal layout of charts */ }}>
-          {/*
-          <div style={{ margin: 10 }}>
-            <PieChart data={pieDataAll}/>
-            <center className="text-muted" style={{ marginTop: 3, fontSize: '1.75em', fontWeight: 'bold' }}>All</center>
-          </div>
-          { 
-            providerPieDataArray && providerPieDataArray.length > 0 && providerPieDataArray.map(p => 
-              <div style={{ margin: 10 }} key={p.providerName}>
-                <PieChart data={p.pieData}/>
-                <center style={{ marginTop: 10 }}>
-                  <i className={`fa fa-fw fa-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />
-                </center>
-              </div>
-            )
-          }*/}
-          </div>
-        </div>
+      </div>
+      <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
+        <StackedAreaChart 
+            data={allData}
+            dataKey="date"
+            areas={areas}
+            width={500}
+            height={300}
+            margin={{ top: 20, right: 40, left: 0, bottom: 0 }}
+            />
+        <StackedLineChart 
+          data={sentimentLineData}
+          dataKey="date"
+          lines={lines}
+          width={500}
+          height={300}
+          margin={{ top: 20, right: 40, left: 0, bottom: 0 }}
+          />
+      </div>
+      <div style={{ display: 'flex', marginTop: 20, overflowX: 'hidden' /* horizontal layout */ }}> 
+        { 
+          providerDataArray && providerDataArray.map((p, index) => 
+            <div key={checkedProviders[index]}>
+              <StackedAreaChart 
+                key={checkedProviders[index]}
+                data={p}
+                dataKey="date"
+                areas={areas}
+                width={350}
+                height={250}
+                margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+                />
+              <center style={{ marginTop: 10, marginBottom: 10 }}>
+                <i className={`fa fa-fw fa-${checkedProviders[index]} text-muted`} style={{ fontSize: '1.75em' }} />
+              </center>
+            </div>
+          )
+        }
       </div>
     </div>
   )
