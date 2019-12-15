@@ -18,17 +18,19 @@ const BaseProvider = ({
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
+  const [refresh, setRefresh] = useState(false);
   const { getTokenSilently } = useAuth0();
   const { connections } = useConnections();
 
   // if in the middle of a loading loop, put up loading banner and bail
-  if (loading) {
+  if (loading && !refresh) {
     return <Loading />
   }
   
   // load data from provider
   const loadData = async (forceRefresh = false) => { 
     setLoading(true);
+    setRefresh(true);
 
     // invoke the on load handler function if supplied by provider
     onLoadHandler && onLoadHandler();
@@ -40,6 +42,7 @@ const BaseProvider = ({
       setLoadedData(true);
       setLoading(false);
       setData(null);
+      setRefresh(false);
       setErrorMessage("Can't reach service - try refreshing later");
       return;
     }
@@ -50,12 +53,12 @@ const BaseProvider = ({
     setLoadedData(true);
     setLoading(false);
     setErrorMessage(null);
+    setRefresh(false);
     setData(items);
   }
 
   // if connections not loaded, set an error message
   if (!connections || !connections.find) {
-    console.log('!connections')
     return(
       <div className="provider-header">
         <i className="fa fa-frown-o"/>
@@ -80,7 +83,7 @@ const BaseProvider = ({
   }
 
   // if haven't loaded data yet, do so now
-  if (!loadedData) {
+  if (!loadedData && !loading) {
     loadData();
   }
 
@@ -88,7 +91,7 @@ const BaseProvider = ({
     <div>
       <div className="provider-header">
         <Button onClick={() => { loadData(true) }}>
-          <i className="fa fa-refresh"></i>
+          <i className={ refresh ? "fa fa-spinner" : "fa fa-refresh" }></i>
         </Button>
         <h4 className="provider-title">{pageTitle}</h4>
       </div>

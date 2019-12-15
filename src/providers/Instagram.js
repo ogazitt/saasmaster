@@ -30,8 +30,8 @@ const InstagramCards = ({data}) =>
           </Card.Body>
         </Card>
       )
-    }) :
-    <span>No data to display :)</span>
+    }) 
+    : <div/>
   }
   </CardDeck>
 

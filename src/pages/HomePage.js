@@ -3,17 +3,30 @@ import Loading from '../components/Loading'
 import CheckboxGroup from '../components/CheckboxGroup'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
+import Button from 'react-bootstrap/Button'
+
 import { useConnections } from '../utils/connections'
 import { useMetadata } from '../utils/metadata'
 
 const HomePage = () => {
   const { loading: loadingConnections, connections } = useConnections();
-  const { loading: loadingMetadata, metadata } = useMetadata();
+  const { loading: loadingMetadata, metadata, loadMetadata } = useMetadata();
   const [checkboxState, setCheckboxState] = useState();
 
+  const loading = loadingConnections || loadingMetadata;
+  if (!metadata && loadingMetadata) {
+    return <Loading />
+  }
+
+  if (!connections && loadingConnections) {
+    return <Loading />
+  }
+
+  /*
   if (loadingConnections || loadingMetadata) {
     return <Loading />
   }
+  */
   
   if (!connections || !connections.length > 0 || !metadata) {
     return (
@@ -97,7 +110,10 @@ const HomePage = () => {
   return (
     <div>
       <div className="provider-header">
-        <h4>Sentiment Dashboard</h4>
+        <Button onClick={loadMetadata}>
+          <i className={ loading ? "fa fa-spinner" : "fa fa-refresh" }></i>
+        </Button>
+        <h4 className="provider-title">Sentiment dashboard</h4>
       </div>
       <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
         <div style={{ marginTop: 50 }}>

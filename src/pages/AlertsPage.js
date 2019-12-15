@@ -1,16 +1,17 @@
 import React from 'react'
-import { navigate } from 'hookrouter'
-import { useMetadata } from '../utils/metadata'
 import Loading from '../components/Loading'
 import DataTable from '../components/DataTable'
+import Button from 'react-bootstrap/Button'
+import { navigate } from 'hookrouter'
+import { useMetadata } from '../utils/metadata'
 
 const AlertsPage = () => {
-  const { loading, metadata } = useMetadata();
+  const { loading, metadata, loadMetadata } = useMetadata();
 
-  if (loading) {
+  if (!metadata && loading) {
     return <Loading />
   }
-  
+
   const formatter = (cell, row, rowIndex, formatExtraData) => {
     return (
       <i className={ formatExtraData[cell] } />
@@ -71,7 +72,10 @@ const AlertsPage = () => {
   return (
     <div>
       <div className="provider-header">
-        <h4>Unhandled feedback</h4>
+        <Button onClick={loadMetadata}>
+          <i className={ loading ? "fa fa-spinner" : "fa fa-refresh" }></i>
+        </Button>
+        <h4 className="provider-title">Unhandled feedback</h4>
       </div>
       { 
         alerts ? 

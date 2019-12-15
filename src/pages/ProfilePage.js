@@ -9,16 +9,18 @@ const ProfilePage = () => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const { getTokenSilently } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
-  if (loading) {
+  if (loading && !refresh) {
     return <Loading />
   }
 
   // force load of profile data
   const loadData = async () => { 
     setLoading(true);
+    setRefresh(true);
 
     const token = await getTokenSilently();
     const [response, error] = await get(token, 'profile');
@@ -26,6 +28,7 @@ const ProfilePage = () => {
     if (error || !response.ok) {
       setLoadedData(true);
       setLoading(false);
+      setRefresh(false);
       setProfile(response);
       return;
     }
@@ -33,13 +36,13 @@ const ProfilePage = () => {
     const responseData = await response.json();
     setLoadedData(true);
     setLoading(false);
+    setRefresh(false);
     setProfile(responseData);
   };
 
   // if haven't loaded profile yet, do so now
-  if (!loadedData) {
+  if (!loadedData && !loading) {
     loadData();
-    return <Loading />
   }
 
   return(
@@ -50,7 +53,9 @@ const ProfilePage = () => {
       width: 'calc(100vw - 60px)'
     }}>
       <div className="provider-header">
-        <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
+        <Button onClick={loadData}>
+          <i className={ refresh ? "fa fa-spinner" : "fa fa-refresh" }></i>
+        </Button>
         <h4 className="provider-title">Profile</h4>
       </div>
       { 

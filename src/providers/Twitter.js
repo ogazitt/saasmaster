@@ -90,8 +90,8 @@ const TweetTable = ({data, setData}) => {
         keyField="id_str"
         path="twitter/mentions"
         maxHeight="calc(100vh - 220px)"
-      /> :
-      <div/>
+      /> 
+    : <div/>
   )
 }
 

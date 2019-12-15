@@ -3,27 +3,29 @@ import Loading from '../components/Loading'
 import Highlight from '../components/Highlight'
 import CheckboxGroup from '../components/CheckboxGroup'
 import Legend from '../components/Legend'
+import Button from 'react-bootstrap/Button'
 
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { get } from '../utils/api'
-import Button from 'react-bootstrap/Button'
 
 const HistoryPage = () => {
-  const [history, setHistory] = useState({});
+  const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
   const [checkboxState, setCheckboxState] = useState();
+  const [refresh, setRefresh] = useState(false);
 
   const { getTokenSilently } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
-  if (loading) {
+  if (loading && !refresh) {
     return <Loading />
   }
 
   // force load of history data
   const loadData = async () => { 
     setLoading(true);
+    setRefresh(true);
 
     const token = await getTokenSilently();
     const [response, error] = await get(token, 'history');
@@ -31,6 +33,7 @@ const HistoryPage = () => {
     if (error || !response.ok) {
       setLoadedData(true);
       setLoading(false);
+      setRefresh(false);
       setHistory(null);
       return;
     }
@@ -38,26 +41,14 @@ const HistoryPage = () => {
     const responseData = await response.json();
     setLoadedData(true);
     setLoading(false);
+    setRefresh(false);
     setHistory(responseData);
   };
 
   // if haven't loaded profile yet, do so now
-  if (!loadedData) {
+  if (!loadedData && !loading) {
     loadData();
-    return <Loading />
   }
-
-  if (!history || !history.length > 0) {
-    return (
-      <div className="provider-header">
-        <h4>
-          <i className="fa fa-frown-o"/>
-          <span>&nbsp;No history yet :)</span>
-        </h4>
-      </div>
-    )
-  }
-  console.log(history);
 
   // get the set of unique providers returned in metadata
   const providerSet = new Set();
@@ -69,7 +60,7 @@ const HistoryPage = () => {
   console.log(providers);
 
   // if haven't initialized the state yet, set it now
-  if (!checkboxState) {
+  if (!checkboxState && history.length > 0) {
     // create item list - one for each connection
     const items = {};
     for (const p of providers) {
@@ -124,7 +115,9 @@ const HistoryPage = () => {
   return(
     <div>
       <div className="provider-header">
-        <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
+        <Button onClick={loadData}>
+          <i className={ refresh ? "fa fa-spinner" : "fa fa-refresh" }></i>
+        </Button>
         <h4 className="provider-title">Sentiment history</h4>
       </div>
       { 

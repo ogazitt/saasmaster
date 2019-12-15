@@ -124,7 +124,7 @@ const PageCards = ({data}) => {
               </Card>
             )
           })
-          : <span>No data to display :)</span>
+          : <div/>
         }
         </CardDeck>
       </div>

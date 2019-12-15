@@ -15,7 +15,7 @@ const ConnectionsPage = () => {
   const { user, getTokenSilently, loginWithRedirect } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
-  if (loading) {
+  if (!connections && loading) {
     return <Loading />
   }
 
@@ -108,7 +108,9 @@ const ConnectionsPage = () => {
   return(
     <div>
       <div className="provider-header">
-        <Button onClick={loadData}><i className="fa fa-refresh"></i></Button>
+        <Button onClick={loadData}>
+          <i className={ loading ? "fa fa-spinner" : "fa fa-refresh" }></i>
+        </Button>
         <h4 className="provider-title">Connections</h4>
       </div>
       { 
