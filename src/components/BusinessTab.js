@@ -16,6 +16,7 @@ import GooglePage from '../providers/Google'
 import FacebookPage from '../providers/Facebook'
 import TwitterPage from '../providers/Twitter'
 import InstagramPage from '../providers/Instagram'
+import HistoryPage from '../pages/HistoryPage'
 
 const BusinessTab = () => {
   // create state variables for current path (which determines selected tab) and expanded state
@@ -36,6 +37,7 @@ const BusinessTab = () => {
     '/business': () => <HomePage />,
     '/business/home': () => <HomePage />,
     '/business/alerts': () => <AlertsPage />,
+    '/business/history': () => <HistoryPage />,
     '/business/google': () => <GooglePage />,
     '/business/facebook': () => <FacebookPage />,
     '/business/instagram': () => <InstagramPage />,
@@ -72,6 +74,12 @@ const BusinessTab = () => {
                 <i className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText">Alerts</NavText>
+            </NavItem>
+            <NavItem eventKey="/business/history">
+              <NavIcon>
+                <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText className="navText">History</NavText>
             </NavItem>
             <NavItem eventKey="/business/google">
               <NavIcon>
