@@ -18,7 +18,7 @@ const Legend = ({
   const ordinalColorScale = scaleOrdinal(scale);
   
   return (
-    <LegendOrdinal scale={ordinalColorScale} labelFormat={label => `${label.toUpperCase()}`}>
+    <LegendOrdinal scale={ordinalColorScale} labelFormat={label => `${label/*.toUpperCase()*/}`}>
       {labels => {
         return (
           <div style={{ display: 'flex', flexDirection: 'row' }}>

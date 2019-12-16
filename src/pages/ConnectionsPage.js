@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { useConnections } from '../utils/connections';
-import Loading from '../components/Loading';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import CardDeck from 'react-bootstrap/CardDeck';
-import { useAuth0 } from "../utils/react-auth0-wrapper";
-import { post } from '../utils/api';
+import React, { useState } from 'react'
+import Loading from '../components/Loading'
+import RefreshButton from '../components/RefreshButton'
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
+import CardDeck from 'react-bootstrap/CardDeck'
+import { useAuth0 } from "../utils/react-auth0-wrapper"
+import { useConnections } from '../utils/connections'
+import { post } from '../utils/api'
 
 const ConnectionsPage = () => {
   const { loading, loaded, loadConnections, connections } = useConnections();
@@ -108,9 +109,7 @@ const ConnectionsPage = () => {
   return(
     <div>
       <div className="provider-header">
-        <Button onClick={loadData}>
-          <i className={ loading ? "fa fa-spinner" : "fa fa-refresh" }></i>
-        </Button>
+        <RefreshButton load={loadData} loading={loading}/>
         <h4 className="provider-title">Connections</h4>
       </div>
       { 

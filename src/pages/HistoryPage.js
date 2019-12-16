@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
-import Highlight from '../components/Highlight'
 import CheckboxGroup from '../components/CheckboxGroup'
 import StackedAreaChart from '../components/StackedAreaChart'
 import StackedLineChart from '../components/StackedLineChart'
-import Button from 'react-bootstrap/Button'
+import RefreshButton from '../components/RefreshButton'
 
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { get } from '../utils/api'
@@ -165,9 +164,7 @@ const HistoryPage = () => {
   return(
     <div>
       <div className="provider-header">
-        <Button onClick={loadData}>
-          <i className={ refresh ? "fa fa-spinner" : "fa fa-refresh" }></i>
-        </Button>
+        <RefreshButton load={loadData} loading={refresh}/>
         <h4 className="provider-title">Sentiment history</h4>
         <div style={{ marginLeft: 50 }}>
           <CheckboxGroup 

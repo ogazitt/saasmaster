@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import Loading from '../components/Loading'
+import RefreshButton from '../components/RefreshButton'
+import Button from 'react-bootstrap/Button'
 import { navigate } from 'hookrouter'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { get } from '../utils/api'
-import Loading from '../components/Loading'
-import Button from 'react-bootstrap/Button'
 
 const BaseProvider = ({ 
     pageTitle, 
@@ -73,8 +74,7 @@ const BaseProvider = ({
     // need to connect first
     const [provider] = pageTitle.split(' ');
     return(
-      <div>
-        <br/>
+      <div className="provider-header">
         <Button onClick={ () => { navigate('/business/conns') }}>
           {`Connect to ${provider}`} 
         </Button>
@@ -90,9 +90,7 @@ const BaseProvider = ({
   return(
     <div>
       <div className="provider-header">
-        <Button onClick={() => { loadData(true) }}>
-          <i className={ refresh ? "fa fa-spinner" : "fa fa-refresh" }></i>
-        </Button>
+        <RefreshButton load={() => { loadData(true) }} loading={refresh}/>
         <h4 className="provider-title">{pageTitle}</h4>
       </div>
       <div>

@@ -3,15 +3,19 @@ import ReactMinimalPieChart from 'react-minimal-pie-chart'
 
 const PieChart = ({
   data,
-  onSelect
+  radius,
+  style,
+  onClick,
+  onMouseOut,
+  onMouseOver
 }) => {
   return (
     <ReactMinimalPieChart
       animate={false}
       animationDuration={500}
       animationEasing="ease-out"
-      cx={50}
-      cy={50}
+      cx={radius}
+      cy={radius}
       data={data}
       label
       labelPosition={60}
@@ -21,20 +25,17 @@ const PieChart = ({
       }}
       lengthAngle={360}
       lineWidth={20}
-      onClick={undefined}
-      onMouseOut={undefined}
-      onMouseOver={undefined}
+      onClick={onClick}
+      onMouseOut={onMouseOut}
+      onMouseOver={onMouseOver}
       paddingAngle={18}
-      radius={50}
+      radius={radius}
       rounded
       startAngle={0}
-      style={{
-        height: '150px',
-        width: '150px'
-      }}
+      style={style}
       viewBoxSize={[
-        100,
-        100
+        2 * radius,
+        2 * radius
       ]}
     />
   )

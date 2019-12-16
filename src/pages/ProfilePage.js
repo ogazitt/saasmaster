@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import Highlight from '../components/Highlight'
+import RefreshButton from '../components/RefreshButton'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { get } from '../utils/api'
-import Button from 'react-bootstrap/Button'
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({});
@@ -53,9 +53,7 @@ const ProfilePage = () => {
       width: 'calc(100vw - 60px)'
     }}>
       <div className="provider-header">
-        <Button onClick={loadData}>
-          <i className={ refresh ? "fa fa-spinner" : "fa fa-refresh" }></i>
-        </Button>
+        <RefreshButton load={loadData} loading={refresh}/>
         <h4 className="provider-title">Profile</h4>
       </div>
       { 

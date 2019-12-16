@@ -1,15 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import DataTable from '../components/DataTable'
-import Button from 'react-bootstrap/Button'
+import CheckboxGroup from '../components/CheckboxGroup'
+import RefreshButton from '../components/RefreshButton'
 import { navigate } from 'hookrouter'
 import { useMetadata } from '../utils/metadata'
 
 const AlertsPage = () => {
   const { loading, metadata, loadMetadata } = useMetadata();
+  const [checkboxState, setCheckboxState] = useState();
+  const [providers, setProviders] = useState();
 
   if (!metadata && loading) {
     return <Loading />
+  }
+
+  // get the set of unique providers returned in metadata, if haven't yet
+  if (!providers && metadata && metadata.length > 0) {
+    const list = metadata.map(m => m.provider);
+    setProviders([... new Set(list)]);
+    return;
+  }
+
+  // if haven't initialized the state yet, set it now
+  if (!checkboxState && providers && providers.length > 0) {
+    // create item list - one for each connection
+    const items = {};
+    for (const p of providers) {
+      // take first element of name in the format like google-oauth2
+      const [providerTitle] = p.split('-');
+      items[p] = { 
+        name: `dashboardCB-${p}`,
+        title: providerTitle,
+        state: true
+      }
+    }
+    setCheckboxState(items);
+  }
+
+  // can't proceed until we've created the checkboxState
+  if (!checkboxState) {
+    return;
+  }
+
+  // event handler for checkbox group
+  const onSelect = (event) => {
+    // make a copy of state
+    const items = { ...checkboxState };
+
+    // checkbox name is in the form `dashboardCB-${name}`
+    const name = event.target.name && event.target.name.split('dashboardCB-')[1];
+    if (name && items[name]) {
+      items[name].state = !items[name].state;
+      setCheckboxState(items);
+    }
   }
 
   const formatter = (cell, row, rowIndex, formatExtraData) => {
@@ -52,8 +96,14 @@ const AlertsPage = () => {
     text: 'Text'
   }];
 
+  // create the checked providers array
+  const checkedProviders = providers && providers.filter(p => checkboxState[p].state);
+
+  // create the alerts array, which only contains unhandled entries of checked providers
   const alerts = metadata && metadata.map && 
-    metadata.filter(a => a.__handled !== true).map(item => {
+    metadata
+      .filter(a => a.__handled !== true && checkedProviders.find(p => p === a.provider))
+      .map(item => {
     return {
       id: item.id, 
       type: item.__sentiment,
@@ -72,10 +122,14 @@ const AlertsPage = () => {
   return (
     <div>
       <div className="provider-header">
-        <Button onClick={loadMetadata}>
-          <i className={ loading ? "fa fa-spinner" : "fa fa-refresh" }></i>
-        </Button>
+        <RefreshButton load={loadMetadata} loading={loading}/>
         <h4 className="provider-title">Unhandled feedback</h4>
+        <div style={{ marginLeft: 50 }}>
+          <CheckboxGroup 
+            state={checkboxState}
+            onSelect={onSelect}
+          />
+        </div>
       </div>
       { 
         alerts ? 

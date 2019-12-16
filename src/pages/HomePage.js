@@ -3,7 +3,7 @@ import Loading from '../components/Loading'
 import CheckboxGroup from '../components/CheckboxGroup'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
-import Button from 'react-bootstrap/Button'
+import RefreshButton from '../components/RefreshButton'
 
 import { useConnections } from '../utils/connections'
 import { useMetadata } from '../utils/metadata'
@@ -76,18 +76,21 @@ const HomePage = () => {
     range: colors
   };
 
+  const providers = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
+
   // compute the pie data
-  const pieDataAll = sentimentValues.map((val, index) => {
+  const pieDataAll = providers && sentimentValues.map((val, index) => {
     return (
       {
         color: colors[index],
         title: val,
-        value: metadata.filter(m => m.__sentiment === val).length
+        value: metadata.filter(m => 
+          m.__sentiment === val && 
+          providers.find(p => p === m.provider))
+          .length
       }
     )
   });
-
-  const providers = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
 
   const providerPieDataArray = providers && providers.map(p => {
     const array = sentimentValues.map((val, index) => {
@@ -108,9 +111,7 @@ const HomePage = () => {
   return (
     <div>
       <div className="provider-header">
-        <Button onClick={loadMetadata}>
-          <i className={ loading ? "fa fa-spinner" : "fa fa-refresh" }></i>
-        </Button>
+        <RefreshButton load={loadMetadata} loading={loading}/>
         <h4 className="provider-title">Sentiment dashboard</h4>
         <div style={{ marginLeft: 50 }}>
           <CheckboxGroup 
@@ -121,26 +122,36 @@ const HomePage = () => {
       </div>
       <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
         <div style={{ marginLeft: 25 /* vertical layout */}}>
-          <div style={{ height: 50, marginLeft: 50 }}>
+          <div style={{ height: 50, marginTop: 25, marginLeft: 10 }}>
             <center>
               <Legend scale={legend}/>
             </center>
           </div>
           <div style={{ display: 'flex' /* horizontal layout of charts */ }}>
-          <div style={{ margin: 10 }}>
-            <PieChart data={pieDataAll}/>
-            <center className="text-muted" style={{ marginTop: 3, fontSize: '1.75em', fontWeight: 'bold' }}>All</center>
-          </div>
-          { 
-            providerPieDataArray && providerPieDataArray.length > 0 && providerPieDataArray.map(p => 
-              <div style={{ margin: 10 }} key={p.providerName}>
-                <PieChart data={p.pieData}/>
-                <center style={{ marginTop: 10 }}>
-                  <i className={`fa fa-fw fa-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />
-                </center>
-              </div>
-            )
-          }
+            <div style={{ margin: 10 }}>
+              <PieChart 
+                data={pieDataAll} 
+                radius={50} 
+                style={{ height: '300px', width: '300px' }}
+                />
+              <center className="text-muted" style={{ marginTop: 3, fontSize: '1.75em', fontWeight: 'bold' }}>All</center>
+            </div>
+            <div style={{ display: 'flex', marginTop: 75, marginLeft: 25 }}>
+            { 
+              providerPieDataArray && providerPieDataArray.length > 0 && providerPieDataArray.map(p => 
+                <div style={{ margin: 10 }} key={p.providerName}>
+                  <PieChart 
+                    data={p.pieData}
+                    radius={50}
+                    style={{ height: '150px', width: '150px' }}
+                    />
+                  <center style={{ marginTop: 10 }}>
+                    <i className={`fa fa-fw fa-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />
+                  </center>
+                </div>
+              )
+            }
+            </div>
           </div>
         </div>
       </div>
