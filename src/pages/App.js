@@ -11,6 +11,7 @@ import EmployeesTab from '../components/EmployeesTab'
 
 // Other pages
 import ProfilePage from './ProfilePage'
+import AdminPage from './AdminPage'
 import NotFoundPage from './NotFoundPage'
 
 // define routes
@@ -18,6 +19,7 @@ const routes = {
   '/business/:page': ({page}) => <BusinessTab />,
   '/employees': () => <EmployeesTab />,
   '/profile': () => <ProfilePage />,
+  '/admin': () => <AdminPage />,
 };
 
 const App = () => {

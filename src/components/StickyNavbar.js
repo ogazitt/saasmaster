@@ -13,7 +13,7 @@ import { useAuth0 } from '../utils/react-auth0-wrapper'
 import Loading from './Loading'
 
 const StickyNavbar = ({ state, actions }) => {
-  const { loading, user, logout } = useAuth0();
+  const { loading, user, isAdmin, impersonatedUser, logout } = useAuth0();
   if (loading) {
     return (
       <Loading />
@@ -53,9 +53,18 @@ const StickyNavbar = ({ state, actions }) => {
             style={{ position: 'fixed', right: 0, zIndex: 50 }}
           >
             <MenuItem eventKey="/profile" onSelect={actions.selectTab}>Profile</MenuItem>
+            {
+              isAdmin && <MenuItem eventKey="/admin" onSelect={actions.selectTab}>Admin</MenuItem>
+            }
             <MenuItem divider />
             <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>Logout</MenuItem>
           </NavDropdown>
+          {
+            isAdmin && impersonatedUser &&
+            <NavItem className="navBarItem" pullRight>
+              Impersonating: { impersonatedUser }
+            </NavItem>
+          }
         </Nav>
       </Navbar>
     </div>

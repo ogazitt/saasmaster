@@ -10,8 +10,7 @@ export const ConnectionsProvider = ({
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [connections, setConnections] = useState();
-
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, impersonatedUser } = useAuth0();
 
   // use an effect to automatically load connection data on first use
   useEffect(() => {
@@ -29,7 +28,8 @@ export const ConnectionsProvider = ({
       setLoading(true);
       const token = await getTokenSilently();
       
-      const [response, error] = await get(token, 'connections');
+      const [response, error] = await get(token, 'connections', 
+        impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
 
       if (error || !response.ok) {
         setConnections({});

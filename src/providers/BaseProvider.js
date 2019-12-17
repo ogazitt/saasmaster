@@ -20,7 +20,7 @@ const BaseProvider = ({
   const [loadedData, setLoadedData] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const [refresh, setRefresh] = useState(false);
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, impersonatedUser } = useAuth0();
   const { connections } = useConnections();
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -37,7 +37,8 @@ const BaseProvider = ({
     onLoadHandler && onLoadHandler();
 
     const token = await getTokenSilently();
-    const [response, error] = await get(token, endpoint, forceRefresh);
+    const [response, error] = await get(token, endpoint, 
+      impersonatedUser ? { impersonatedUser: impersonatedUser } : {}, forceRefresh);
 
     if (error || !response.ok) {
       setLoadedData(true);

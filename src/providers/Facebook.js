@@ -24,7 +24,7 @@ const PageCards = ({data}) => {
   const [reviewsData, setReviewsData] = useState();
   const [reviews, setReviews] = useState();
   const [selected, setSelected] = useState();
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, impersonatedUser } = useAuth0();
 
   const getPage = async (id, accessToken) => {
     // store the state associated with the selected page
@@ -35,7 +35,12 @@ const PageCards = ({data}) => {
     const headers = {
       token: accessToken
     };
-    const [response, error] = await get(token, endpoint, false, headers);
+
+    if (impersonatedUser) {
+      headers.impersonatedUser = impersonatedUser;
+    }
+
+    const [response, error] = await get(token, endpoint, headers);
 
     if (error || !response.ok) {
       setReviewsData(null);

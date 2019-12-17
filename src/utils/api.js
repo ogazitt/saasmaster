@@ -3,7 +3,7 @@
 //   get - make a get call
 //   post - make a post call
 
-export async function get(token, path, forceRefresh = false, headers = {}) { 
+export async function get(token, path, headers = {}, forceRefresh = false) { 
   try {
     // construct API service URL
     const baseUrl = window.location.origin;

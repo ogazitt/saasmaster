@@ -10,7 +10,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, user, impersonatedUser } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading && !refresh) {
@@ -23,7 +23,8 @@ const ProfilePage = () => {
     setRefresh(true);
 
     const token = await getTokenSilently();
-    const [response, error] = await get(token, 'profile');
+    const [response, error] = await get(token, 'profile', 
+      impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
 
     if (error || !response.ok) {
       setLoadedData(true);
@@ -58,6 +59,9 @@ const ProfilePage = () => {
       </div>
       { 
         loadedData ? <Highlight>{JSON.stringify(profile, null, 2)}</Highlight> : <div/>
+      }
+      {
+        loadedData ? <Highlight>{JSON.stringify(user, null, 2)}</Highlight> : <div/>
       }
     </div>
   )

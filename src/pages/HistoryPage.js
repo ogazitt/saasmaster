@@ -16,7 +16,7 @@ const HistoryPage = () => {
   const [refresh, setRefresh] = useState(false);
   const [providers, setProviders] = useState();
 
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, impersonatedUser } = useAuth0();
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading && !refresh) {
@@ -29,7 +29,8 @@ const HistoryPage = () => {
     setRefresh(true);
 
     const token = await getTokenSilently();
-    const [response, error] = await get(token, 'history');
+    const [response, error] = await get(token, 'history', 
+      impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
 
     if (error || !response.ok) {
       setLoadedData(true);

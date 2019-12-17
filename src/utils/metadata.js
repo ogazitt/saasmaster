@@ -10,15 +10,15 @@ export const MetadataProvider = ({
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [metadata, setMetadata] = useState();
-
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, impersonatedUser } = useAuth0();
 
   const loadMetadata = async () => {
     try {
       setLoading(true);
       const token = await getTokenSilently();
       
-      const [response, error] = await get(token, 'metadata');
+      const [response, error] = await get(token, 'metadata', 
+        impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
 
       if (error || !response.ok) {
         setMetadata([]);
