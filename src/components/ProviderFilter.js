@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CheckboxGroup from '../components/CheckboxGroup'
 
 const ProviderFilter = ({providers, checkboxState, setCheckboxState}) => {

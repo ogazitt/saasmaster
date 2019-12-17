@@ -15,10 +15,9 @@ const AdminPage = () => {
 
   // if the user has been updated, load connections for it
   useEffect(() => {
-    console.log('effect')
     loadConnections();
     loadMetadata();
-  }, [impersonatedUser]);
+  }, [impersonatedUser, loadConnections, loadMetadata]);
 
   if (!isAdmin) {
     return (

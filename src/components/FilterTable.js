@@ -18,7 +18,7 @@ const FilterTable = ({
 }) => {
   const [hiddenRowKeys, setHiddenRowKeys] = useState();
   const [showAll, setShowAll] = useState(false);
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, impersonatedUser } = useAuth0();
   const { loadMetadata } = useMetadata();
 
   // build up the list of handled records
@@ -70,7 +70,8 @@ const FilterTable = ({
     setShowAll(false);
         
     // post to the twitter mentions API that can handle multiple entries at at time
-    const [response, error] = await post(token, path, JSON.stringify(metadata));
+    const [response, error] = await post(token, 'history', JSON.stringify(metadata),
+      impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
     if (error || !response.ok) {
       return;
     }

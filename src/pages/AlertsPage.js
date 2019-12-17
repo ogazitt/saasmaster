@@ -18,7 +18,7 @@ const AlertsPage = () => {
   // get the set of unique providers returned in metadata, if haven't yet
   if (!providers && metadata && metadata.length > 0) {
     const list = metadata.map(m => m.provider);
-    setProviders([... new Set(list)]);
+    setProviders([...new Set(list)]);
     return;
   }
 

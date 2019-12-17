@@ -11,7 +11,7 @@ const PieChart = ({
 }) => {
   return (
     <ReactMinimalPieChart
-      animate={false}
+      animate={true}
       animationDuration={500}
       animationEasing="ease-out"
       cx={radius}

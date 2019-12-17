@@ -30,7 +30,7 @@ export async function get(token, path, headers = {}, forceRefresh = false) {
   }
 }
 
-export async function post(token, path, data) { 
+export async function post(token, path, data, headers = {}) { 
   try {
     // construct API service URL
     const baseUrl = window.location.origin;
@@ -42,10 +42,8 @@ export async function post(token, path, data) {
     }
 
     const url = urlObject + path;
-    const headers = {
-      'content-type': 'application/json',
-      Authorization: `Bearer ${token}`
-    };
+    headers.Authorization = `Bearer ${token}`;
+    headers['Content-Type'] = 'application/json';
 
     const response = await fetch(url, {
       method: 'POST',

@@ -59,7 +59,6 @@ const ConnectionsPage = () => {
       }
 
       const responseData = await response.json();
-      console.log(responseData);
 
       if (action === 'link') {
         const [provider] = primaryUserId.split('|');
