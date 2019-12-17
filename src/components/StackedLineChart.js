@@ -22,7 +22,7 @@ const StackedLineChart = ({
       <Tooltip />
       <Legend />
       {
-        lines.map(l => 
+        lines && lines.map(l => 
           <Line 
             key={l.dataKey}
             type="monotone" 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
-import CheckboxGroup from '../components/CheckboxGroup'
+import ProviderFilter from '../components/ProviderFilter'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
 import RefreshButton from '../components/RefreshButton'
@@ -33,39 +33,11 @@ const HomePage = () => {
     )
   }
 
-  // if haven't initialized the state yet, set it now
-  if (!checkboxState) {
-    // create item list - one for each connection
-    const items = {};
-    for (const c of connections) {
-      // if not connected, don't add it to the list
-      if (!c.connected) {
-        continue;
-      }
-      // take first element of name in the format like google-oauth2
-      const providerName = c.provider;
-      const [providerTitle] = providerName.split('-');
-      items[providerName] = { 
-        name: `dashboardCB-${providerName}`,
-        title: providerTitle,
-        state: true
-      }
-    }
-    setCheckboxState(items);
-  }
+  // reduce the provider set to only the connection types that are connected
+  const providers = connections.filter(c => c.connected).map(c => c.provider);
 
-  // event handler for checkbox group
-  const onSelect = (event) => {
-    // make a copy of state
-    const items = { ...checkboxState };
-
-    // checkbox name is in the form `dashboardCB-${name}`
-    const name = event.target.name && event.target.name.split('dashboardCB-')[1];
-    if (name && items[name]) {
-      items[name].state = !items[name].state;
-      setCheckboxState(items);
-    }
-  }
+  // extract the set of providers that are checked by the ProviderFilter control
+  const checkedProviders = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
 
   const sentimentValues = ['positive', 'neutral', 'negative'];
   //const colors = ['#E38627', '#C13C37', '#6A2135'];
@@ -76,23 +48,21 @@ const HomePage = () => {
     range: colors
   };
 
-  const providers = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
-
-  // compute the pie data
-  const pieDataAll = providers && sentimentValues.map((val, index) => {
+  // compute the pie data across all the providers
+  const pieDataAll = checkedProviders && sentimentValues.map((val, index) => {
     return (
       {
         color: colors[index],
         title: val,
         value: metadata.filter(m => 
           m.__sentiment === val && 
-          providers.find(p => p === m.provider))
+          checkedProviders.find(p => p === m.provider))
           .length
       }
     )
   });
 
-  const providerPieDataArray = providers && providers.map(p => {
+  const providerPieDataArray = checkedProviders && checkedProviders.map(p => {
     const array = sentimentValues.map((val, index) => {
       return (
         {
@@ -114,10 +84,11 @@ const HomePage = () => {
         <RefreshButton load={loadMetadata} loading={loading}/>
         <h4 className="provider-title">Sentiment dashboard</h4>
         <div style={{ marginLeft: 50 }}>
-          <CheckboxGroup 
-            state={checkboxState}
-            onSelect={onSelect}
-          />
+          <ProviderFilter 
+            providers={providers}
+            checkboxState={checkboxState}
+            setCheckboxState={setCheckboxState}
+            />
         </div>
       </div>
       <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 

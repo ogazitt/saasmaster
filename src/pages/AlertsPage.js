@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
 import DataTable from '../components/DataTable'
-import CheckboxGroup from '../components/CheckboxGroup'
 import RefreshButton from '../components/RefreshButton'
+import ProviderFilter from '../components/ProviderFilter'
 import { navigate } from 'hookrouter'
 import { useMetadata } from '../utils/metadata'
 
@@ -22,22 +22,6 @@ const AlertsPage = () => {
     return;
   }
 
-  // if haven't initialized the state yet, set it now
-  if (!checkboxState && providers && providers.length > 0) {
-    // create item list - one for each connection
-    const items = {};
-    for (const p of providers) {
-      // take first element of name in the format like google-oauth2
-      const [providerTitle] = p.split('-');
-      items[p] = { 
-        name: `dashboardCB-${p}`,
-        title: providerTitle,
-        state: true
-      }
-    }
-    setCheckboxState(items);
-  }
-
   // if there is no metadata / alerts to display, show a message instead
   if (!loading && metadata && !metadata.length > 0) {
     return (
@@ -47,19 +31,6 @@ const AlertsPage = () => {
         </h4>
       </div>
     )
-  }
-  
-  // event handler for checkbox group
-  const onSelect = (event) => {
-    // make a copy of state
-    const items = { ...checkboxState };
-
-    // checkbox name is in the form `dashboardCB-${name}`
-    const name = event.target.name && event.target.name.split('dashboardCB-')[1];
-    if (name && items[name]) {
-      items[name].state = !items[name].state;
-      setCheckboxState(items);
-    }
   }
 
   const formatter = (cell, row, rowIndex, formatExtraData) => {
@@ -131,10 +102,11 @@ const AlertsPage = () => {
         <RefreshButton load={loadMetadata} loading={loading}/>
         <h4 className="provider-title">Unhandled feedback</h4>
         <div style={{ marginLeft: 50 }}>
-          <CheckboxGroup 
-            state={checkboxState}
-            onSelect={onSelect}
-          />
+          <ProviderFilter 
+            providers={providers}
+            checkboxState={checkboxState}
+            setCheckboxState={setCheckboxState}
+            />
         </div>
       </div>
       { 

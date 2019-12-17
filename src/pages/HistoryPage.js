@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import Loading from '../components/Loading'
-import CheckboxGroup from '../components/CheckboxGroup'
+import ProviderFilter from '../components/ProviderFilter'
 import StackedAreaChart from '../components/StackedAreaChart'
 import StackedLineChart from '../components/StackedLineChart'
 import RefreshButton from '../components/RefreshButton'
-
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { get } from '../utils/api'
 
@@ -85,38 +84,9 @@ const HistoryPage = () => {
     return;
   }
 
-  // if haven't initialized the state yet, set it now
-  if (!checkboxState && history.length > 0 && providers && providers.length > 0) {
-    // create item list - one for each connection
-    const items = {};
-    for (const p of providers) {
-      // take first element of name in the format like google-oauth2
-      const [providerTitle] = p.split('-');
-      items[p] = { 
-        name: `dashboardCB-${p}`,
-        title: providerTitle,
-        state: true
-      }
-    }
-    setCheckboxState(items);
-  }
-
-  // event handler for checkbox group
-  const onSelect = (event) => {
-    // make a copy of state
-    const items = { ...checkboxState };
-
-    // checkbox name is in the form `dashboardCB-${name}`
-    const name = event.target.name && event.target.name.split('dashboardCB-')[1];
-    if (name && items[name]) {
-      items[name].state = !items[name].state;
-      setCheckboxState(items);
-    }
-  }
-
-  // create the checked providers list
+  // extract the set of providers that are checked by the ProviderFilter control
   const checkedProviders = checkboxState && providers && providers.filter(p => checkboxState[p].state);
-
+  
   // set up areas definitions and data for all sentiment stacked column charts
 
   // areas for StackedAreaChart showing composite of all sentiments over time
@@ -174,10 +144,11 @@ const HistoryPage = () => {
         <RefreshButton load={loadData} loading={refresh}/>
         <h4 className="provider-title">Sentiment history</h4>
         <div style={{ marginLeft: 50 }}>
-          <CheckboxGroup 
-            state={checkboxState}
-            onSelect={onSelect}
-          />
+          <ProviderFilter
+            providers={providers}
+            checkboxState={checkboxState}
+            setCheckboxState={setCheckboxState}
+            />
         </div>
       </div>
       <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
