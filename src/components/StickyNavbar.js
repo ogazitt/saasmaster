@@ -61,7 +61,7 @@ const StickyNavbar = ({ state, actions }) => {
           </NavDropdown>
           {
             isAdmin && impersonatedUser &&
-            <NavItem className="navBarItem" pullRight>
+            <NavItem className="navBarItem">
               Impersonating: { impersonatedUser }
             </NavItem>
           }

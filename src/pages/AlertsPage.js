@@ -38,11 +38,17 @@ const AlertsPage = () => {
     setCheckboxState(items);
   }
 
-  // can't proceed until we've created the checkboxState
-  if (!checkboxState) {
-    return;
+  // if there is no metadata / alerts to display, show a message instead
+  if (!loading && metadata && !metadata.length > 0) {
+    return (
+      <div className="provider-header">
+        <h4>
+          <span>No alerts yet :)</span>
+        </h4>
+      </div>
+    )
   }
-
+  
   // event handler for checkbox group
   const onSelect = (event) => {
     // make a copy of state
@@ -97,10 +103,10 @@ const AlertsPage = () => {
   }];
 
   // create the checked providers array
-  const checkedProviders = providers && providers.filter(p => checkboxState[p].state);
+  const checkedProviders = checkboxState && providers && providers.filter(p => checkboxState[p].state);
 
   // create the alerts array, which only contains unhandled entries of checked providers
-  const alerts = metadata && metadata.map && 
+  const alerts = checkedProviders && metadata && metadata.map && 
     metadata
       .filter(a => a.__handled !== true && checkedProviders.find(p => p === a.provider))
       .map(item => {

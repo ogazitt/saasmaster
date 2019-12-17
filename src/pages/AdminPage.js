@@ -1,13 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
+import { useConnections } from '../utils/connections'
+import { useMetadata } from '../utils/metadata'
 
 const AdminPage = () => {
 
   const { isAdmin, impersonatedUser, setImpersonatedUser } = useAuth0();
-  const [user, setUser] = useState(impersonatedUser);
+  const { loadConnections } = useConnections();
+  const { loadMetadata } = useMetadata();
+  const [user, setUser] = useState(impersonatedUser || "");
+
+  // if the user has been updated, load connections for it
+  useEffect(() => {
+    console.log('effect')
+    loadConnections();
+    loadMetadata();
+  }, [impersonatedUser]);
 
   if (!isAdmin) {
     return (
@@ -15,6 +26,11 @@ const AdminPage = () => {
         <h4 className="provider-title">ERROR: You are not an admin!</h4>
       </div>
     )
+  }
+
+  const impersonate = async (user) => {
+    // set the impersonated user, and after that completes, reload connections and metadtaa
+    setImpersonatedUser(user);
   }
 
   return (
@@ -28,17 +44,12 @@ const AdminPage = () => {
           <InputGroup.Prepend>
             <InputGroup.Text id="basic-addon1">Impersonate: </InputGroup.Text>
           </InputGroup.Prepend>
-          <FormControl
-            placeholder="Username"
-            aria-label="Username"
-            aria-describedby="basic-addon1" 
-            value={user} onChange={(e) => setUser(e.target.value)}
-          />
+          <FormControl placeholder="username" value={user} onChange={(e) => setUser(e.target.value)}/>
         </InputGroup>
 
         <div style={{ display: 'flex' }}>
-          <Button style={{ marginRight: 20}} onClick={() => setImpersonatedUser(user)}>Impersonate</Button>
-          <Button style={{ marginRight: 20}} onClick={() => { setUser(""); setImpersonatedUser(null)}}>Clear</Button>
+          <Button style={{ marginRight: 20}} onClick={() => impersonate(user)}>Impersonate</Button>
+          <Button style={{ marginRight: 20}} onClick={() => { setUser(""); impersonate(null)}}>Clear</Button>
         </div>
       </div>
 

@@ -32,11 +32,12 @@ const HistoryPage = () => {
     const [response, error] = await get(token, 'history', 
       impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
 
+
     if (error || !response.ok) {
       setLoadedData(true);
       setLoading(false);
-      setRefresh(false);
       setHistory(null);
+      setRefresh(false);
       return;
     }
 
@@ -50,12 +51,22 @@ const HistoryPage = () => {
   // if haven't loaded profile yet, do so now
   if (!loadedData && !loading) {
     loadData();
-    return;
   }
 
-  // can't proceed until we've received the history
-  if (!history || !history.length > 0) {
-    return null;
+  // wait until data has loaded
+  if (!loadedData && loading) {
+    return <div/>;
+  }
+
+  // if there is no history data to display, show a message instead
+  if (loadedData && (!history || !history.length > 0)) {
+    return (
+      <div className="provider-header">
+        <h4>
+          <span>No history yet :)</span>
+        </h4>
+      </div>
+    )
   }
 
   const sentimentValues = ['negative', 'neutral', 'positive'];
@@ -90,11 +101,6 @@ const HistoryPage = () => {
     setCheckboxState(items);
   }
 
-  // can't proceed until we've created the checkboxState
-  if (!checkboxState) {
-    return;
-  }
-
   // event handler for checkbox group
   const onSelect = (event) => {
     // make a copy of state
@@ -109,7 +115,7 @@ const HistoryPage = () => {
   }
 
   // create the checked providers list
-  const checkedProviders = providers && providers.filter(p => checkboxState[p].state);
+  const checkedProviders = checkboxState && providers && providers.filter(p => checkboxState[p].state);
 
   // set up areas definitions and data for all sentiment stacked column charts
 
@@ -153,7 +159,7 @@ const HistoryPage = () => {
   });
 
   // prepare data for sentiment score line chart
-  const sentimentLineData = allData.map(d => {
+  const sentimentLineData = checkedProviders && allData.map(d => {
     const entry = { date: d.date };
     for (const p of checkedProviders) {
       entry[p] = Math.round(d[p].averageScore * 100 + 50);
