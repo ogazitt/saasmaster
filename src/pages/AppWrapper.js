@@ -3,7 +3,7 @@ import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useMetadata } from '../utils/metadata'
 import App from './App'
-import LandingPage from './LandingPage'
+import Website from './Website'
 import Loading from '../components/Loading'
 
 const AppWrapper = () => {
@@ -24,7 +24,7 @@ const AppWrapper = () => {
   // if not authenticated, render landing page and bail
   if (!isAuthenticated) {
     return (
-      <LandingPage />
+      <Website />
     )  
   }
 

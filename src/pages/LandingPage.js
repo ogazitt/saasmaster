@@ -1,10 +1,8 @@
 import React from 'react'
+import { useAuth0 } from '../utils/react-auth0-wrapper'
+import Loading from '../components/Loading'
+import Button from 'react-bootstrap/Button'
 import './LandingPage.css'
-
-import Loading from '../components/Loading';
-import { useAuth0 } from "../utils/react-auth0-wrapper";
-
-import Button from 'react-bootstrap/Button';
 
 const LandingPage = () => {
   const { loading, loginWithRedirect } = useAuth0();
@@ -91,6 +89,9 @@ const LandingPage = () => {
         </div>
       </div>
 
+      <div style={{ position: 'absolute', left: 'calc(100vw - 60px)', top: 'calc(100vh - 25px'}}>
+        <a href="privacy">Privacy</a>
+      </div>
     </div>
   )
 }
