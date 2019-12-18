@@ -43,6 +43,7 @@ const LandingPage = () => {
     <div className="Landing">
       <header className="Landing-header">
         <img src="SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
+        <br/>
         <h1>SaaS Master</h1>
         <p>Master your online reputation</p>
       </header>
