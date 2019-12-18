@@ -8,7 +8,7 @@
 
 .Landing-header {
   background-color: #db3d44;
-  min-height: 50vh;
+  min-height: calc(50vh - 40px);
   display: flex;
   flex-direction: column;
   align-items: center;

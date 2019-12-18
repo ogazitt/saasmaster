@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import Loading from '../components/Loading'
+import WebsiteFooter from '../components/WebsiteFooter'
 import Button from 'react-bootstrap/Button'
 import './LandingPage.css'
 
@@ -42,7 +43,6 @@ const LandingPage = () => {
     <div className="Landing">
       <header className="Landing-header">
         <img src="SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
-        <br/>
         <h1>SaaS Master</h1>
         <p>Master your online reputation</p>
       </header>
@@ -89,9 +89,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div style={{ position: 'absolute', left: 'calc(100vw - 60px)', top: 'calc(100vh - 25px'}}>
-        <a href="privacy">Privacy</a>
-      </div>
+      <WebsiteFooter />
     </div>
   )
 }

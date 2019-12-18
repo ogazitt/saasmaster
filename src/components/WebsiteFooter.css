@@ -1,0 +1,8 @@
+/* styles for the footer navbar */
+.websiteFooter {
+  position: fixed;
+  left: 0px;
+  top: calc(100vh - 40px);
+  width: 100%;
+  z-index: 100;
+}

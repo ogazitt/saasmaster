@@ -1,5 +1,6 @@
 import React from 'react'
 import WebsiteNavbar from '../components/WebsiteNavbar'
+import WebsiteFooter from '../components/WebsiteFooter'
 
 const PrivacyPage = () =>
   <div>
@@ -121,6 +122,7 @@ const PrivacyPage = () =>
   
       <h4>Effective as of December 17, 2019 </h4>
     </div>
+    <WebsiteFooter />
   </div>
 
 
