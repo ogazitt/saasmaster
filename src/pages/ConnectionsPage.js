@@ -59,8 +59,10 @@ const ConnectionsPage = () => {
       }
 
       const responseData = await response.json();
+      const success = responseData && responseData.message === 'success';
 
-      if (action === 'link') {
+      // if linking was successful, re-login with primary account
+      if (action === 'link' && success) {
         const [provider] = primaryUserId.split('|');
         // log back in with the primary account 
         loginWithRedirect({

@@ -10,23 +10,26 @@ import '@trendmicro/react-navbar/dist/react-navbar.css'
 import './WebsiteFooter.css'
 
 const WebsiteFooter = () => {
+  const onClick = (path) => {
+    navigate(path);
+    window.scrollTo(0,0);
+  }
+
   return (
     <div className="websiteFooter">
       <Navbar>
         <Navbar.Header>
           <Navbar.Toggle />
         </Navbar.Header>
-        <Nav
-          navStyle="navbar"
-        >
-          <NavItem onSelect={() => navigate('/terms')}>
+        <Nav navStyle="navbar">
+          <NavItem onSelect={() => onClick('/terms')}>
             Terms
           </NavItem>
-          <NavItem onSelect={() => navigate('/privacy')}>
+          <NavItem onSelect={() => onClick('/privacy')}>
             Privacy
           </NavItem>
-          <NavItem>
-            Copyright (c) 2019
+          <NavItem style={{ position: 'fixed', right: 0 }}>
+            Copyright &copy; 2019 SaaS Master
           </NavItem>
         </Nav>
       </Navbar>
