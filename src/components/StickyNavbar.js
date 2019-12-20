@@ -36,7 +36,11 @@ const StickyNavbar = ({ state, actions }) => {
           navStyle="navbar"
           activeKey={state.tab}
         >
-          <NavItem className="stickyNavBarLogo text-center" style={{ width: 65 }}>
+          <NavItem 
+            className="stickyNavBarLogo text-center" 
+            style={{ width: 65 }} 
+            eventKey="/business" 
+            onSelect={actions.selectTab}>
             <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
           <NavItem className="navBarItem" eventKey="/business" onSelect={actions.selectTab}>
