@@ -21,7 +21,7 @@ export const MetadataProvider = ({
         impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
 
       if (error || !response.ok) {
-        setMetadata([]);
+        setMetadata(null);
         console.error(`loadMetadata error: ${error}`);
         setLoaded(false);
       } else {
@@ -33,7 +33,7 @@ export const MetadataProvider = ({
       setLoading(false);
     } catch (error) {
       console.error(`loadMetadata exception caught: ${error}`);
-      setMetadata([]);
+      setMetadata(null);
       setLoaded(false);
       setLoading(false);
     }  

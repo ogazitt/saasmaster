@@ -8,11 +8,14 @@ import Loading from '../components/Loading'
 
 const AppWrapper = () => {
   const { loading, isAuthenticated } = useAuth0()
-  const { loaded: loadedConnections, loadConnections } = useConnections();
+  //const { loaded: loadedConnections, loadConnections } = useConnections();
+  const { loadConnections } = useConnections();
   const [loadingConnections, setLoadingConnections] = useState(false);
-  const { loaded: loadedMetadata, loadMetadata } = useMetadata();
+  //const { loaded: loadedMetadata, loadMetadata } = useMetadata();
+  const { loadMetadata } = useMetadata();
   const [loadingMetadata, setLoadingMetadata] = useState(false);
-  
+  const [ loadedConnections, setLoadedConnections] = useState(false);
+  const [ loadedMetadata, setLoadedMetadata] = useState(false);
   //const { loaded: loadedConnections, loading: loadingConnections, loadConnections } = useConnections();
   //const { loaded: loadedMetadata, loading: loadingMetadata, loadMetadata } = useMetadata();
 
@@ -36,12 +39,14 @@ const AppWrapper = () => {
   // load connections data
   const loadConns = async () => { 
     await loadConnections();
+    setLoadedConnections(true);
     setLoadingConnections(false);
   };
 
   // load metadata
   const loadMeta = async () => { 
     await loadMetadata();
+    setLoadedMetadata(true);
     setLoadingMetadata(false);
   };
 

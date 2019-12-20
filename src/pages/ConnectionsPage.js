@@ -39,7 +39,7 @@ const ConnectionsPage = () => {
       !showResult && setShowResult(true);
     } else {
       showResult && setShowResult(false);
-      !errorMessage && setErrorMessage("Can't reach server - try refreshing later");
+      !errorMessage && setErrorMessage("Can't reach service - try refreshing later");
     }
   }
 

@@ -23,12 +23,24 @@ const AlertsPage = () => {
   }
 
   // if there is no metadata / alerts to display, show a message instead
-  if (!loading && metadata && !metadata.length > 0) {
+  if (!metadata || !metadata.length > 0) {
     return (
-      <div className="provider-header">
-        <h4>
+      <div>
+        <div className="provider-header">
+          <RefreshButton load={loadMetadata} loading={loading}/>
+          <h4 className="provider-title">Unhandled feedback</h4>
+        </div>
+        {
+          metadata && metadata.length === 0 &&
           <span>No alerts yet :)</span>
-        </h4>
+        }
+        {
+          !metadata && 
+          <div>
+            <i className="fa fa-frown-o"/>
+            <span>&nbsp;Can't reach service - try refreshing later</span>
+          </div>
+        }
       </div>
     )
   }
@@ -73,7 +85,7 @@ const AlertsPage = () => {
     text: 'Text'
   }];
 
-  // create the checked providers array
+  // extract the set of providers that are checked by the ProviderFilter control
   const checkedProviders = checkboxState && providers && providers.filter(p => checkboxState[p].state);
 
   // create the alerts array, which only contains unhandled entries of checked providers

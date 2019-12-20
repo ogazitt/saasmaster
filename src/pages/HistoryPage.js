@@ -52,18 +52,25 @@ const HistoryPage = () => {
     loadData();
   }
 
-  // wait until data has loaded
-  if (!loadedData && loading) {
-    return <div/>;
-  }
-
   // if there is no history data to display, show a message instead
   if (loadedData && (!history || !history.length > 0)) {
     return (
-      <div className="provider-header">
-        <h4>
+      <div>
+        <div className="provider-header">
+          <RefreshButton load={loadData} loading={refresh}/>
+          <h4 className="provider-title">Sentiment history</h4>
+        </div>
+        {
+          history && history.length === 0 &&
           <span>No history yet :)</span>
-        </h4>
+        }
+        {
+          !history && 
+          <div>
+            <i className="fa fa-frown-o"/>
+            <span>&nbsp;Can't reach service - try refreshing later</span>
+          </div>
+        }
       </div>
     )
   }
@@ -100,13 +107,13 @@ const HistoryPage = () => {
 
   // prepare data by converting timestamp to a date
   var options = { year: '2-digit', month: '2-digit', day: '2-digit' };  
-  const allData = history.map(h => { 
+  const allData = history && history.length > 0 && history.map(h => { 
     const date = new Date(h.timestamp).toLocaleDateString("en-US", options)
     return { ...h, date }
   });
 
   // create an array of provider-specific data
-  const providerDataArray = checkedProviders && checkedProviders.map(provider => 
+  const providerDataArray = allData && checkedProviders && checkedProviders.map(provider => 
     allData.map(d => {
       return { ...d[provider], date: d.date, provider }
     })
@@ -129,7 +136,7 @@ const HistoryPage = () => {
   });
 
   // prepare data for sentiment score line chart
-  const sentimentLineData = checkedProviders && allData.map(d => {
+  const sentimentLineData = allData && checkedProviders && allData.map(d => {
     const entry = { date: d.date };
     for (const p of checkedProviders) {
       entry[p] = Math.round(d[p].averageScore * 100 + 50);
@@ -143,24 +150,30 @@ const HistoryPage = () => {
       <div className="provider-header">
         <RefreshButton load={loadData} loading={refresh}/>
         <h4 className="provider-title">Sentiment history</h4>
-        <div style={{ marginLeft: 50 }}>
-          <ProviderFilter
-            providers={providers}
-            checkboxState={checkboxState}
-            setCheckboxState={setCheckboxState}
-            />
-        </div>
+        { 
+          providers && 
+          <div style={{ marginLeft: 50 }}>
+            <ProviderFilter
+              providers={providers}
+              checkboxState={checkboxState}
+              setCheckboxState={setCheckboxState}
+              />
+          </div>
+        }
       </div>
-      <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
-        <StackedAreaChart 
-            data={allData}
-            dataKey="date"
-            areas={areas}
-            width={500}
-            height={300}
-            margin={{ top: 20, right: 40, left: 0, bottom: 0 }}
-            />
-        <StackedLineChart 
+
+      {
+        allData && sentimentLineData &&
+        <div style={{ display: 'flex', overflowX: 'hidden' /* horizontal layout */ }}> 
+          <StackedAreaChart 
+          data={allData}
+          dataKey="date"
+          areas={areas}
+          width={500}
+          height={300}
+          margin={{ top: 20, right: 40, left: 0, bottom: 0 }}
+          />
+          <StackedLineChart 
           data={sentimentLineData}
           dataKey="date"
           lines={lines}
@@ -168,26 +181,28 @@ const HistoryPage = () => {
           height={300}
           margin={{ top: 20, right: 40, left: 0, bottom: 0 }}
           />
-      </div>
+        </div>
+      }
+    
       <div style={{ display: 'flex', marginTop: 20, overflowX: 'hidden' /* horizontal layout */ }}> 
-        { 
-          providerDataArray && providerDataArray.map((p, index) => 
-            <div key={checkedProviders[index]}>
-              <StackedAreaChart 
-                key={checkedProviders[index]}
-                data={p}
-                dataKey="date"
-                areas={areas}
-                width={350}
-                height={250}
-                margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
-                />
-              <center style={{ marginTop: 10, marginBottom: 10 }}>
-                <i className={`fa fa-fw fa-${checkedProviders[index]} text-muted`} style={{ fontSize: '1.75em' }} />
-              </center>
-            </div>
-          )
-        }
+      { 
+        providerDataArray && providerDataArray.map((p, index) => 
+          <div key={checkedProviders[index]}>
+            <StackedAreaChart 
+              key={checkedProviders[index]}
+              data={p}
+              dataKey="date"
+              areas={areas}
+              width={350}
+              height={250}
+              margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+              />
+            <center style={{ marginTop: 10, marginBottom: 10 }}>
+              <i className={`fa fa-fw fa-${checkedProviders[index]} text-muted`} style={{ fontSize: '1.75em' }} />
+            </center>
+          </div>
+        )
+      }
       </div>
     </div>
   )

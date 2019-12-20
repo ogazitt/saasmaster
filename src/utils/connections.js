@@ -32,7 +32,7 @@ export const ConnectionsProvider = ({
         impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
 
       if (error || !response.ok) {
-        setConnections({});
+        setConnections(null);
         console.error(`loadConnections error: ${error}`);
         setLoaded(false);
       } else {
@@ -44,7 +44,7 @@ export const ConnectionsProvider = ({
       setLoading(false);
     } catch (error) {
       console.error(`loadConnections exception caught: ${error}`);
-      setConnections({});
+      setConnections(null);
       setLoaded(false);
       setLoading(false);
     }  

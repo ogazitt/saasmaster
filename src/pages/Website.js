@@ -5,7 +5,6 @@ import { useRoutes } from 'hookrouter'
 import LandingPage from './LandingPage'
 import PrivacyPage from './PrivacyPage'
 import TermsPage from './TermsPage'
-import NotFoundPage from './NotFoundPage'
 
 // define routes
 const routes = {
@@ -16,7 +15,7 @@ const routes = {
 
 const Website = () => {
   const routeResult = useRoutes(routes);
-  return (routeResult || <NotFoundPage />)
+  return (routeResult || <LandingPage />)
 }
 
 export default Website

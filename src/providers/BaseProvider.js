@@ -21,7 +21,7 @@ const BaseProvider = ({
   const [errorMessage, setErrorMessage] = useState();
   const [refresh, setRefresh] = useState(false);
   const { getTokenSilently, impersonatedUser } = useAuth0();
-  const { connections } = useConnections();
+  const { connections, loadConnections } = useConnections();
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading && !refresh) {
@@ -59,12 +59,25 @@ const BaseProvider = ({
     setData(items);
   }
 
+  const refreshData = async () => {
+    if (!connections || !connections.find) {
+      await loadConnections();
+    } 
+    loadData(true);
+  }
+
   // if connections not loaded, set an error message
   if (!connections || !connections.find) {
     return(
-      <div className="provider-header">
-        <i className="fa fa-frown-o"/>
-        <span>&nbsp;Can't reach service - try refreshing later</span>
+      <div>
+        <div className="provider-header">
+          <RefreshButton load={refreshData} loading={refresh}/>
+          <h4 className="provider-title">{pageTitle}</h4>
+        </div>
+        <div>
+          <i className="fa fa-frown-o"/>
+          <span>&nbsp;Can't reach service - try refreshing later</span>
+        </div>
       </div>
     )
   }
@@ -91,7 +104,7 @@ const BaseProvider = ({
   return(
     <div>
       <div className="provider-header">
-        <RefreshButton load={() => { loadData(true) }} loading={refresh}/>
+        <RefreshButton load={refreshData}  loading={refresh}/>
         <h4 className="provider-title">{pageTitle}</h4>
       </div>
       <div>
