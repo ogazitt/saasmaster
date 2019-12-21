@@ -20,7 +20,7 @@ import './index.css'
 // A function that routes the user to the right place after login
 
 const onRedirectCallback = appState => {
-  // if this login was a result of linking, then redirect to /conns
+  // if this login was a result of linking, then redirect to /sources/connections
   const linking = localStorage.getItem('linking');
   if (linking) {
     if (linking === 'login') {
@@ -32,7 +32,7 @@ const onRedirectCallback = appState => {
     window.history.replaceState(
       {},
       document.title,
-      `${window.location.origin}/business/conns`
+      `${window.location.origin}/sources/connections`
     );
     return;
   }
@@ -44,7 +44,7 @@ const onRedirectCallback = appState => {
       ? appState.targetUrl
 //      : `${window.location.pathname}/home`
 //      : window.location.pathname
-      : `${window.location.origin}/business/home`
+      : `${window.location.origin}/reputation/home`
   );
 };
 

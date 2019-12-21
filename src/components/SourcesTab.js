@@ -1,24 +1,21 @@
 import React, { useState } from 'react'
-import { useRoutes, navigate } from 'hookrouter'
+import { useRoutes, navigate, useRedirect } from 'hookrouter'
 
 // side nav control and styles
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
 import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 
 // import pages
-import HomePage from '../pages/HomePage'
 import ConnectionsPage from '../pages/ConnectionsPage'
-import AlertsPage from '../pages/AlertsPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // import data provider pages
-import GooglePage from '../providers/Google'
-import FacebookPage from '../providers/Facebook'
 import TwitterPage from '../providers/Twitter'
+import FacebookPage from '../providers/Facebook'
 import InstagramPage from '../providers/Instagram'
-import HistoryPage from '../pages/HistoryPage'
+import GooglePage from '../providers/Google'
 
-const BusinessTab = () => {
+const SourcesTab = () => {
   // create state variables for current path (which determines selected tab) and expanded state
   const currentPath = window.location.pathname;
   const [expanded, setExpanded] = useState(false);
@@ -34,17 +31,15 @@ const BusinessTab = () => {
 
   // define routes
   const routes = {
-    '/business': () => <HomePage />,
-    '/business/home': () => <HomePage />,
-    '/business/alerts': () => <AlertsPage />,
-    '/business/history': () => <HistoryPage />,
-    '/business/google': () => <GooglePage />,
-    '/business/facebook': () => <FacebookPage />,
-    '/business/instagram': () => <InstagramPage />,
-    '/business/twitter': () => <TwitterPage />,
-    '/business/conns': () => <ConnectionsPage />,
+    '/': () => <ConnectionsPage />,
+    '/connections': () => <ConnectionsPage />,
+    '/twitter': () => <TwitterPage />,
+    '/facebook': () => <FacebookPage />,
+    '/instagram': () => <InstagramPage />,
+    '/google': () => <GooglePage />,
   };
 
+  useRedirect('/', '/sources/connections');
   const routeResult = useRoutes(routes);
 
   return (
@@ -63,53 +58,35 @@ const BusinessTab = () => {
           }}>
           <SideNav.Toggle />
           <SideNav.Nav selected={currentPath}>
-          <NavItem eventKey="/business/home">
+            <NavItem eventKey="/sources/connections">
               <NavIcon>
-                <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText">Dashboard</NavText>
+              <NavText>Connections</NavText>
             </NavItem>
-            <NavItem eventKey="/business/alerts">
-              <NavIcon>
-                <i className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText className="navText">Alerts</NavText>
-            </NavItem>
-            <NavItem eventKey="/business/history">
-              <NavIcon>
-                <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText className="navText">History</NavText>
-            </NavItem>
-            <NavItem eventKey="/business/google">
-              <NavIcon>
-                <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText>Google</NavText>
-            </NavItem>
-            <NavItem eventKey="/business/facebook">
-              <NavIcon>
-                <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText>Facebook</NavText>
-            </NavItem>
-            <NavItem eventKey="/business/instagram">
-              <NavIcon>
-                <i className="fa fa-fw fa-instagram" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText>Instagram</NavText>
-            </NavItem>
-            <NavItem eventKey="/business/twitter">
+            <NavItem eventKey="/sources/twitter">
               <NavIcon>
                 <i className="fa fa-fw fa-twitter" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText>Twitter</NavText>
             </NavItem>
-            <NavItem eventKey="/business/conns">
+            <NavItem eventKey="/sources/facebook">
               <NavIcon>
-                <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText>Connections</NavText>
+              <NavText>Facebook</NavText>
+            </NavItem>
+            <NavItem eventKey="/sources/instagram">
+              <NavIcon>
+                <i className="fa fa-fw fa-instagram" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText>Instagram</NavText>
+            </NavItem>
+            <NavItem eventKey="/sources/google">
+              <NavIcon>
+                <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText>Google</NavText>
             </NavItem>
           </SideNav.Nav>
         </SideNav>
@@ -127,4 +104,4 @@ const BusinessTab = () => {
   )
 }
 
-export default BusinessTab
+export default SourcesTab

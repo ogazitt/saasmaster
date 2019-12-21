@@ -104,7 +104,7 @@ const AlertsPage = () => {
 
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
-      navigate(`/business/${row.provider}`);
+      navigate(`/sources/${row.provider}`);
     }
   };
 

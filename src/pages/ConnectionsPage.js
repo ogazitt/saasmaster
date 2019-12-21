@@ -9,9 +9,7 @@ import { useConnections } from '../utils/connections'
 import { post } from '../utils/api'
 
 const ConnectionsPage = () => {
-  const { loading, loaded, loadConnections, connections } = useConnections();
-  const [showResult, setShowResult] = useState(false);
-  const [didLoad, setDidLoad] = useState(false);
+  const { loading, loadConnections, connections } = useConnections();
   const [errorMessage, setErrorMessage] = useState();
   const { user, getTokenSilently, loginWithRedirect } = useAuth0();
 
@@ -20,27 +18,10 @@ const ConnectionsPage = () => {
     return <Loading />
   }
 
-  // force load of connections data
-  const loadData = async () => { 
-    await loadConnections();
-  };
-
-  // if haven't loaded connections yet, do so now
-  if (!loading && !didLoad) {
-    setDidLoad(true);
-    loadData();
-    return;
-  }
-
-  // if tried to load already, either display the results or an error
-  if (didLoad) {
-    if (loaded && connections) {
-      errorMessage && setErrorMessage(null);
-      !showResult && setShowResult(true);
-    } else {
-      showResult && setShowResult(false);
-      !errorMessage && setErrorMessage("Can't reach service - try refreshing later");
-    }
+  if (connections && connections.find) {
+    errorMessage && setErrorMessage(null);
+  } else {
+    !errorMessage && setErrorMessage("Can't reach service - try refreshing later");
   }
 
   // call the link / unlink user API
@@ -72,7 +53,7 @@ const ConnectionsPage = () => {
         });
       } else {
         // refresh the page
-        loadData();
+        loadConnections();
       }
     } catch (error) {
       console.error(error);
@@ -110,11 +91,12 @@ const ConnectionsPage = () => {
   return(
     <div>
       <div className="provider-header">
-        <RefreshButton load={loadData} loading={loading}/>
+        <RefreshButton load={loadConnections} loading={loading}/>
         <h4 className="provider-title">Connections</h4>
       </div>
       { 
-        showResult && connections && connections.map ? 
+        //showResult && connections && connections.map ? 
+        connections && connections.map ? 
         <CardDeck>
         {
           connections.map((connection, key) => {

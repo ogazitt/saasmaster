@@ -4,16 +4,13 @@ import ProviderFilter from '../components/ProviderFilter'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
 import RefreshButton from '../components/RefreshButton'
-
-import { useConnections } from '../utils/connections'
 import { useMetadata } from '../utils/metadata'
 
 const HomePage = () => {
-  //const { loading: loadingConnections, connections } = useConnections();
-  //const { loading: loadingMetadata, metadata, loadMetadata } = useMetadata();
   const { loading, metadata, loadMetadata } = useMetadata();
   const [checkboxState, setCheckboxState] = useState();
   const [providers, setProviders] = useState();
+  const pageTitle = 'Reputation dashboard';
 
   if (!metadata && loading) {
     return <Loading />
@@ -32,11 +29,11 @@ const HomePage = () => {
       <div>
         <div className="provider-header">
           <RefreshButton load={loadMetadata} loading={loading}/>
-          <h4 className="provider-title">Sentiment dashboard</h4>
+          <h4 className="provider-title">{pageTitle}</h4>
         </div>
         {
           metadata && metadata.length === 0 &&
-          <span>No sentiment data yet :)</span>
+          <span>No reputation data yet :)</span>
         }
         {
           !metadata && 
@@ -49,44 +46,12 @@ const HomePage = () => {
     )
   }
 
-  /*
-  const loading = loadingConnections || loadingMetadata;
-  if (!metadata && loadingMetadata) {
-    return <Loading />
-  }
-
-  if (!connections && loadingConnections) {
-    return <Loading />
-  }
-
-  if (!connections || !connections.length > 0 || !metadata) {
-  // if there is no data to display, show a message instead
-    return (
-      <div>
-        <div className="provider-header">
-          <RefreshButton load={loadMetadata} loading={loading}/>
-          <h4 className="provider-title">Sentiment dashboard</h4>
-        </div>
-        <div>
-          <i className="fa fa-frown-o"/>
-          <span>&nbsp;Can't reach service - try refreshing later</span>
-        </div>
-      </div>
-    )
-  }
-
-  // reduce the provider set to only the connection types that are connected
-  const providers = connections.filter(c => c.connected).map(c => c.provider);
-  */
-
   // extract the set of providers that are checked by the ProviderFilter control
   const checkedProviders = checkboxState && providers && providers.filter(p => checkboxState[p].state);
 
   // extract the set of providers that are checked by the ProviderFilter control
-  //const checkedProviders = checkboxState && Object.keys(checkboxState).filter(p => checkboxState[p].state);
 
   const sentimentValues = ['positive', 'neutral', 'negative'];
-  //const colors = ['#E38627', '#C13C37', '#6A2135'];
   const colors = ['#28a745', '#ffc107', '#dc3545'];
 
   const legend = {
@@ -128,7 +93,7 @@ const HomePage = () => {
     <div>
       <div className="provider-header">
         <RefreshButton load={loadMetadata} loading={loading}/>
-        <h4 className="provider-title">Sentiment dashboard</h4>
+        <h4 className="provider-title">{pageTitle}</h4>
         <div style={{ marginLeft: 50 }}>
           <ProviderFilter 
             providers={providers}

@@ -6,8 +6,8 @@ import './App.css'
 import StickyNavbar from '../components/StickyNavbar'
 
 // Tabs contain the complete control tree 
-import BusinessTab from '../components/BusinessTab'
-import EmployeesTab from '../components/EmployeesTab'
+import ReputationTab from '../components/ReputationTab'
+import SourcesTab from '../components/SourcesTab'
 
 // Other pages
 import ProfilePage from './ProfilePage'
@@ -16,14 +16,23 @@ import NotFoundPage from './NotFoundPage'
 
 // define routes
 const routes = {
-  '/business/:page': ({page}) => <BusinessTab />,
-  '/employees': () => <EmployeesTab />,
+  '/reputation*': () => <ReputationTab />,
+  '/sources*': () => <SourcesTab />,
   '/profile': () => <ProfilePage />,
   '/admin': () => <AdminPage />,
 };
 
 const App = () => {
-  const [state, setState] = useState( { tab: '/business' } );
+  // grab the current URL path and extract the active tab from the path
+  const currentPath = window.location.pathname;
+  const activeTab = `/${currentPath.split('/')[1]}`;
+  const [state, setState] = useState( { tab: activeTab } );
+
+  // change the state variable to match the tab extracted from the current URL path
+  if (state.tab !== activeTab) {
+    setState({ tab: activeTab })
+  }
+
   const [actions] = useState({
     selectTab: (eventKey) => {
       if (!eventKey) {
@@ -36,8 +45,7 @@ const App = () => {
     }
   });
 
-  useRedirect('/', '/business/home');
-  useRedirect('/business', '/business/home');
+  useRedirect('/', '/reputation');
   const routeResult = useRoutes(routes);
 
   // offset from top to honor the height of the StickyNavbar
@@ -46,14 +54,14 @@ const App = () => {
   return (
     <div>
       <StickyNavbar
-          state={state}
-          actions={actions}
+        state={state}
+        actions={actions}
       />
       <div style={{
-            position: 'relative',
-            top: topOffset,
-            height: `calc(100vh - ${topOffset}px)`,
-            width: '100vw'
+        position: 'relative',
+        top: topOffset,
+        height: `calc(100vh - ${topOffset}px)`,
+        width: '100vw'
         }}>
         { routeResult || <NotFoundPage /> }
       </div>

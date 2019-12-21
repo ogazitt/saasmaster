@@ -14,8 +14,8 @@ const HistoryPage = () => {
   const [checkboxState, setCheckboxState] = useState();
   const [refresh, setRefresh] = useState(false);
   const [providers, setProviders] = useState();
-
   const { getTokenSilently, impersonatedUser } = useAuth0();
+  const pageTitle = 'Reputation history';
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading && !refresh) {
@@ -30,7 +30,6 @@ const HistoryPage = () => {
     const token = await getTokenSilently();
     const [response, error] = await get(token, 'history', 
       impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
-
 
     if (error || !response.ok) {
       setLoadedData(true);
@@ -58,7 +57,7 @@ const HistoryPage = () => {
       <div>
         <div className="provider-header">
           <RefreshButton load={loadData} loading={refresh}/>
-          <h4 className="provider-title">Sentiment history</h4>
+          <h4 className="provider-title">{pageTitle}</h4>
         </div>
         {
           history && history.length === 0 &&
@@ -149,7 +148,7 @@ const HistoryPage = () => {
     <div>
       <div className="provider-header">
         <RefreshButton load={loadData} loading={refresh}/>
-        <h4 className="provider-title">Sentiment history</h4>
+        <h4 className="provider-title">{pageTitle}</h4>
         { 
           providers && 
           <div style={{ marginLeft: 50 }}>

@@ -34,20 +34,19 @@ const StickyNavbar = ({ state, actions }) => {
         </Navbar.Header>
         <Nav
           navStyle="navbar"
-          activeKey={state.tab}
-        >
+          activeKey={state.tab}>
           <NavItem 
             className="stickyNavBarLogo text-center" 
             style={{ width: 65 }} 
-            eventKey="/business" 
+            eventKey="/reputation" 
             onSelect={actions.selectTab}>
             <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
-          <NavItem className="navBarItem" eventKey="/business" onSelect={actions.selectTab}>
-            My Business
+          <NavItem className="navBarItem" eventKey="/reputation" onSelect={actions.selectTab}>
+            Reputation
           </NavItem>
-          <NavItem className="navBarItem" eventKey="/employees" onSelect={actions.selectTab}>
-            My Employees
+          <NavItem className="navBarItem" eventKey="/sources" onSelect={actions.selectTab}>
+            Sources
           </NavItem>
           <NavDropdown className="navBarItem" 
             autoOpen
