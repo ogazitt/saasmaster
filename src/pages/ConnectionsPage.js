@@ -12,6 +12,7 @@ const ConnectionsPage = () => {
   const { loading, loadConnections, connections } = useConnections();
   const [errorMessage, setErrorMessage] = useState();
   const { user, getTokenSilently, loginWithRedirect } = useAuth0();
+  const pageTitle = 'Reputation sources';
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (!connections && loading) {
@@ -92,10 +93,9 @@ const ConnectionsPage = () => {
     <div>
       <div className="provider-header">
         <RefreshButton load={loadConnections} loading={loading}/>
-        <h4 className="provider-title">Connections</h4>
+        <h4 className="provider-title">{pageTitle}</h4>
       </div>
       { 
-        //showResult && connections && connections.map ? 
         connections && connections.map ? 
         <CardDeck>
         {

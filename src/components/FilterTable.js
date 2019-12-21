@@ -70,7 +70,7 @@ const FilterTable = ({
     setShowAll(false);
         
     // post to the twitter mentions API that can handle multiple entries at at time
-    const [response, error] = await post(token, 'history', JSON.stringify(metadata),
+    const [response, error] = await post(token, path, JSON.stringify(metadata),
       impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
     if (error || !response.ok) {
       return;

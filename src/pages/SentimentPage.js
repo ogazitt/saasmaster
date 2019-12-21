@@ -6,11 +6,11 @@ import Legend from '../components/Legend'
 import RefreshButton from '../components/RefreshButton'
 import { useMetadata } from '../utils/metadata'
 
-const HomePage = () => {
+const SentimentPage = () => {
   const { loading, metadata, loadMetadata } = useMetadata();
   const [checkboxState, setCheckboxState] = useState();
   const [providers, setProviders] = useState();
-  const pageTitle = 'Reputation dashboard';
+  const pageTitle = 'Reputation summary';
 
   if (!metadata && loading) {
     return <Loading />
@@ -141,5 +141,5 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export default SentimentPage
 

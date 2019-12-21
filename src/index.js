@@ -42,9 +42,9 @@ const onRedirectCallback = appState => {
     document.title,
     appState && appState.targetUrl
       ? appState.targetUrl
-//      : `${window.location.pathname}/home`
+//      : `${window.location.pathname}/reputation/dashboard`
 //      : window.location.pathname
-      : `${window.location.origin}/reputation/home`
+      : `${window.location.origin}/reputation/dashboard`
   );
 };
 

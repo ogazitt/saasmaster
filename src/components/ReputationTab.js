@@ -6,7 +6,8 @@ import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
 import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 
 // import pages
-import HomePage from '../pages/HomePage'
+import Dashboard from '../pages/Dashboard'
+import SentimentPage from '../pages/SentimentPage'
 import AlertsPage from '../pages/AlertsPage'
 import HistoryPage from '../pages/HistoryPage'
 import NotFoundPage from '../pages/NotFoundPage'
@@ -15,7 +16,6 @@ const ReputationTab = () => {
   // create state variables for current path (which determines selected tab) and expanded state
   const currentPath = window.location.pathname;
   const [expanded, setExpanded] = useState(false);
-  console.log(`reputation currentPath: ${currentPath}`)
 
   // constants that describe the top offset (to honor NavBar) and SidNav width
   const expandedWidth = 200;
@@ -28,13 +28,14 @@ const ReputationTab = () => {
 
   // define routes
   const routes = {
-    '/': () => <HomePage />,
-    '/home': () => <HomePage />,
+    '/': () => <Dashboard />,
+    '/dashboard': () => <Dashboard />,
+    '/summary': () => <SentimentPage />,
     '/alerts': () => <AlertsPage />,
     '/history': () => <HistoryPage />,
   };
 
-  useRedirect('/', '/reputation/home');
+  useRedirect('/', '/reputation/dashboard');
   const routeResult = useRoutes(routes);
 
   return (
@@ -53,11 +54,17 @@ const ReputationTab = () => {
           }}>
           <SideNav.Toggle />
           <SideNav.Nav selected={currentPath}>
-            <NavItem eventKey="/reputation/home">
+            <NavItem eventKey="/reputation/dashboard">
+              <NavIcon>
+                <i className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText className="navText">Dashboard</NavText>
+            </NavItem>
+            <NavItem eventKey="/reputation/summary">
               <NavIcon>
                 <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText">Dashboard</NavText>
+              <NavText className="navText">Summary</NavText>
             </NavItem>
             <NavItem eventKey="/reputation/alerts">
               <NavIcon>
