@@ -1,21 +1,25 @@
 import React, { useState } from 'react'
 import BaseProvider from './BaseProvider'
+/*
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
+*/
 
 const GooglePage = () => {
   const [data, setData] = useState();
   return (
     <BaseProvider 
-      pageTitle='Google calendars'
+      pageTitle='Google business reviews'
       connectionName='google-oauth2'
       endpoint='google'
       setData={ setData }>
-      <CalendarCards data={data}/>
+{ /*  <CalendarCards data={data}/> */ }
+      <h5><i>...coming soon!</i></h5>
     </BaseProvider>
   )
 }
 
+/* do not display calendar anymore 
 const CalendarCards = ({data}) => 
   <CardDeck>
   {
@@ -34,5 +38,6 @@ const CalendarCards = ({data}) =>
     : <div/>
   }
   </CardDeck>
+  */
   
 export default GooglePage
