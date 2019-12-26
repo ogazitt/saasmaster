@@ -13,11 +13,12 @@ const AdminPage = () => {
   const { loadMetadata } = useMetadata();
   const [user, setUser] = useState(impersonatedUser || "");
 
-  // if the user has been updated, load connections for it
+  // use an effect to re-load connections and metadata if the impersonated user has been updated  
   useEffect(() => {
     loadConnections();
     loadMetadata();
-  }, [impersonatedUser, loadConnections, loadMetadata]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [impersonatedUser]);
 
   if (!isAdmin) {
     return (
