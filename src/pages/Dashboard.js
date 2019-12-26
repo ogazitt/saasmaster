@@ -14,8 +14,8 @@ const Dashboard = () => {
   const loading = loadingMetadata || loadingConnections;
   const pageTitle = 'Dashboard';
 
-  if (!metadata && loadingMetadata ||
-      !connections && loadingConnections) {
+  if ((!metadata && loadingMetadata) ||
+      (!connections && loadingConnections)) {
     return <Loading />
   }
 
@@ -56,7 +56,6 @@ const Dashboard = () => {
     const finalScore = Math.round(average * 100 + 50);
     return finalScore;
   });
-  console.log(sentimentScores);
   
   return (
     <div>

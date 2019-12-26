@@ -27,6 +27,22 @@ const onRedirectCallback = appState => {
       // completed the linking process - remove storage keys
       localStorage.removeItem('linking');
       localStorage.removeItem('primary');
+      
+      // get the provider and remove '-oauth2' suffix if it exists (e.g. 'google-oauth2')
+      const provider = localStorage.getItem('provider');
+      const providerSegment = provider && provider.split('-')[0];
+      localStorage.removeItem('provider');
+
+      // redirect to the page of the provider we just linked - this is to force the API call 
+      // and bring data down to the client
+      const redirectSegment = providerSegment || 'connections';
+
+      window.history.replaceState(
+        {},
+        document.title,
+        `${window.location.origin}/sources/${redirectSegment}`
+      );
+      return;
     }  
     
     window.history.replaceState(
