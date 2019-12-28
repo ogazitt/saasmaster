@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import BaseProvider from './BaseProvider'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
+import HighlightCard from '../components/HighlightCard'
 import FilterTable from '../components/FilterTable'
 
 import { get } from '../utils/api'
@@ -110,23 +111,23 @@ const PageCards = ({data}) => {
           data && data.map ? data.map((item, key) => {
             const { name, category_list, id, access_token} = item;
             const category = category_list && category_list[0].name;
-            const border = (id === selected) ? 'primary' : 'gray';
+            const border = (id === selected) ? 'primary' : null;
           
             const loadPageComments = () => {
               getPage(id, access_token);
             }
 
             return (
-              <Card className="text-center" onClick={ loadPageComments }
-                key={key} border={border}
+              <HighlightCard className="text-center" onClick={loadPageComments} 
+                key={key} border={ border ? border : null }
                 style={{ maxWidth: '250px' }}>
                 <Card.Header>{ name }</Card.Header>
                 <Card.Body>
                   <Card.Title>{ category }</Card.Title>
-                  <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Link to page</Card.Link>
-                  <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Link to reviews</Card.Link>
+                  <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Facebook page</Card.Link>
+                  <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Reviews</Card.Link>
                 </Card.Body>
-              </Card>
+              </HighlightCard>
             )
           })
           : <div/>

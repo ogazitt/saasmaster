@@ -4,10 +4,12 @@ import RefreshButton from '../components/RefreshButton'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
+import HighlightCard from '../components/HighlightCard'
 import Modal from 'react-bootstrap/Modal'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { post } from '../utils/api'
+import { navigate } from 'hookrouter'
 
 const ConnectionsPage = () => {
   const { loading, loadConnections, connections } = useConnections();
@@ -95,6 +97,9 @@ const ConnectionsPage = () => {
     call('link', primaryUserId, user.sub);
   }
 
+  const connectedSources = connections && connections.filter(c => c.connected);
+  const nonConnectedSources = connections && connections.filter(c => !c.connected);
+
   return(
     <div>
       <div className="provider-header">
@@ -105,51 +110,77 @@ const ConnectionsPage = () => {
         connections && connections.map ? 
         <div>
           <CardDeck>
-          {
-            connections.map((connection, key) => {
-              // set up some variables
-              const connected = connection.connected;
-              const uid = `${connection.provider}|${connection.userId}`;
-              var border, variant, action, buttonText;
-              switch (connected) {
-                case 'linked':
-                  border = 'success';
-                  variant = 'danger';
-                  action = () => { call('unlink', null, uid) };
-                  buttonText = 'Disconnect';
-                  break;
-                case 'base':
-                  border = 'success';
-                  break;
-                default: 
-                  border = 'secondary';
-                  variant = 'primary';
-                  action = () => { 
-                    setLinkProvider(connection.provider); 
-                    setShowModal(true);
-                  };
-                  buttonText = 'Connect';
-                  break;
-              }
+            <Card border="success" style={{ 
+              minWidth: connectedSources.length * 180,
+              maxWidth: connectedSources.length * 180,
+              marginBottom: 10
+            }}>
+              <Card.Header>Connected</Card.Header>
+              <Card.Body>
+                <CardDeck>
+                {
+                  connectedSources.map((connection, key) => {
+                    // set up some variables
+                    const connected = connection.connected;
+                    const uid = `${connection.provider}|${connection.userId}`;
+                    const connectionTitle = connection.provider.split('-')[0];
+                    return (
+                      <HighlightCard 
+                        key={key} 
+                        style={{ maxWidth: '150px', textAlign: 'center' }}>
+                        <Card.Body 
+                          onClick= { () => connectionTitle && navigate(`/sources/${connectionTitle}` )}>
+                          <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
+                        </Card.Body>
+                        <Card.Footer>
+                        { 
+                          connected !== 'base' ? 
+                          <Button variant='danger' onClick={ () => { call('unlink', null, uid) } }>Disconnect</Button>
+                          : <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Main Login</center>
+                        }
+                        </Card.Footer>
+                      </HighlightCard>
+                    )
+                  })
+                }
+                </CardDeck>
+              </Card.Body>
+            </Card>
 
-              return (
-                <Card 
-                  key={key} 
-                  border={ border }
-                  style={{ maxWidth: '150px', textAlign: 'center' }}>
-                  <center><Card.Img variant="top" src={connection.image} style={{ width: '6rem', marginTop: '20px' }}/></center>
-                  <Card.Body>
-                    { connected !== 'base' ? 
-                    <Button variant={ variant } onClick={ action }>
-                      { buttonText }
-                    </Button>
-                    : <center className='text-success' style={{marginTop: 5}}>Main Login</center>
-                    }
-                  </Card.Body>
-                </Card>
-              )
-            })
-          }
+            <Card border="danger" style={{ 
+              minWidth: nonConnectedSources.length * 180,
+              maxWidth: nonConnectedSources.length * 180,
+              marginBottom: 10
+            }}>
+              <Card.Header>Not connected</Card.Header>
+              <Card.Body>
+                <CardDeck>
+                {
+                  // filter for all the non-connected sources
+                  nonConnectedSources.map((connection, key) => {
+                    // set up the link action
+                    const action = () => { 
+                      setLinkProvider(connection.provider); 
+                      setShowModal(true);
+                    };
+
+                    return (
+                      <Card 
+                        key={key} 
+                        style={{ maxWidth: '150px', textAlign: 'center' }}>
+                        <Card.Body> 
+                          <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
+                        </Card.Body>
+                        <Card.Footer>
+                          <Button variant='primary' onClick={action}>Connect</Button>
+                        </Card.Footer>
+                      </Card>
+                    )
+                  })
+                }
+                </CardDeck>
+              </Card.Body>
+            </Card>
           </CardDeck>
 
           <Modal show={showModal} onHide={ () => setShowModal(false) }>

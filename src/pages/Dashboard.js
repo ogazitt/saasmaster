@@ -4,6 +4,7 @@ import RefreshButton from '../components/RefreshButton'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
+import HighlightCard from '../components/HighlightCard'
 import { useConnections } from '../utils/connections'
 import { useMetadata } from '../utils/metadata'
 import { navigate } from 'hookrouter'
@@ -64,11 +65,11 @@ const Dashboard = () => {
         <h4 className="provider-title">{pageTitle}</h4>
       </div>
       <CardDeck style={{padding: 25}}>
-        <Card
+        <HighlightCard
+          onClick={ () => { navigate('/sources/connections')} }
           className='mx-auto'
-          border='dark'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center'}}>
+          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation sources</Card.Header>
           <Card.Body>
             <CardDeck>
@@ -98,13 +99,13 @@ const Dashboard = () => {
           <Card.Footer style={{ background: 'white'}}>
             <Button onClick={ () => { navigate('/sources/connections')}}>Connect more sources!</Button>
           </Card.Footer>
-        </Card>
+        </HighlightCard>
 
-        <Card
+        <HighlightCard
+          onClick={ () => { navigate('/reputation/summary')} }
           className='mx-auto'
-          border='dark'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center'}}>
+          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation summary</Card.Header>
           <Card.Body>
             <CardDeck>
@@ -131,15 +132,15 @@ const Dashboard = () => {
           <Card.Footer style={{ background: 'white'}}>
             <Button onClick={ () => { navigate('/reputation/summary')}}>Check out reputation!</Button>
           </Card.Footer>
-        </Card>        
+        </HighlightCard>        
       </CardDeck>
 
       <CardDeck style={{padding: 25}}>
-        <Card
+        <HighlightCard
+          onClick={ () => { navigate('/reputation/alerts')} }
           className='mx-auto'
-          border='dark'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center'}}>
+          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Unhandled feedback</Card.Header>
           <Card.Body>
             <CardDeck>
@@ -169,13 +170,13 @@ const Dashboard = () => {
           <Card.Footer style={{ background: 'white'}}>
             <Button onClick={ () => { navigate('/reputation/alerts')}}>Handle some feecback!</Button>
           </Card.Footer>
-        </Card>     
+        </HighlightCard>     
 
-        <Card
+        <HighlightCard
+          onClick={ () => { navigate('/reputation/history')} }
           className='mx-auto'
-          border='dark'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center'}}>
+          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation scores by source</Card.Header>
           <Card.Body>
             <CardDeck>
@@ -206,7 +207,7 @@ const Dashboard = () => {
           <Card.Footer style={{ background: 'white'}}>
             <Button onClick={ () => { navigate('/reputation/history')}}>Check out history!</Button>
           </Card.Footer>
-        </Card>           
+        </HighlightCard>           
       </CardDeck>
     </div>
   )
