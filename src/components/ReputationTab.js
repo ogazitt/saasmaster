@@ -58,25 +58,25 @@ const ReputationTab = () => {
               <NavIcon>
                 <i className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText">Dashboard</NavText>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>Dashboard</NavText>
             </NavItem>
             <NavItem eventKey="/reputation/summary">
               <NavIcon>
                 <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText">Summary</NavText>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>Summary</NavText>
             </NavItem>
             <NavItem eventKey="/reputation/alerts">
               <NavIcon>
                 <i className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText">Alerts</NavText>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>Alerts</NavText>
             </NavItem>
             <NavItem eventKey="/reputation/history">
               <NavIcon>
                 <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText">History</NavText>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>History</NavText>
             </NavItem>
           </SideNav.Nav>
         </SideNav>

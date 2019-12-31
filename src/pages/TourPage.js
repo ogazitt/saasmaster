@@ -110,7 +110,7 @@ const HelpPage = () => {
                 It gives you a high-level overview of what's going on, and is a great launching point for 
                 other pages.</h5>
                 <br/>
-                <img src="/dashboard.png" alt="dashboard" width="100%" />
+                <center><img src="/dashboard.png" alt="dashboard" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -127,7 +127,7 @@ const HelpPage = () => {
                 <h5>The <strong>Reputation Summary</strong> page gives a summary of your positive, 
                 neutral, and negative reputation, overall and for each reputation source.</h5>
                 <br/>
-                <img src="/summary.png" alt="summary" width="100%" />
+                <center><img src="/summary.png" alt="summary" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -145,7 +145,7 @@ const HelpPage = () => {
                 feedback you haven't yet marked as handled, so you can easily identify items you should 
                 respond to, and mark them as handled.</h5>
                 <br/>
-                <img src="/alerts.png" alt="alerts" width="100%" />
+                <center><img src="/alerts.png" alt="alerts" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -162,7 +162,7 @@ const HelpPage = () => {
                 <h5>The <strong>Reputation History</strong> page graphs your reputation over time, 
                 both across the board and for each provider.</h5>
                 <br/>
-                <img src="/history.png" alt="history" width="100%" />
+                <center><img src="/history.png" alt="history" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -194,7 +194,7 @@ const HelpPage = () => {
                 <h5>The <strong>Sources page</strong> is where you'll manage your reputation sources. 
                 The more sources you connect to, the richer your experience will be!</h5>
                 <br/>
-                <img src="/connections.png" alt="connections" width="100%" />
+                <center><img src="/connections.png" alt="connections" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -212,7 +212,7 @@ const HelpPage = () => {
                 source, allowing you to view and respond to it in its native app, and mark it as handled.</h5>
                 <h5>For example, in the Twitter page shown below, the feedback table shows all of your mentions.</h5>
                 <br/>
-                <img src="/twitter.png" alt="twitter" width="100%" />
+                <center><img src="/twitter.png" alt="twitter" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -234,10 +234,10 @@ const HelpPage = () => {
               eventKey="/reputation">
               <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
             </NavbarNavItem>
-            <NavbarNavItem className="navBarItem" eventKey="/reputation" ref={reputation}>
+            <NavbarNavItem className="navBarItem" eventKey="/reputation" style={{ fontSize: '1.2em' }} ref={reputation}>
               Reputation
             </NavbarNavItem>
-            <NavbarNavItem className="navBarItem" eventKey="/sources" ref={sources}>
+            <NavbarNavItem className="navBarItem" eventKey="/sources" style={{ fontSize: '1.2em' }} ref={sources}>
               Sources
             </NavbarNavItem>
             <NavDropdown className="navBarItem" 
@@ -245,7 +245,7 @@ const HelpPage = () => {
               pullRight
               eventKey="administration"
               title={ user.name }
-              style={{ position: 'fixed', right: 0, zIndex: 70 }}
+              style={{ position: 'fixed', right: 0, zIndex: 70, fontsize: '1.2em' }}
             >
             </NavDropdown>
           </Nav>

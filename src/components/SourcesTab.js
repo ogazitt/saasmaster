@@ -62,31 +62,31 @@ const SourcesTab = () => {
               <NavIcon>
                 <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText>Sources</NavText>
+              <NavText style={{ fontSize: '1.2em' }}>Sources</NavText>
             </NavItem>
             <NavItem eventKey="/sources/twitter">
               <NavIcon>
                 <i className="fa fa-fw fa-twitter" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText>Twitter</NavText>
+              <NavText style={{ fontSize: '1.2em' }}>Twitter</NavText>
             </NavItem>
             <NavItem eventKey="/sources/facebook">
               <NavIcon>
                 <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText>Facebook</NavText>
+              <NavText style={{ fontSize: '1.2em' }}>Facebook</NavText>
             </NavItem>
             <NavItem eventKey="/sources/instagram">
               <NavIcon>
                 <i className="fa fa-fw fa-instagram" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText>Instagram</NavText>
+              <NavText style={{ fontSize: '1.2em' }}>Instagram</NavText>
             </NavItem>
             <NavItem eventKey="/sources/google">
               <NavIcon>
                 <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText>Google</NavText>
+              <NavText style={{ fontSize: '1.2em' }}>Google</NavText>
             </NavItem>
           </SideNav.Nav>
         </SideNav>

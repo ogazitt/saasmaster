@@ -42,10 +42,10 @@ const StickyNavbar = ({ state, actions }) => {
             onSelect={actions.selectTab}>
             <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
-          <NavItem className="navBarItem" eventKey="/reputation" onSelect={actions.selectTab}>
+          <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/reputation" onSelect={actions.selectTab}>
             Reputation
           </NavItem>
-          <NavItem className="navBarItem" eventKey="/sources" onSelect={actions.selectTab}>
+          <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/sources" onSelect={actions.selectTab}>
             Sources
           </NavItem>
           <NavDropdown className="navBarItem" 
@@ -53,23 +53,23 @@ const StickyNavbar = ({ state, actions }) => {
             pullRight
             eventKey="administration"
             title={ user.name }
-            style={{ position: 'fixed', right: 0, zIndex: 50 }}
+            style={{ position: 'fixed', right: 0, zIndex: 50, fontSize: '1.2em' }}
           >
             <MenuItem eventKey="/profile" onSelect={actions.selectTab}>
-              <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-user" />&nbsp;Profile</span>
+              <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-user" />&nbsp;Profile</span>
             </MenuItem>
             <MenuItem eventKey="/tour" onSelect={actions.selectTab}>
-              <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-info-circle" />&nbsp;Tour</span>
+              <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-info-circle" />&nbsp;Tour</span>
             </MenuItem>
             {
               isAdmin && 
               <MenuItem eventKey="/admin" onSelect={actions.selectTab}>
-                <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-lock" />&nbsp;Admin</span>
+                <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-lock" />&nbsp;Admin</span>
               </MenuItem>
             }
             <MenuItem divider />
             <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>
-              <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-sign-out" />&nbsp;Logout</span>
+              <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-sign-out" />&nbsp;Logout</span>
             </MenuItem>
           </NavDropdown>
           {
