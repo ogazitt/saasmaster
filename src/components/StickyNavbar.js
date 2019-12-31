@@ -56,20 +56,20 @@ const StickyNavbar = ({ state, actions }) => {
             style={{ position: 'fixed', right: 0, zIndex: 50 }}
           >
             <MenuItem eventKey="/profile" onSelect={actions.selectTab}>
-              <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-user" />&nbsp;Profile</span>
+              <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-user" />&nbsp;Profile</span>
             </MenuItem>
             <MenuItem eventKey="/tour" onSelect={actions.selectTab}>
-              <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-info-circle" />&nbsp;Tour</span>
+              <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-info-circle" />&nbsp;Tour</span>
             </MenuItem>
             {
               isAdmin && 
               <MenuItem eventKey="/admin" onSelect={actions.selectTab}>
-                <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-lock" />&nbsp;Admin</span>
+                <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-lock" />&nbsp;Admin</span>
               </MenuItem>
             }
             <MenuItem divider />
             <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>
-              <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-sign-out" />&nbsp;Logout</span>
+              <span style={{ fontSize: '1.25em', color: '#000000a0' }}><i className="fa fa-fw fa-sign-out" />&nbsp;Logout</span>
             </MenuItem>
           </NavDropdown>
           {
