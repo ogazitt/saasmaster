@@ -62,7 +62,7 @@ const SourcesTab = () => {
               <NavIcon>
                 <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText>Connections</NavText>
+              <NavText>Sources</NavText>
             </NavItem>
             <NavItem eventKey="/sources/twitter">
               <NavIcon>

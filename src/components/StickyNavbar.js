@@ -55,12 +55,22 @@ const StickyNavbar = ({ state, actions }) => {
             title={ user.name }
             style={{ position: 'fixed', right: 0, zIndex: 50 }}
           >
-            <MenuItem eventKey="/profile" onSelect={actions.selectTab}>Profile</MenuItem>
+            <MenuItem eventKey="/profile" onSelect={actions.selectTab}>
+              <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-user" />&nbsp;Profile</span>
+            </MenuItem>
+            <MenuItem eventKey="/tour" onSelect={actions.selectTab}>
+              <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-info-circle" />&nbsp;Tour</span>
+            </MenuItem>
             {
-              isAdmin && <MenuItem eventKey="/admin" onSelect={actions.selectTab}>Admin</MenuItem>
+              isAdmin && 
+              <MenuItem eventKey="/admin" onSelect={actions.selectTab}>
+                <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-lock" />&nbsp;Admin</span>
+              </MenuItem>
             }
             <MenuItem divider />
-            <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>Logout</MenuItem>
+            <MenuItem eventKey="logout" onSelect={() => { logoutWithRedirect() }}>
+              <span style={{ fontSize: '1.25em' }}><i className="fa fa-fw fa-sign-out" />&nbsp;Logout</span>
+            </MenuItem>
           </NavDropdown>
           {
             isAdmin && impersonatedUser &&
