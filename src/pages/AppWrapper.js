@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useMetadata } from '../utils/metadata'
+import { useProfile } from '../utils/profile'
 import App from './App'
 import Website from './Website'
 import Loading from '../components/Loading'
@@ -14,6 +15,9 @@ const AppWrapper = () => {
   const { loadMetadata } = useMetadata();
   const [loadingMetadata, setLoadingMetadata] = useState(false);
   const [loadedMetadata, setLoadedMetadata] = useState(false);
+  const { loadProfile } = useProfile();
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [loadedProfile, setLoadedProfile] = useState(false);
 
   // if in the middle of an auth0 loading loop, put up loading banner and bail
   if (loading) {
@@ -28,7 +32,7 @@ const AppWrapper = () => {
   }
 
   // if loading connections or metadata, put up a loading banner and bail
-  if (loadingConnections || loadingMetadata) {
+  if (loadingConnections || loadingMetadata || loadingProfile) {
     return <Loading />
   }
 
@@ -46,6 +50,13 @@ const AppWrapper = () => {
     setLoadingMetadata(false);
   };
 
+  // load profile
+  const loadProf = async () => { 
+    await loadProfile();
+    setLoadedProfile(true);
+    setLoadingProfile(false);
+  };
+
   // if haven't loaded connections yet, do so now
   if (!loadingConnections && !loadedConnections) {
     setLoadingConnections(true);
@@ -56,6 +67,12 @@ const AppWrapper = () => {
   if (!loadingMetadata && !loadedMetadata) {
     setLoadingMetadata(true);
     loadMeta();
+  }
+  
+  // if haven't loaded profile yet, do so now
+  if (!loadingProfile && !loadedProfile) {
+    setLoadingProfile(true);
+    loadProf();
   }
   
   // everything is loaded, so render the app

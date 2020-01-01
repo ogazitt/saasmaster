@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useRoutes, navigate, useRedirect } from 'hookrouter'
+import { useProfile } from '../utils/profile'
 import './App.css'
 
 // Top Navbar
@@ -25,6 +26,7 @@ const routes = {
 };
 
 const App = () => {
+  const { profile, loading } = useProfile();
   // grab the current URL path and extract the active tab from the path
   const currentPath = window.location.pathname;
   const activeTab = `/${currentPath.split('/')[1]}`;
@@ -47,7 +49,16 @@ const App = () => {
     }
   });
 
-  useRedirect('/', '/reputation');
+  if (currentPath === '/') {
+    if (profile && profile.skipTour) {
+      navigate('/reputation')
+    } else {
+      navigate('/tour')
+    }
+  }
+
+  // useRedirect('/', '/reputation');
+
   const routeResult = useRoutes(routes);
 
   // offset from top to honor the height of the StickyNavbar

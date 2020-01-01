@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { navigate } from 'hookrouter'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
-import { Button, Modal, Popover, Overlay, Jumbotron } from 'react-bootstrap'
+import { useProfile } from '../utils/profile'
+import { Button, Modal, Popover, Overlay, Jumbotron, Form } from 'react-bootstrap'
 
 // side nav control and styles
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
@@ -43,8 +44,11 @@ const Step = ({text, prev, next, done}) =>
 
 const HelpPage = () => {
   const { user } = useAuth0();
+  const { profile, storeProfile } = useProfile();
+
   const [showModal, setShowModal] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
+  const [showTour, setShowTour] = useState(true);
   const [step, setStep] = useState(-1);
   const reputation = useRef(null);
   const sources = useRef(null);
@@ -82,6 +86,13 @@ const HelpPage = () => {
   const end = () => {
     setStep(-1);
     setShowEndModal(true);
+  }
+
+  const exitPage = (show = showTour) => {
+    console.log(show)
+    profile.skipTour = !show; 
+    storeProfile();
+    navigate('/reputation/dashboard');
   }
 
   const steps = [{
@@ -338,7 +349,7 @@ const HelpPage = () => {
         </div>
       }
 
-      <Modal show={showModal} onHide={ () => navigate('/reputation/dashboard') }>
+      <Modal show={showModal} onHide={ () => {navigate('/reputation/dashboard')} }>
         <Modal.Body>
           <Jumbotron><h1><center>Welcome to <br/> SaaS Master!</center></h1></Jumbotron>
           <h4>
@@ -347,16 +358,19 @@ const HelpPage = () => {
           </h4>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={ () => navigate('/reputation/dashboard') }>
-            Cancel
+        <Button variant="secondary" onClick={ () => navigate('/reputation/dashboard') }>
+            Skip the tour
+          </Button>
+          <Button variant="secondary" onClick={ () => { exitPage(false) } }>
+            Don't show again
           </Button>
           <Button variant="primary" onClick={ () =>  { setShowModal(false); setStep(0); }}>
-            Next
+            Take the tour!
           </Button>
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showEndModal} onHide={ () => navigate('/reputation/dashboard') }>
+      <Modal show={showEndModal} onHide={ exitPage }>
         <Modal.Body>
           <Jumbotron><h1><center>That's it!</center></h1></Jumbotron>
           <h5>
@@ -366,7 +380,16 @@ const HelpPage = () => {
           </h5>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={ () => navigate('/reputation/dashboard') }>
+          <Form.Check 
+            label={<span style={{ marginRight: 20 }}>&nbsp;Show this tour on startup</span>}
+            type="checkbox"
+            key="tourCheckbox"
+            name="tourCheckbox"
+            checked={showTour}
+            onChange={ () => setShowTour(!showTour) }
+            style={{ fontSize: '1.2em' }}
+            />
+          <Button variant="primary" onClick={ exitPage }>
             Dashboard
           </Button>
         </Modal.Footer>

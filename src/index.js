@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker'
 import { Auth0Provider } from './utils/react-auth0-wrapper'
 import { ConnectionsProvider } from './utils/connections'
 import { MetadataProvider } from './utils/metadata'
+import { ProfileProvider } from './utils/profile'
 import config from './utils/auth_config.json'
 
 // import bootstrap and font-awesome CSS
@@ -60,7 +61,7 @@ const onRedirectCallback = appState => {
       ? appState.targetUrl
 //      : `${window.location.pathname}/reputation/dashboard`
 //      : window.location.pathname
-      : `${window.location.origin}/reputation/dashboard`
+      : `${window.location.origin}`
   );
 };
 
@@ -76,9 +77,11 @@ ReactDOM.render(
 /*    scope={defaultScopes}*/
   >
     <ConnectionsProvider>
-      <MetadataProvider>
-        <AppWrapper />
-      </MetadataProvider>
+      <ProfileProvider>
+        <MetadataProvider>
+          <AppWrapper />
+        </MetadataProvider>
+      </ProfileProvider>
     </ConnectionsProvider>
   </Auth0Provider>,
   document.getElementById('root')
