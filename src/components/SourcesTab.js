@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useRoutes, navigate, useRedirect } from 'hookrouter'
+import { useProfile } from '../utils/profile'
 
 // side nav control and styles
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
@@ -16,9 +17,11 @@ import InstagramPage from '../providers/Instagram'
 import GooglePage from '../providers/Google'
 
 const SourcesTab = () => {
+  const { profile, storeProfile } = useProfile();
+
   // create state variables for current path (which determines selected tab) and expanded state
   const currentPath = window.location.pathname;
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(profile.expanded);
 
   // constants that describe the top offset (to honor NavBar) and SidNav width
   const expandedWidth = 200;
@@ -52,9 +55,12 @@ const SourcesTab = () => {
         height: `calc(100vh - ${topOffset}px)`
         }}>
         <SideNav style={{ minWidth: expanded ? expandedWidth : collapsedWidth }}
+          expanded={ expanded }
           onSelect={ selectTab }
           onToggle={ (expanded) => {            
             setExpanded(expanded)
+            profile.expanded = expanded;
+            storeProfile();
           }}>
           <SideNav.Toggle />
           <SideNav.Nav selected={currentPath}>
