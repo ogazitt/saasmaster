@@ -89,7 +89,6 @@ const HelpPage = () => {
   }
 
   const exitPage = (show = showTour) => {
-    console.log(show)
     profile.skipTour = !show; 
     storeProfile();
     navigate('/reputation/dashboard');

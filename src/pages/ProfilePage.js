@@ -53,7 +53,7 @@ const ProfilePage = () => {
         profile && 
         <div>
           <div style={{display: 'flex'}}>
-            <Card border="primary" style={{ minWidth: 'calc(100% - 220px)', maxWidth: 'calc(100% - 220px)'}}>
+            <Card border="secondary" style={{ minWidth: 'calc(100% - 220px)', maxWidth: 'calc(100% - 220px)'}}>
               <Form>
                 <div>
                   <Form.Group as={Row} style={{ margin: 20 }}>
@@ -83,14 +83,14 @@ const ProfilePage = () => {
               </Form> 
             </Card> 
 
-            <Card border="primary" style={{ width: 200, marginLeft: 20}}>
+            <Card border="secondary" style={{ width: 200, marginLeft: 20}}>
               <Image src={picture} style={{ height: 150, width: 150, margin: 20 }} roundedCircle />
             </Card>
           </div>
 
           <br/>
 
-          <Card border="primary">
+          <Card border="secondary">
             <CardDeck style={{ padding: 20 }}>
             { 
               connectionCards && connectionCards.map((connection, key) => {

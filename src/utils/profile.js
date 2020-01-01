@@ -42,7 +42,6 @@ export const ProfileProvider = ({
         email: profile.email,
         skipTour: profile.skipTour
       };
-      console.log(data)
 
       // post the profile endpoint with the new profile information
       const token = await getTokenSilently();
