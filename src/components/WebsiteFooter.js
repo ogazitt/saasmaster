@@ -29,7 +29,7 @@ const WebsiteFooter = () => {
             Privacy
           </NavItem>
           <NavItem style={{ position: 'fixed', right: 0 }}>
-            Copyright &copy; 2019 SaaS Master
+            Copyright &copy; 2020 SaaS Master
           </NavItem>
         </Nav>
       </Navbar>
