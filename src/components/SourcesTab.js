@@ -21,7 +21,7 @@ const SourcesTab = () => {
 
   // create state variables for current path (which determines selected tab) and expanded state
   const currentPath = window.location.pathname;
-  const [expanded, setExpanded] = useState(profile.expanded);
+  const [expanded, setExpanded] = useState(profile && profile.expanded);
 
   // constants that describe the top offset (to honor NavBar) and SidNav width
   const expandedWidth = 200;
@@ -58,8 +58,10 @@ const SourcesTab = () => {
           expanded={ expanded }
           onSelect={ selectTab }
           onToggle={ (expanded) => {            
-            setExpanded(expanded)
-            profile.expanded = expanded;
+            setExpanded(expanded);
+            if (profile) {
+              profile.expanded = expanded;
+            }
             storeProfile();
           }}>
           <SideNav.Toggle />
