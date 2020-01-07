@@ -8,7 +8,7 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 
 // import pages
 import Dashboard from '../pages/Dashboard'
-import SentimentPage from '../pages/SentimentPage'
+import SummaryPage from '../pages/SummaryPage'
 import AlertsPage from '../pages/AlertsPage'
 import HistoryPage from '../pages/HistoryPage'
 import NotFoundPage from '../pages/NotFoundPage'
@@ -33,7 +33,7 @@ const ReputationTab = () => {
   const routes = {
     '/': () => <Dashboard />,
     '/dashboard': () => <Dashboard />,
-    '/summary': () => <SentimentPage />,
+    '/summary': () => <SummaryPage />,
     '/alerts': () => <AlertsPage />,
     '/history': () => <HistoryPage />,
   };

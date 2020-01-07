@@ -6,13 +6,14 @@ import Legend from '../components/Legend'
 import RefreshButton from '../components/RefreshButton'
 import { useMetadata } from '../utils/metadata'
 
-const SentimentPage = () => {
+const SummaryPage = () => {
   const { loading, metadata, loadMetadata } = useMetadata();
   const [checkboxState, setCheckboxState] = useState();
   const [providers, setProviders] = useState();
   const pageTitle = 'Reputation summary';
 
-  if (!metadata && loading) {
+  // eliminating the <Loading /> will cause a "double-take" for re-drawing the pie charts
+  if (loading) {
     return <Loading />
   }
 
@@ -141,5 +142,5 @@ const SentimentPage = () => {
   )
 }
 
-export default SentimentPage
+export default SummaryPage
 
