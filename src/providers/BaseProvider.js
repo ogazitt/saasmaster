@@ -6,7 +6,6 @@ import { navigate } from 'hookrouter'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { get } from '../utils/api'
-import { longStackSupport } from 'q';
 
 const BaseProvider = ({ 
     pageTitle, 

@@ -20,8 +20,8 @@ const ProfilePage = () => {
     const [providerTitle] = connection.provider.split('-');
     const label = <i className={`fa fa-fw fa-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />;
     const provider = profile.identities.find(p => p.provider === connection.provider);
-    const userName = provider && provider.profileData && provider.profileData.name || name;
-    const userPicture = provider && provider.profileData && provider.profileData.picture || picture;
+    const userName = (provider && provider.profileData && provider.profileData.name) || name;
+    const userPicture = (provider && provider.profileData && provider.profileData.picture) || picture;
     const screenName = provider && provider.profileData && provider.profileData.screen_name;
     const location = provider && provider.profileData && provider.profileData.location;
 

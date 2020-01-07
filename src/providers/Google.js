@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card'
 */
 
 const GooglePage = () => {
+  // eslint-disable-next-line no-unused-vars
   const [data, setData] = useState();
   return (
     <BaseProvider 

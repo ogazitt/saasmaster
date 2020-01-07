@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRoutes, navigate, useRedirect } from 'hookrouter'
+import { useRoutes, navigate } from 'hookrouter'
 import { useProfile } from '../utils/profile'
 import './App.css'
 
@@ -26,7 +26,7 @@ const routes = {
 };
 
 const App = () => {
-  const { profile, loading } = useProfile();
+  const { profile } = useProfile();
   // grab the current URL path and extract the active tab from the path
   const currentPath = window.location.pathname;
   const activeTab = `/${currentPath.split('/')[1]}`;
@@ -49,6 +49,7 @@ const App = () => {
     }
   });
 
+  // redirect to reputation tab if skip tour flag is set
   if (currentPath === '/') {
     if (profile && profile.skipTour) {
       navigate('/reputation')
@@ -56,8 +57,6 @@ const App = () => {
       navigate('/tour')
     }
   }
-
-  // useRedirect('/', '/reputation');
 
   const routeResult = useRoutes(routes);
 

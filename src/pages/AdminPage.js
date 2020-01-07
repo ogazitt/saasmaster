@@ -40,6 +40,7 @@ const AdminPage = () => {
       setProfile(responseData);
     }
     loadProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [impersonatedUser]);
 
   // display an error if current user isn't an admin
