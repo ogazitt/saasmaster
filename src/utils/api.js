@@ -69,28 +69,28 @@ export async function post(token, path, data, headers = {}) {
 
 // define a custom effect that wraps the auth0 effect, gets a token, and calls the API method
 export function useApi() {
-  const { getTokenSilently, impersonatedUser } = useAuth0();
+  const { getTokenSilentlyCallback, impersonatedUser } = useAuth0();
 
   // create a callback around the GET call
   const callGet = useCallback((...p) => {
     async function callGet(path, headers = {}, forceRefresh = false) {
-      const token = await getTokenSilently();
+      const token = await getTokenSilentlyCallback();
       if (impersonatedUser) {
         headers.impersonatedUser = impersonatedUser;
       }
       return await get(token, path, headers, forceRefresh);
     }
     return callGet(...p);
-  }, [getTokenSilently, impersonatedUser]);
+  }, [getTokenSilentlyCallback, impersonatedUser]);
 
   // create a callback around the POST call
   const callPost = useCallback((...p) => {
     async function callPost(...p) {
-      const token = await getTokenSilently();
+      const token = await getTokenSilentlyCallback();
       return await post(token, ...p);
     }
     return callPost(...p);
-  }, [getTokenSilently]);
+  }, [getTokenSilentlyCallback]);
 
   return {
     get: callGet,

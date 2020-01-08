@@ -89,6 +89,8 @@ const Dashboard = () => {
                 const color = connected ? 'success' : 'danger';
                 const [providerTitle] = connection.provider.split('-');
                 const label = <i className={`fa fa-fw fa-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />
+                const glyph = connected ? 'check' : 'times';
+                const connectedGlyph = <i className={`fa fa-${glyph} text-gray`} />
                 return (
                   <Card 
                     key={key} 
@@ -97,6 +99,7 @@ const Dashboard = () => {
                     style={{ maxWidth: '80px', minWidth: '80px', minHeight: '80px', textAlign: 'center' }}>
                     <Card.Body>
                       <Card.Title>{label}</Card.Title>
+                      <Card.Text style={{ color: 'gray' }}>{connectedGlyph}</Card.Text>
                     </Card.Body>
                   </Card>    
                 )

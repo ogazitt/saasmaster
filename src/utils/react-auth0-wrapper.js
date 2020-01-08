@@ -1,5 +1,5 @@
 // src/utils/react-auth0-wrapper.js
-// REPLACED WITH LINE BELOW 
+// REPLACED WITH LINE BELOW IT
 //import React, { useState, useEffect, useContext } from "react";
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
@@ -45,7 +45,6 @@ export const Auth0Provider = ({
         // ADDITION - set the admin flag if the correct permission is in the idToken
         const permissionsScope = 'https://api.saasmaster.co/permissions';
         const impersonateUser = 'impersonate:user';
-      
         const isAdmin = user[permissionsScope].filter(s => s === impersonateUser).length > 0;
         setIsAdmin(isAdmin);
         // END ADDITION
@@ -88,6 +87,7 @@ export const Auth0Provider = ({
     }
     return getToken();
   }, [auth0Client]);
+  // END ADDITION
 
   return (
     <Auth0Context.Provider
@@ -100,10 +100,9 @@ export const Auth0Provider = ({
         handleRedirectCallback,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
-        // NEXT LINE REPLACED BY THE FOLLOWING TWO LINES - OG 1/7/2020
-        //getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
-        getTokenSilentlyOriginal: (...p) => auth0Client.getTokenSilently(...p),
-        getTokenSilently: getTokenSilentlyCallback,
+        getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
+        // ADDITION BY OG 1/7/2020
+        getTokenSilentlyCallback,
         // END ADDITION
         getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
         logout: (...p) => auth0Client.logout(...p),
