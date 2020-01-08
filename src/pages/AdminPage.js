@@ -5,34 +5,17 @@ import FormControl from 'react-bootstrap/FormControl'
 import Highlight from '../components/Highlight'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
-import { useApi } from '../utils/api'
-
+import { useProfile } from '../utils/profile'
 
 const AdminPage = () => {
   const { isAdmin, impersonatedUser, setImpersonatedUser } = useAuth0();
-  const { get } = useApi();
   const { loadConnections } = useConnections();
+  const { loadProfile, profile } = useProfile();
   const [userId, setUserId] = useState(impersonatedUser || "");
-  const [profile, setProfile] = useState({});
 
-  // use an effect to re-load connections if the impersonated user has been updated  
+  // use an effect to re-load connections and profile if the impersonated user has been updated  
   useEffect(() => {
     loadConnections();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [impersonatedUser]);
-
-  // use an effect to load the profile information for the currently impersonated user
-  useEffect(() => {
-    async function loadProfile() {
-      const [response, error] = await get('profile');
-      if (error || !response.ok) {
-        setProfile({ message: 'error retrieving profile'});
-        return;
-      }
-
-      const responseData = await response.json();
-      setProfile(responseData);
-    }
     loadProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [impersonatedUser]);

@@ -180,7 +180,7 @@ const Dashboard = () => {
             </CardDeck>
           </Card.Body>
           <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/reputation/alerts')}}>Handle some feecback!</Button>
+            <Button onClick={ () => { navigate('/reputation/alerts')}}>Handle some feedback!</Button>
           </Card.Footer>
         </HighlightCard>     
 
