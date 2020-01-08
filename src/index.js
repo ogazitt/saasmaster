@@ -5,7 +5,6 @@ import * as serviceWorker from './serviceWorker'
 
 import { Auth0Provider } from './utils/react-auth0-wrapper'
 import { ConnectionsProvider } from './utils/connections'
-import { MetadataProvider } from './utils/metadata'
 import { ProfileProvider } from './utils/profile'
 import config from './utils/auth_config.json'
 
@@ -18,8 +17,7 @@ import './index.css'
 
 //import history from './utils/history'
 
-// A function that routes the user to the right place after login
-
+// a function that routes the user to the right place after login
 const onRedirectCallback = appState => {
   // if this login was a result of linking, then redirect to /sources/connections
   const linking = localStorage.getItem('linking');
@@ -78,9 +76,7 @@ ReactDOM.render(
   >
     <ConnectionsProvider>
       <ProfileProvider>
-        <MetadataProvider>
-          <AppWrapper />
-        </MetadataProvider>
+        <AppWrapper />
       </ProfileProvider>
     </ConnectionsProvider>
   </Auth0Provider>,

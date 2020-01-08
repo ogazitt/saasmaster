@@ -8,13 +8,14 @@ import HighlightCard from '../components/HighlightCard'
 import Modal from 'react-bootstrap/Modal'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
-import { post } from '../utils/api'
+import { useApi } from '../utils/api'
 import { navigate } from 'hookrouter'
 
 const ConnectionsPage = () => {
   const { loading, loadConnections, connections } = useConnections();
+  const { user, loginWithRedirect } = useAuth0();
+  const { post } = useApi();
   const [errorMessage, setErrorMessage] = useState();
-  const { user, getTokenSilently, loginWithRedirect } = useAuth0();
   const [showModal, setShowModal] = useState(false);
   const [linkProvider, setLinkProvider] = useState();
   const pageTitle = 'Reputation sources';
@@ -33,14 +34,13 @@ const ConnectionsPage = () => {
   // call the link / unlink user API
   const call = async (action, primaryUserId, secondaryUserId) => { 
     try {
-      const token = await getTokenSilently();
       const body = JSON.stringify({ 
         action: action,
         primaryUserId: primaryUserId,
         secondaryUserId: secondaryUserId 
       });
 
-      const [response, error] = await post(token, 'link', body);
+      const [response, error] = await post('link', body);
       if (error || !response.ok) {
         return;
       }

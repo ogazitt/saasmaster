@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
+import { useApi } from '../utils/api'
 import Loading from '../components/Loading'
 import ProviderFilter from '../components/ProviderFilter'
 import StackedAreaChart from '../components/StackedAreaChart'
 import StackedLineChart from '../components/StackedLineChart'
 import RefreshButton from '../components/RefreshButton'
-import { useAuth0 } from '../utils/react-auth0-wrapper'
-import { get } from '../utils/api'
 
 const HistoryPage = () => {
+  const { get } = useApi();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
   const [checkboxState, setCheckboxState] = useState();
   const [refresh, setRefresh] = useState(false);
   const [providers, setProviders] = useState();
-  const { getTokenSilently, impersonatedUser } = useAuth0();
   const pageTitle = 'Reputation history';
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -27,10 +26,7 @@ const HistoryPage = () => {
     setLoading(true);
     setRefresh(true);
 
-    const token = await getTokenSilently();
-    const [response, error] = await get(token, 'history', 
-      impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
-
+    const [response, error] = await get('history');
     if (error || !response.ok) {
       setLoadedData(true);
       setLoading(false);

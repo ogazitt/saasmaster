@@ -1,47 +1,36 @@
-import React, { useState, useContext } from 'react'
-import { useAuth0 } from './react-auth0-wrapper'
-import { get } from './api'
+import { useState, useCallback } from 'react'
+import { useApi } from './api'
 
-export const MetadataContext = React.createContext();
-export const useMetadata = () => useContext(MetadataContext);
-export const MetadataProvider = ({
-  children
-}) => {
+export function useMetadata() {
+  const { get } = useApi();
   const [loading, setLoading] = useState(false);
-  const [metadata, setMetadata] = useState();
-  const { getTokenSilently, impersonatedUser } = useAuth0();
 
-  const loadMetadata = async () => {
-    try {
-      setLoading(true);
-      const token = await getTokenSilently();      
-      const [response, error] = await get(token, 'metadata', 
-        impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
+  // define loadMetadata as a callback so that it's not regenerated with every invocation
+  const loadMetadata = useCallback(() => {
+    async function call() {
+      try {
+        setLoading(true);
+        const [response, error] = await get('metadata');
 
-      if (error || !response.ok) {
-        setMetadata(null);
-        console.error(`loadMetadata error: ${error}`);
-      } else {
-        const responseData = await response.json();
-        setMetadata(responseData);
+        if (error || !response.ok) {
+          setLoading(false);
+          return null;
+        } else {
+          const responseData = await response.json();
+          setLoading(false);
+          return responseData;
+        }
+      } catch (error) {
+        console.error(`loadMetadata exception caught: ${error}`);
+        setLoading(false);
+        return null;
       }
-  
-      setLoading(false);
-    } catch (error) {
-      console.error(`loadMetadata exception caught: ${error}`);
-      setMetadata(null);
-      setLoading(false);
-    }  
-  }
+    }
+    return call();
+  }, [get]);
 
-  return (
-    <MetadataContext.Provider
-      value={{
-        loading,
-        metadata,
-        loadMetadata
-      }}>
-      {children}
-    </MetadataContext.Provider>
-  );
-};
+  return {
+    loading,
+    loadMetadata
+  }
+}

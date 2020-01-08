@@ -1,24 +1,33 @@
-import React from 'react'
-import Loading from '../components/Loading'
+import React, { useState, useCallback, useEffect } from 'react'
+import { useConnections } from '../utils/connections'
+import { useMetadata } from '../utils/metadata'
+import { navigate } from 'hookrouter'
 import RefreshButton from '../components/RefreshButton'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 import HighlightCard from '../components/HighlightCard'
-import { useConnections } from '../utils/connections'
-import { useMetadata } from '../utils/metadata'
-import { navigate } from 'hookrouter'
 
 const Dashboard = () => {
-  const { loading: loadingMetadata, metadata, loadMetadata } = useMetadata();
-  const { loading: loadingConnections, connections } = useConnections();
+  const { connections, loading: loadingConnections } = useConnections();
+  const { loadMetadata, loading: loadingMetadata } = useMetadata();
+  const [metadata, setMetadata] = useState();
   const loading = loadingMetadata || loadingConnections;
   const pageTitle = 'Dashboard';
 
-  if ((!metadata && loadingMetadata) ||
-      (!connections && loadingConnections)) {
-    return <Loading />
-  }
+  // create a callback function that wraps the loadMetadata effect
+  const loadMeta = useCallback(() => {
+    async function call() {
+      const meta = await loadMetadata();
+      setMetadata(meta);
+    }
+    call();
+  }, [loadMetadata]);
+
+  // load metadata automatically on first page render
+  useEffect(() => {
+    loadMeta();
+  }, [loadMeta]);
 
   const sentimentValues = ['positive', 'neutral', 'negative'];
   const sentimentColors = ['#28a745', '#ffc107', '#dc3545'];
@@ -61,7 +70,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className="provider-header">
-        <RefreshButton load={loadMetadata} loading={loading}/>
+        <RefreshButton load={loadMeta} loading={loading}/>
         <h4 className="provider-title">{pageTitle}</h4>
       </div>
       <CardDeck style={{padding: 25}}>
@@ -181,7 +190,7 @@ const Dashboard = () => {
           <Card.Body>
             <CardDeck>
             {
-              connections && connections.map ? connections.map((connection, index) => {
+              connections && connections.map && sentimentScores ? connections.map((connection, index) => {
                 // set up some variables
                 const score = sentimentScores[index];
                 const color = score === -1 ? 'white' : score > 70 ? 'success' : score < 30 ? 'danger' : 'warning';

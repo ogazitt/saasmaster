@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { useAuth0 } from './react-auth0-wrapper'
-import { get, post } from './api'
+import { useApi } from './api'
 
 export const ProfileContext = React.createContext();
 export const useProfile = () => useContext(ProfileContext);
@@ -9,14 +8,12 @@ export const ProfileProvider = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState();
-  const { getTokenSilently, impersonatedUser } = useAuth0();
+  const { get, post } = useApi();
 
   const loadProfile = async () => {
     try {
       setLoading(true);
-      const token = await getTokenSilently();      
-      const [response, error] = await get(token, 'profile', 
-        impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
+      const [response, error] = await get('profile');
 
       if (error || !response.ok) {
         setProfile(null);
@@ -45,9 +42,7 @@ export const ProfileProvider = ({
       };
 
       // post the profile endpoint with the new profile information
-      const token = await getTokenSilently();
-      const [response, error] = await post(token, 'profile', JSON.stringify(data),
-        impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
+      const [response, error] = await post('profile', JSON.stringify(data));
 
       if (error || !response.ok) {
         console.error(`storeProfile error: ${error}`);

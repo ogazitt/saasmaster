@@ -1,19 +1,29 @@
-import React, { useState } from 'react'
-import Loading from '../components/Loading'
+import React, { useState, useEffect, useCallback } from 'react'
+import { navigate } from 'hookrouter'
+import { useMetadata } from '../utils/metadata'
 import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
 import ProviderFilter from '../components/ProviderFilter'
-import { navigate } from 'hookrouter'
-import { useMetadata } from '../utils/metadata'
 
 const AlertsPage = () => {
-  const { loading, metadata, loadMetadata } = useMetadata();
+  const { loadMetadata, loading } = useMetadata();
+  const [metadata, setMetadata] = useState();
   const [checkboxState, setCheckboxState] = useState();
   const [providers, setProviders] = useState();
 
-  if (!metadata && loading) {
-    return <Loading />
-  }
+  // create a callback function that wraps the loadMetadata effect
+  const loadMeta = useCallback(() => {
+    async function call() {
+      const meta = await loadMetadata();
+      setMetadata(meta);
+    }
+    call();
+  }, [loadMetadata]);
+
+  // load metadata automatically on first page render
+  useEffect(() => {
+    loadMeta();
+  }, [loadMeta]);
 
   // get the set of unique providers returned in metadata, if haven't yet
   if (!providers && metadata && metadata.length > 0) {
@@ -23,7 +33,7 @@ const AlertsPage = () => {
   }
 
   // if there is no metadata / alerts to display, show a message instead
-  if (!metadata || !metadata.length > 0) {
+  if (!loading && (!metadata || metadata.length === 0)) {
     return (
       <div>
         <div className="provider-header">
@@ -111,7 +121,7 @@ const AlertsPage = () => {
   return (
     <div>
       <div className="provider-header">
-        <RefreshButton load={loadMetadata} loading={loading}/>
+        <RefreshButton load={loadMeta} loading={loading}/>
         <h4 className="provider-title">Unhandled feedback</h4>
         <div style={{ marginLeft: 50 }}>
           <ProviderFilter 

@@ -1,22 +1,19 @@
 import React, { useState, useContext } from 'react'
-import { useAuth0 } from './react-auth0-wrapper'
-import { get } from './api'
+import { useApi } from './api'
 
 export const ConnectionsContext = React.createContext();
 export const useConnections = () => useContext(ConnectionsContext);
 export const ConnectionsProvider = ({
   children
 }) => {
+  const { get } = useApi();
   const [connections, setConnections] = useState();
   const [loading, setLoading] = useState();
-  const { getTokenSilently, impersonatedUser } = useAuth0();
 
   const loadConnections = async () => {
     try {
       setLoading(true);
-      const token = await getTokenSilently();      
-      const [response, error] = await get(token, 'connections', 
-        impersonatedUser ? { impersonatedUser: impersonatedUser } : {});
+      const [response, error] = await get('connections');
 
       if (error || !response.ok) {
         setConnections(null);

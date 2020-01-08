@@ -5,32 +5,26 @@ import FormControl from 'react-bootstrap/FormControl'
 import Highlight from '../components/Highlight'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
-import { useMetadata } from '../utils/metadata'
-import { get } from '../utils/api'
+import { useApi } from '../utils/api'
 
 
 const AdminPage = () => {
-
-  const { isAdmin, impersonatedUser, setImpersonatedUser, getTokenSilently } = useAuth0();
+  const { isAdmin, impersonatedUser, setImpersonatedUser } = useAuth0();
+  const { get } = useApi();
   const { loadConnections } = useConnections();
-  const { loadMetadata } = useMetadata();
   const [userId, setUserId] = useState(impersonatedUser || "");
   const [profile, setProfile] = useState({});
 
-  // use an effect to re-load connections and metadata if the impersonated user has been updated  
+  // use an effect to re-load connections if the impersonated user has been updated  
   useEffect(() => {
     loadConnections();
-    loadMetadata();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [impersonatedUser]);
 
   // use an effect to load the profile information for the currently impersonated user
   useEffect(() => {
     async function loadProfile() {
-      const token = await getTokenSilently();
-      const [response, error] = await get(token, 'profile', 
-        impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
-
+      const [response, error] = await get('profile');
       if (error || !response.ok) {
         setProfile({ message: 'error retrieving profile'});
         return;

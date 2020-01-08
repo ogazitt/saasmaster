@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import { navigate } from 'hookrouter'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
-import { get } from '../utils/api'
+import { useApi } from '../utils/api'
 
 const BaseProvider = ({ 
     pageTitle, 
@@ -20,7 +20,8 @@ const BaseProvider = ({
   const [loadedData, setLoadedData] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const [refresh, setRefresh] = useState(false);
-  const { getTokenSilently, impersonatedUser, logout } = useAuth0();
+  const { get } = useApi();
+  const { logout } = useAuth0();
   const { connections, loadConnections } = useConnections();
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -36,9 +37,8 @@ const BaseProvider = ({
     // invoke the on load handler function if supplied by provider
     onLoadHandler && onLoadHandler();
 
-    const token = await getTokenSilently();
-    const [response, error] = await get(token, endpoint, 
-      impersonatedUser ? { impersonatedUser: impersonatedUser } : {}, forceRefresh);
+    // call GET on endpoint
+    const [response, error] = await get(endpoint, {}, forceRefresh);
 
     // check for an unauthorized status, which indicates an expired token
     if ((error && error.status === 401) ||

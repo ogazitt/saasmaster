@@ -1,5 +1,7 @@
-// src/react-auth0-wrapper.js
-import React, { useState, useEffect, useContext } from "react";
+// src/utils/react-auth0-wrapper.js
+// REPLACED WITH LINE BELOW 
+//import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
@@ -78,6 +80,15 @@ export const Auth0Provider = ({
     setUser(user);
   };
 
+  // ADDITION BY OG 1/7/2020
+  // This callback wraps getTokenSilently so that it can be used in other react effects
+  const getTokenSilentlyCallback = useCallback((...p) => {
+    async function getToken(...p) {
+      return auth0Client.getTokenSilently(...p);
+    }
+    return getToken();
+  }, [auth0Client]);
+
   return (
     <Auth0Context.Provider
       value={{
@@ -89,7 +100,11 @@ export const Auth0Provider = ({
         handleRedirectCallback,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
-        getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
+        // NEXT LINE REPLACED BY THE FOLLOWING TWO LINES - OG 1/7/2020
+        //getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
+        getTokenSilentlyOriginal: (...p) => auth0Client.getTokenSilently(...p),
+        getTokenSilently: getTokenSilentlyCallback,
+        // END ADDITION
         getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
         logout: (...p) => auth0Client.logout(...p),
         // ADDITION

@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
+import { useApi } from '../utils/api'
 import DataTable from '../components/DataTable'
 import ButtonRow from '../components/ButtonRow'
 import Button from 'react-bootstrap/Button'
-
-import { post } from '../utils/api'
-import { useAuth0 } from '../utils/react-auth0-wrapper'
-import { useMetadata } from '../utils/metadata'
 
 const FilterTable = ({
   data,     // raw data array returned from API
@@ -16,10 +13,9 @@ const FilterTable = ({
   path,     // API path to call back to update __handled field
   maxHeight // control height 
 }) => {
+  const { post } = useApi();
   const [hiddenRowKeys, setHiddenRowKeys] = useState();
   const [showAll, setShowAll] = useState(false);
-  const { getTokenSilently, impersonatedUser } = useAuth0();
-  const { loadMetadata } = useMetadata();
 
   // build up the list of handled records
   let handled = data.filter(r => r.__handled).map(r => r[keyField]);
@@ -51,8 +47,6 @@ const FilterTable = ({
   };
   
   const markRead = async () => {
-    const token = await getTokenSilently();
-
     const metadata = data.map(r => {
       const id = r[keyField];
       const isHandled = handled.find(h => h === id) ? true : false;
@@ -69,9 +63,8 @@ const FilterTable = ({
     setHiddenRowKeys(handled);
     setShowAll(false);
         
-    // post to the twitter mentions API that can handle multiple entries at at time
-    const [response, error] = await post(token, path, JSON.stringify(metadata),
-      impersonatedUser ?  { impersonatedUser: impersonatedUser } : {});
+    // post the metadata to the API path
+    const [response, error] = await post(path, JSON.stringify(metadata));
     if (error || !response.ok) {
       return;
     }
@@ -79,9 +72,6 @@ const FilterTable = ({
     // retrieve the new dataset, which will trigger a repaint
     const items = await response.json();
     setData(items);
-
-    // trigger refreshing metadata (so that alerts display updated data)
-    (async () => loadMetadata())();
   }
 
   const toggleShow = () => {

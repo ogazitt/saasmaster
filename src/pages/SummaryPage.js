@@ -1,21 +1,30 @@
-import React, { useState } from 'react'
-import Loading from '../components/Loading'
+import React, { useState, useCallback, useEffect } from 'react'
+import { useMetadata } from '../utils/metadata'
 import ProviderFilter from '../components/ProviderFilter'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
 import RefreshButton from '../components/RefreshButton'
-import { useMetadata } from '../utils/metadata'
 
 const SummaryPage = () => {
-  const { loading, metadata, loadMetadata } = useMetadata();
+  const { loadMetadata, loading } = useMetadata();
+  const [metadata, setMetadata] = useState();
   const [checkboxState, setCheckboxState] = useState();
   const [providers, setProviders] = useState();
   const pageTitle = 'Reputation summary';
 
-  // eliminating the <Loading /> will cause a "double-take" for re-drawing the pie charts
-  if (loading) {
-    return <Loading />
-  }
+  // create a callback function that wraps the loadMetadata effect
+  const loadMeta = useCallback(() => {
+    async function call() {
+      const meta = await loadMetadata();
+      setMetadata(meta);
+    }
+    call();
+  }, [loadMetadata]);
+
+  // load metadata automatically on first page render
+  useEffect(() => {
+    loadMeta();
+  }, [loadMeta]);
 
   // get the set of unique providers returned in metadata, if haven't yet
   if (!providers && metadata && metadata.length > 0) {
@@ -24,12 +33,12 @@ const SummaryPage = () => {
     return;
   }
 
-  // if there is no metadata / alerts to display, show a message instead
-  if (!metadata || !metadata.length > 0) {
+  // if there is no metadata to display, show a message instead
+  if (!loading && (!metadata || metadata.length === 0)) {
     return (
       <div>
         <div className="provider-header">
-          <RefreshButton load={loadMetadata} loading={loading}/>
+          <RefreshButton load={loadMeta} loading={loading}/>
           <h4 className="provider-title">{pageTitle}</h4>
         </div>
         {
@@ -93,7 +102,7 @@ const SummaryPage = () => {
   return (
     <div>
       <div className="provider-header">
-        <RefreshButton load={loadMetadata} loading={loading}/>
+        <RefreshButton load={loadMeta} loading={loading}/>
         <h4 className="provider-title">{pageTitle}</h4>
         <div style={{ marginLeft: 50 }}>
           <ProviderFilter 

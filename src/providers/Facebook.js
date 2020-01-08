@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
+import { useApi } from '../utils/api'
 import BaseProvider from './BaseProvider'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
 import HighlightCard from '../components/HighlightCard'
 import FilterTable from '../components/FilterTable'
-
-import { get } from '../utils/api'
-import { useAuth0 } from '../utils/react-auth0-wrapper'
 
 const FacebookPage = () => {
   const [data, setData] = useState();
@@ -22,26 +20,21 @@ const FacebookPage = () => {
 }
 
 const PageCards = ({data}) => {
+  const { get } = useApi();
   const [reviewsData, setReviewsData] = useState();
   const [reviews, setReviews] = useState();
   const [selected, setSelected] = useState();
-  const { getTokenSilently, impersonatedUser } = useAuth0();
 
   const getPage = async (id, accessToken) => {
     // store the state associated with the selected page
     setSelected(id);
 
-    const token = await getTokenSilently();
     const endpoint = `facebook/reviews/${id}`;
     const headers = {
       token: accessToken
     };
 
-    if (impersonatedUser) {
-      headers.impersonatedUser = impersonatedUser;
-    }
-
-    const [response, error] = await get(token, endpoint, headers);
+    const [response, error] = await get(endpoint, headers);
 
     if (error || !response.ok) {
       setReviewsData(null);
