@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRoutes, navigate, useRedirect } from 'hookrouter'
+import { useRoutes, navigate } from 'hookrouter'
 import { useProfile } from '../utils/profile'
 
 // side nav control and styles
@@ -17,7 +17,8 @@ const ReputationTab = () => {
   const { profile, storeProfile } = useProfile();
 
   // create state variables for current path (which determines selected tab) and expanded state
-  const currentPath = window.location.pathname;
+  const currentPath = window.location.pathname === '/reputation' ? 
+    '/reputation/dashboard' : window.location.pathname;
   const [expanded, setExpanded] = useState(profile && profile.expanded);
 
   // constants that describe the top offset (to honor NavBar) and SidNav width
@@ -38,7 +39,7 @@ const ReputationTab = () => {
     '/history': () => <HistoryPage />,
   };
 
-  useRedirect('/', '/reputation/dashboard');
+  //useRedirect('/', '/reputation/dashboard');
   const routeResult = useRoutes(routes);
 
   return (

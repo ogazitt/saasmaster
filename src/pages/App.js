@@ -52,7 +52,7 @@ const App = () => {
   // redirect to reputation tab if skip tour flag is set
   if (currentPath === '/') {
     if (profile && profile.skipTour) {
-      navigate('/reputation')
+      navigate('/reputation/dashboard')
     } else {
       navigate('/tour')
     }
