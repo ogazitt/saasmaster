@@ -56,10 +56,6 @@ export async function post(token, path, data, headers = {}) {
       body: data
     });
     
-    if (response.error) {
-      console.log(`post: received response ${response.error}`);
-    }
-    
     return [response, null];
   } catch (error) {
     console.error(error);

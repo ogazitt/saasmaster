@@ -16,6 +16,16 @@ import FacebookPage from '../providers/Facebook'
 import InstagramPage from '../providers/Instagram'
 import GooglePage from '../providers/Google'
 
+// define routes
+const routes = {
+  '/': () => <ConnectionsPage />,
+  '/connections': () => <ConnectionsPage />,
+  '/twitter': () => <TwitterPage />,
+  '/facebook': () => <FacebookPage />,
+  '/instagram': () => <InstagramPage />,
+  '/google': () => <GooglePage />,
+};
+
 const SourcesTab = () => {
   const { profile, storeProfile } = useProfile();
 
@@ -31,16 +41,6 @@ const SourcesTab = () => {
   const selectTab = (selected) => {
     navigate(`${selected}`)
   }
-
-  // define routes
-  const routes = {
-    '/': () => <ConnectionsPage />,
-    '/connections': () => <ConnectionsPage />,
-    '/twitter': () => <TwitterPage />,
-    '/facebook': () => <FacebookPage />,
-    '/instagram': () => <InstagramPage />,
-    '/google': () => <GooglePage />,
-  };
 
   useRedirect('/', '/sources/connections');
   const routeResult = useRoutes(routes);

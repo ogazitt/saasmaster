@@ -13,6 +13,15 @@ import AlertsPage from '../pages/AlertsPage'
 import HistoryPage from '../pages/HistoryPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
+// define routes
+const routes = {
+  '/': () => <Dashboard />,
+  '/dashboard': () => <Dashboard />,
+  '/summary': () => <SummaryPage />,
+  '/alerts': () => <AlertsPage />,
+  '/history': () => <HistoryPage />,
+};
+
 const ReputationTab = () => {
   const { profile, storeProfile } = useProfile();
 
@@ -30,16 +39,6 @@ const ReputationTab = () => {
     navigate(`${selected}`)
   }
 
-  // define routes
-  const routes = {
-    '/': () => <Dashboard />,
-    '/dashboard': () => <Dashboard />,
-    '/summary': () => <SummaryPage />,
-    '/alerts': () => <AlertsPage />,
-    '/history': () => <HistoryPage />,
-  };
-
-  //useRedirect('/', '/reputation/dashboard');
   const routeResult = useRoutes(routes);
 
   return (
