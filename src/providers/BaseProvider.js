@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import Loading from '../components/Loading'
-import RefreshButton from '../components/RefreshButton'
-import Button from 'react-bootstrap/Button'
 import { navigate } from 'hookrouter'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
+import Loading from '../components/Loading'
+import RefreshButton from '../components/RefreshButton'
+import PageTitle from '../components/PageTitle'
+import Button from 'react-bootstrap/Button'
 
 const BaseProvider = ({ 
     pageTitle, 
@@ -78,9 +79,9 @@ const BaseProvider = ({
   if (!connections || !connections.find) {
     return(
       <div>
-        <div className="provider-header">
+        <div className="page-header">
           <RefreshButton load={refreshData} loading={refresh}/>
-          <h4 className="provider-title">{pageTitle}</h4>
+          <PageTitle title={pageTitle} />
         </div>
         <div>
           <i className="fa fa-frown-o"/>
@@ -96,7 +97,7 @@ const BaseProvider = ({
     // need to connect first
     const [provider] = pageTitle.split(' ');
     return(
-      <div className="provider-header">
+      <div className="page-header">
         <Button onClick={ () => { navigate('/sources/connections') }}>
           {`Connect to ${provider}`} 
         </Button>
@@ -111,9 +112,9 @@ const BaseProvider = ({
 
   return(
     <div>
-      <div className="provider-header">
+      <div className="page-header">
         <RefreshButton load={refreshData}  loading={refresh}/>
-        <h4 className="provider-title">{pageTitle}</h4>
+        <PageTitle title={pageTitle} />
       </div>
       <div>
       { errorMessage ? <span>{errorMessage}</span> : children }

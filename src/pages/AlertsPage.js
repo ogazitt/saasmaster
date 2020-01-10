@@ -4,6 +4,7 @@ import { useMetadata } from '../utils/metadata'
 import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
 import ProviderFilter from '../components/ProviderFilter'
+import PageTitle from '../components/PageTitle'
 
 const AlertsPage = () => {
   const { loadMetadata, loading } = useMetadata();
@@ -36,9 +37,9 @@ const AlertsPage = () => {
   if (!loading && (!metadata || metadata.length === 0)) {
     return (
       <div>
-        <div className="provider-header">
+        <div className="page-header">
           <RefreshButton load={loadMetadata} loading={loading}/>
-          <h4 className="provider-title">Unhandled feedback</h4>
+          <h4 className="page-title">Unhandled feedback</h4>
         </div>
         {
           metadata && metadata.length === 0 &&
@@ -120,9 +121,9 @@ const AlertsPage = () => {
 
   return (
     <div>
-      <div className="provider-header">
+      <div className="page-header">
         <RefreshButton load={loadMeta} loading={loading}/>
-        <h4 className="provider-title">Unhandled feedback</h4>
+        <PageTitle title="Unhandled feedback" />
         <div style={{ marginLeft: 50 }}>
           <ProviderFilter 
             providers={providers}

@@ -1,5 +1,5 @@
-import React from "react"
-import loading from "../assets/loading.svg"
+import React from 'react'
+import loading from '../assets/loading.svg'
 import './Loading.css'
 
 const Loading = () => (

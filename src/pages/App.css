@@ -1,6 +1,6 @@
-/* styles for the provider header and title (shared by most pages) */
+/* styles for the page header and title (shared by most pages) */
 
-.provider-header {
+.page-header {
   display: flex;
   flex-wrap: wrap;
   z-index: 1;
@@ -11,7 +11,7 @@
   background: white;
 }
 
-.provider-title {
+.page-title {
   margin-left: 15px;
   margin-bottom: 0px;
   vertical-align: middle;

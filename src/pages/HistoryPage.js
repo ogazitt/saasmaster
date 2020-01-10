@@ -5,6 +5,7 @@ import ProviderFilter from '../components/ProviderFilter'
 import StackedAreaChart from '../components/StackedAreaChart'
 import StackedLineChart from '../components/StackedLineChart'
 import RefreshButton from '../components/RefreshButton'
+import PageTitle from '../components/PageTitle'
 
 const HistoryPage = () => {
   const { get } = useApi();
@@ -14,7 +15,7 @@ const HistoryPage = () => {
   const [checkboxState, setCheckboxState] = useState();
   const [refresh, setRefresh] = useState(false);
   const [providers, setProviders] = useState();
-  const pageTitle = 'Reputation history';
+  const pageTitle = 'History';
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading && !refresh) {
@@ -51,9 +52,9 @@ const HistoryPage = () => {
   if (loadedData && (!history || !history.length > 0)) {
     return (
       <div>
-        <div className="provider-header">
+        <div className="page-header">
           <RefreshButton load={loadData} loading={refresh}/>
-          <h4 className="provider-title">{pageTitle}</h4>
+          <PageTitle title={pageTitle} />
         </div>
         {
           history && history.length === 0 &&
@@ -142,9 +143,9 @@ const HistoryPage = () => {
   
   return(
     <div>
-      <div className="provider-header">
+      <div className="page-header">
         <RefreshButton load={loadData} loading={refresh}/>
-        <h4 className="provider-title">{pageTitle}</h4>
+        <PageTitle title={pageTitle} />
         { 
           providers && 
           <div style={{ marginLeft: 50 }}>

@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import Loading from '../components/Loading'
-import RefreshButton from '../components/RefreshButton'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
-import CardDeck from 'react-bootstrap/CardDeck'
-import HighlightCard from '../components/HighlightCard'
-import Modal from 'react-bootstrap/Modal'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
 import { navigate } from 'hookrouter'
+import Loading from '../components/Loading'
+import RefreshButton from '../components/RefreshButton'
+import HighlightCard from '../components/HighlightCard'
+import Card from 'react-bootstrap/Card'
+import CardDeck from 'react-bootstrap/CardDeck'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
 
 const ConnectionsPage = () => {
   const { loading, loadConnections, connections } = useConnections();
@@ -52,7 +52,6 @@ const ConnectionsPage = () => {
       if (action === 'link' && success) {
         const [provider] = primaryUserId.split('|');
         // log back in with the primary account 
-        console.log(`redirecting to ${window.location.origin}`)
         loginWithRedirect({
           access_type: 'offline', 
           connection: provider,
@@ -102,9 +101,9 @@ const ConnectionsPage = () => {
 
   return(
     <div>
-      <div className="provider-header">
+      <div className="page-header">
         <RefreshButton load={loadConnections} loading={loading}/>
-        <h4 className="provider-title">{pageTitle}</h4>
+        <h4 className="page-title">{pageTitle}</h4>
       </div>
       { 
         connections && connections.map ? 

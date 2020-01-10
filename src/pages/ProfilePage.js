@@ -44,10 +44,10 @@ const ProfilePage = () => {
       textAlign: 'left',
       width: 'calc(100vw - 60px)'
     }}>
-      <div className="provider-header">
+      <div className="page-header">
         { /* <RefreshButton load={loadData} loading={refresh}/> */ }
         <RefreshButton load={loadProfile} loading={loading}/>
-        <h4 className="provider-title">Profile</h4>
+        <h4 className="page-title">Profile</h4>
       </div>
       { 
         profile && 

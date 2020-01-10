@@ -69,9 +69,9 @@ const Dashboard = () => {
   
   return (
     <div>
-      <div className="provider-header">
+      <div className="page-header">
         <RefreshButton load={loadMeta} loading={loading}/>
-        <h4 className="provider-title">{pageTitle}</h4>
+        <h4 className="page-title">{pageTitle}</h4>
       </div>
       <CardDeck style={{padding: 25}}>
         <HighlightCard

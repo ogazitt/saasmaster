@@ -4,13 +4,14 @@ import ProviderFilter from '../components/ProviderFilter'
 import PieChart from '../components/PieChart'
 import Legend from '../components/Legend'
 import RefreshButton from '../components/RefreshButton'
+import PageTitle from '../components/PageTitle'
 
 const SummaryPage = () => {
   const { loadMetadata, loading } = useMetadata();
   const [metadata, setMetadata] = useState();
   const [checkboxState, setCheckboxState] = useState();
   const [providers, setProviders] = useState();
-  const pageTitle = 'Reputation summary';
+  const pageTitle = 'Summary';
 
   // create a callback function that wraps the loadMetadata effect
   const loadMeta = useCallback(() => {
@@ -37,9 +38,9 @@ const SummaryPage = () => {
   if (!loading && (!metadata || metadata.length === 0)) {
     return (
       <div>
-        <div className="provider-header">
+        <div className="page-header">
           <RefreshButton load={loadMeta} loading={loading}/>
-          <h4 className="provider-title">{pageTitle}</h4>
+          <h4 className="page-title">{pageTitle}</h4>
         </div>
         {
           metadata && metadata.length === 0 &&
@@ -101,9 +102,9 @@ const SummaryPage = () => {
 
   return (
     <div>
-      <div className="provider-header">
+      <div className="page-header">
         <RefreshButton load={loadMeta} loading={loading}/>
-        <h4 className="provider-title">{pageTitle}</h4>
+        <PageTitle title={pageTitle} />
         <div style={{ marginLeft: 50 }}>
           <ProviderFilter 
             providers={providers}

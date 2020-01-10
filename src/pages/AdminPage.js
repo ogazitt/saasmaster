@@ -23,8 +23,8 @@ const AdminPage = () => {
   // display an error if current user isn't an admin
   if (!isAdmin) {
     return (
-      <div className="provider-header">
-        <h4 className="provider-title">ERROR: You are not an admin!</h4>
+      <div className="page-header">
+        <h4 className="page-title">ERROR: You are not an admin!</h4>
       </div>
     )
   }
@@ -36,8 +36,8 @@ const AdminPage = () => {
 
   return (
     <div style={{ marginLeft: 20 }}>
-      <div className="provider-header">
-        <h4 className="provider-title">Admin</h4>
+      <div className="page-header">
+        <h4 className="page-title">Admin</h4>
       </div>
 
       <div style={{ margin: 20, marginTop: 0, width: 450 }}>
