@@ -34,7 +34,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cp src/utils/auth_config_prod.json src/utils/auth_config.json && react-scripts build && cp src/utils/auth_config_dev.json src/utils/auth_config.json",
+    "build:dev": "react-scripts build",
+    "build:prod": "cp src/utils/auth_config_prod.json src/utils/auth_config.json && react-scripts build && cp src/utils/auth_config_dev.json src/utils/auth_config.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
