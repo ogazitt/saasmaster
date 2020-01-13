@@ -29,7 +29,7 @@ const SummaryPage = () => {
 
   // get the set of unique providers returned in metadata, if haven't yet
   if (!providers && metadata && metadata.length > 0) {
-    const list = metadata.map(m => m.provider);
+    const list = metadata.map(m => m.__provider);
     setProviders([...new Set(list)]);
     return;
   }
@@ -78,7 +78,7 @@ const SummaryPage = () => {
         title: val,
         value: metadata.filter(m => 
           m.__sentiment === val && 
-          checkedProviders.find(p => p === m.provider))
+          checkedProviders.find(p => p === m.__provider))
           .length
       }
     )
@@ -90,7 +90,7 @@ const SummaryPage = () => {
         {
           color: colors[index],
           title: val,
-          value: metadata.filter(m => m.provider === p && m.__sentiment === val).length
+          value: metadata.filter(m => m.__provider === p && m.__sentiment === val).length
         }
       )
     });

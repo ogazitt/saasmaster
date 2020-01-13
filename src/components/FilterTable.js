@@ -53,8 +53,8 @@ const FilterTable = ({
 
       // adjust the local state of the current row
       r.__handled = isHandled;
-      // return an entry with the id and the handled flag
-      return { id, __handled: isHandled }
+      // return an entry with the __id and the __handled flag
+      return { __id: id, __handled: isHandled }
     });
 
     // hide the rows that have been marked read 

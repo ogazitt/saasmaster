@@ -28,7 +28,7 @@ const AlertsPage = () => {
 
   // get the set of unique providers returned in metadata, if haven't yet
   if (!providers && metadata && metadata.length > 0) {
-    const list = metadata.map(m => m.provider);
+    const list = metadata.map(m => m.__provider);
     setProviders([...new Set(list)]);
     return;
   }
@@ -102,13 +102,13 @@ const AlertsPage = () => {
   // create the alerts array, which only contains unhandled entries of checked providers
   const alerts = checkedProviders && metadata && metadata.map && 
     metadata
-      .filter(a => a.__handled !== true && checkedProviders.find(p => p === a.provider))
+      .filter(a => a.__handled !== true && checkedProviders.find(p => p === a.__provider))
       .map(item => {
     return {
-      id: item.id, 
+      id: item.__id, 
       type: item.__sentiment,
-      provider: item.provider, 
-      text: item.text,
+      provider: item.__provider, 
+      text: item.__text,
       handled: item.__handled
     }
   });

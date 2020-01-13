@@ -39,7 +39,7 @@ const Dashboard = () => {
   ];
 
   // compute the pie data across all the providers
-  const sentiments = metadata && sentimentValues.map((val, index) => {
+  const sentiments = metadata && metadata.map && sentimentValues.map((val, index) => {
     return (
       {
         label: <i className={sentimentIcons[index]} style={{ fontSize: '1.2em' }} />,
@@ -51,11 +51,11 @@ const Dashboard = () => {
     )
   });
 
-  const unhandledFeedback = metadata && connections && connections.map(c => 
-    metadata.filter(a => a.__handled !== true && a.provider === c.provider).length);
+  const unhandledFeedback = metadata && metadata.filter && connections && connections.map(c => 
+    metadata.filter(a => a.__handled !== true && a.__provider === c.provider).length);
 
-  const sentimentScores = metadata && connections && connections.map(c => {
-    const array = metadata.filter(m => m.provider === c.provider);
+  const sentimentScores = metadata && metadata.filter && connections && connections.map(c => {
+    const array = metadata.filter(m => m.__provider === c.provider);
     const count = array.length;
     if (count === 0) {
       return -1;
