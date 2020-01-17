@@ -64,7 +64,7 @@ const Dashboard = () => {
     const totalScore = scoreArray.reduce((acc, val) => acc + val, 0);
     const average = totalScore / count;
     const finalScore = Math.round(average * 100 + 50);
-    return finalScore;
+    return isNaN(finalScore) ? -1 : finalScore;
   });
   
   return (
@@ -78,7 +78,7 @@ const Dashboard = () => {
           onClick={ () => { navigate('/sources/connections')} }
           className='mx-auto'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
+          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation sources</Card.Header>
           <Card.Body>
             <CardDeck>
@@ -117,7 +117,7 @@ const Dashboard = () => {
           onClick={ () => { navigate('/reputation/summary')} }
           className='mx-auto'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
+          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation summary</Card.Header>
           <Card.Body>
             <CardDeck>
@@ -152,7 +152,7 @@ const Dashboard = () => {
           onClick={ () => { navigate('/reputation/alerts')} }
           className='mx-auto'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
+          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Unhandled feedback</Card.Header>
           <Card.Body>
             <CardDeck>
@@ -188,7 +188,7 @@ const Dashboard = () => {
           onClick={ () => { navigate('/reputation/history')} }
           className='mx-auto'
           text='white'
-          style={{ maxWidth: '400px', minWidth: '400px', textAlign: 'center', marginBottom: 10 }}>
+          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
           <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation scores by source</Card.Header>
           <Card.Body>
             <CardDeck>

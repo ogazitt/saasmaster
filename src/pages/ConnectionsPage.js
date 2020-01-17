@@ -96,6 +96,21 @@ const ConnectionsPage = () => {
     call('link', primaryUserId, user.sub);
   }
 
+  // add or remove a simple connection
+  const processConnection = async (action, provider) => {
+    const body = JSON.stringify({ action: action, provider: provider });
+    const [response, error] = await post('connections', body);
+    if (error || !response.ok) {
+      return;
+    }
+
+    const responseData = await response.json();
+    const success = responseData && responseData.message === 'success';
+    if (success) {
+      loadConnections();
+    }
+  }
+
   const connectedSources = connections && connections.filter(c => c.connected);
   const nonConnectedSources = connections && connections.filter(c => !c.connected);
 
@@ -133,9 +148,16 @@ const ConnectionsPage = () => {
                         </Card.Body>
                         <Card.Footer>
                         { 
-                          connected !== 'base' ? 
-                          <Button variant='danger' onClick={ () => { call('unlink', null, uid) } }>Disconnect</Button>
-                          : <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Main Login</center>
+                          connected === 'base' && 
+                            <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Main Login</center>
+                        }
+                        { 
+                          connected !== 'base' && connection.type === 'link' &&
+                            <Button variant='danger' onClick={ () => { call('unlink', null, uid) } }>Disconnect</Button>
+                        }
+                        { 
+                          connected !== 'base' && connection.type === 'simple' &&
+                            <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
                         }
                         </Card.Footer>
                       </HighlightCard>
@@ -171,7 +193,14 @@ const ConnectionsPage = () => {
                           <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
                         </Card.Body>
                         <Card.Footer>
-                          <Button variant='primary' onClick={action}>Connect</Button>
+                          { 
+                            connection.type === 'link' &&
+                              <Button variant='primary' onClick={action}>Connect</Button>
+                          }
+                          { 
+                            connection.type === 'simple' &&
+                              <Button variant='primary' onClick={ () => { processConnection('add', connection.provider) } }>Connect</Button>
+                          }
                         </Card.Footer>
                       </Card>
                     )

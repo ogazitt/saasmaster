@@ -15,6 +15,7 @@ import TwitterPage from '../providers/Twitter'
 import FacebookPage from '../providers/Facebook'
 import InstagramPage from '../providers/Instagram'
 import GooglePage from '../providers/Google'
+import YelpPage from '../providers/Yelp'
 
 // define routes
 const routes = {
@@ -24,6 +25,7 @@ const routes = {
   '/facebook': () => <FacebookPage />,
   '/instagram': () => <InstagramPage />,
   '/google': () => <GooglePage />,
+  '/yelp': () => <YelpPage />,
 };
 
 const SourcesTab = () => {
@@ -95,6 +97,12 @@ const SourcesTab = () => {
                 <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText style={{ fontSize: '1.2em' }}>Google</NavText>
+            </NavItem>
+            <NavItem eventKey="/sources/yelp">
+              <NavIcon>
+                <i className="fa fa-fw fa-yelp" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText style={{ fontSize: '1.2em' }}>Yelp</NavText>
             </NavItem>
           </SideNav.Nav>
         </SideNav>
