@@ -30,7 +30,7 @@ const BusinessCards = ({data, setData}) => {
   const getBusiness = async (id) => {
     // dismiss the Alert
     setNotFound(false);
-    
+
     // store the state associated with the selected business
     setSelected(id);
 
@@ -92,6 +92,10 @@ const BusinessCards = ({data, setData}) => {
     }
   }
 
+  const urlFormatter = (cell, row) => {
+    return <a href={row.url} target="_">{cell}</a>
+  }
+
   const typeFormatter = (cell, row, rowIndex, formatExtraData) => {
     return (
       <i className={ formatExtraData[cell] } />
@@ -127,10 +131,12 @@ const BusinessCards = ({data, setData}) => {
     }
   }, {
     dataField: 'text',
-    text: 'Text'    
+    text: 'Text',
+    formatter: urlFormatter
   }];
 
   const addBusiness = () => {
+    setNotFound(false);
     setSelected(null);
     setReviews(null);
     setReviewsData(null);
@@ -152,7 +158,7 @@ const BusinessCards = ({data, setData}) => {
         <CardDeck>
         {
           data && data.map ? data.map((item, key) => {
-            const { name, id } = item;
+            const { name, id, url, image_url } = item;
             const border = (id === selected) ? 'primary' : null;
           
             const loadReviews = () => {
@@ -165,19 +171,20 @@ const BusinessCards = ({data, setData}) => {
               processBusiness('remove', id);
             }
 
+            const displayName = name.length > 25 ? name.slice(0, 24) + '...' : name;
+
             return (
               <HighlightCard className="text-center" onClick={loadReviews} 
                 key={key} border={ border ? border : null }
                 style={{ maxWidth: '250px' }}>
                 <Card.Header>
-                  <span>{ name }</span>
+                  <Card.Link href={url} target="_blank">{displayName}</Card.Link>
                   <Button type="button" className="close" onClick={removeBusiness}>
                     <span className="float-right"><i className="fa fa-remove"></i></span>
                   </Button>
                 </Card.Header>
                 <Card.Body>
-                  <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Facebook page</Card.Link>
-                  <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Reviews</Card.Link>
+                  <Card.Img src={image_url} alt={displayName} style={{ maxHeight: 180 }} />
                 </Card.Body>
               </HighlightCard>
             )
@@ -189,7 +196,16 @@ const BusinessCards = ({data, setData}) => {
             style={{ maxWidth: '250px' }}>
             <Card.Header>Add a new business</Card.Header>
             <Card.Body>
-              <i className="fa fa-fw fa-plus" style={{ fontSize: '4em' }} />
+              <div style={{ 
+                position: 'absolute', 
+                top: '50%', 
+                height: '100px', 
+                marginTop: '-20px', 
+                left: '50%',
+                width: '100px',
+                marginLeft: '-60px' }}>
+                <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />
+              </div>
             </Card.Body>
           </HighlightCard>
 
@@ -199,7 +215,7 @@ const BusinessCards = ({data, setData}) => {
         reviewsData ? 
         <div style={{
           position: "fixed", 
-          top: 310
+          top: 430
         }}>
           <div style={{
             position: "sticky",
@@ -214,7 +230,7 @@ const BusinessCards = ({data, setData}) => {
             columns={columns}
             keyField="id"
             path={`yelp/reviews/${selected}`}
-            maxHeight="calc(100vh - 420px)"
+            maxHeight="calc(100vh - 540px)"
             />
         </div> :
         <div/>
