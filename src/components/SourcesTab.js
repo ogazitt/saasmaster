@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useRoutes, navigate, useRedirect } from 'hookrouter'
 import { useProfile } from '../utils/profile'
+import { useConnections } from '../utils/connections'
 
 // side nav control and styles
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
@@ -30,6 +31,7 @@ const routes = {
 
 const SourcesTab = () => {
   const { profile, storeProfile } = useProfile();
+  const { connections } = useConnections();
 
   // create state variables for current path (which determines selected tab) and expanded state
   const currentPath = window.location.pathname;
@@ -46,6 +48,9 @@ const SourcesTab = () => {
 
   useRedirect('/', '/sources/connections');
   const routeResult = useRoutes(routes);
+
+  // create an array containing the names of all the sources tabs that are connected and should be displayed
+  const sideNavTabs = connections.filter(c => c.connected !== null).map(c => c.provider.split('-')[0]);
 
   return (
     <div>  
@@ -74,36 +79,16 @@ const SourcesTab = () => {
               </NavIcon>
               <NavText style={{ fontSize: '1.2em' }}>Sources</NavText>
             </NavItem>
-            <NavItem eventKey="/sources/twitter">
-              <NavIcon>
-                <i className="fa fa-fw fa-twitter" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText style={{ fontSize: '1.2em' }}>Twitter</NavText>
-            </NavItem>
-            <NavItem eventKey="/sources/facebook">
-              <NavIcon>
-                <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText style={{ fontSize: '1.2em' }}>Facebook</NavText>
-            </NavItem>
-            <NavItem eventKey="/sources/instagram">
-              <NavIcon>
-                <i className="fa fa-fw fa-instagram" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText style={{ fontSize: '1.2em' }}>Instagram</NavText>
-            </NavItem>
-            <NavItem eventKey="/sources/google">
-              <NavIcon>
-                <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText style={{ fontSize: '1.2em' }}>Google</NavText>
-            </NavItem>
-            <NavItem eventKey="/sources/yelp">
-              <NavIcon>
-                <i className="fa fa-fw fa-yelp" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText style={{ fontSize: '1.2em' }}>Yelp</NavText>
-            </NavItem>
+            {
+              sideNavTabs.map(c => 
+                <NavItem eventKey={`/sources/${c}`}>
+                  <NavIcon>
+                    <i className={`fa fa-fw fa-${c}`} style={{ fontSize: '1.75em' }} />
+                  </NavIcon>
+                  <NavText style={{ fontSize: '1.2em' }}>{c.charAt(0).toUpperCase() + c.slice(1)}</NavText>
+                </NavItem>
+              )
+            }
           </SideNav.Nav>
         </SideNav>
       </div>
