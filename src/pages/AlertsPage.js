@@ -74,6 +74,7 @@ const AlertsPage = () => {
     formatExtraData: {
       facebook: 'fa fa-facebook fa-2x text-muted',
       twitter: 'fa fa-twitter fa-2x text-muted',
+      yelp: 'fa fa-yelp fa-2x text-muted',
       'google-oauth2': 'fa fa-google fa-2x text-muted',
       instagram: 'fa fa-instagram fa-2x text-muted'
     }
