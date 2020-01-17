@@ -28,6 +28,9 @@ const BusinessCards = ({data, setData}) => {
   const [notFound, setNotFound] = useState(false);
 
   const getBusiness = async (id) => {
+    // dismiss the Alert
+    setNotFound(false);
+    
     // store the state associated with the selected business
     setSelected(id);
 
@@ -127,6 +130,13 @@ const BusinessCards = ({data, setData}) => {
     text: 'Text'    
   }];
 
+  const addBusiness = () => {
+    setSelected(null);
+    setReviews(null);
+    setReviewsData(null);
+    setShowModal(true);
+  }
+
   return (
     <div>
       <Alert variant="danger" show={notFound} onClose={() => setNotFound(false)} dismissible>Business not found</Alert>
@@ -174,7 +184,7 @@ const BusinessCards = ({data, setData}) => {
           })
           : <div/>
         }
-          <HighlightCard className="text-center" onClick={() => setShowModal(true)}
+          <HighlightCard className="text-center" onClick={addBusiness}
             key='add' 
             style={{ maxWidth: '250px' }}>
             <Card.Header>Add a new business</Card.Header>
