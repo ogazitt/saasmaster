@@ -23,7 +23,7 @@ const BusinessCards = ({data, setData}) => {
   const [reviewsData, setReviewsData] = useState();
   const [reviews, setReviews] = useState();
   const [selected, setSelected] = useState();
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [notFound, setNotFound] = useState(false);
 

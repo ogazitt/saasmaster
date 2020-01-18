@@ -81,7 +81,7 @@ const SourcesTab = () => {
             </NavItem>
             {
               sideNavTabs.map(c => 
-                <NavItem eventKey={`/sources/${c}`}>
+                <NavItem key={c} eventKey={`/sources/${c}`}>
                   <NavIcon>
                     <i className={`fa fa-fw fa-${c}`} style={{ fontSize: '1.75em' }} />
                   </NavIcon>
