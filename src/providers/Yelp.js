@@ -160,6 +160,7 @@ const BusinessCards = ({data, setData}) => {
           data && data.map ? data.map((item, key) => {
             const { name, id, url, image_url } = item;
             const border = (id === selected) ? 'primary' : null;
+            const displayName = name.length > 19 ? name.slice(0, 18) + '...' : name;
           
             const loadReviews = () => {
               getBusiness(id);
@@ -171,12 +172,11 @@ const BusinessCards = ({data, setData}) => {
               processBusiness('remove', id);
             }
 
-            const displayName = name.length > 25 ? name.slice(0, 24) + '...' : name;
 
             return (
               <HighlightCard className="text-center" onClick={loadReviews} 
                 key={key} border={ border ? border : null }
-                style={{ maxWidth: '250px' }}>
+                style={{ maxWidth: '200px' }}>
                 <Card.Header>
                   <Card.Link href={url} target="_blank">{displayName}</Card.Link>
                   <Button type="button" className="close" onClick={removeBusiness}>
@@ -184,7 +184,7 @@ const BusinessCards = ({data, setData}) => {
                   </Button>
                 </Card.Header>
                 <Card.Body>
-                  <Card.Img src={image_url} alt={displayName} style={{ maxHeight: 180 }} />
+                  <Card.Img src={image_url} alt={displayName} style={{ maxHeight: 100, maxWidth: 100 }} />
                 </Card.Body>
               </HighlightCard>
             )
@@ -193,19 +193,10 @@ const BusinessCards = ({data, setData}) => {
         }
           <HighlightCard className="text-center" onClick={addBusiness}
             key='add' 
-            style={{ maxWidth: '250px' }}>
+            style={{ maxWidth: '200px' }}>
             <Card.Header>Add a new business</Card.Header>
             <Card.Body>
-              <div style={{ 
-                position: 'absolute', 
-                top: '50%', 
-                height: '100px', 
-                marginTop: '-20px', 
-                left: '50%',
-                width: '100px',
-                marginLeft: '-60px' }}>
-                <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />
-              </div>
+              <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />
             </Card.Body>
           </HighlightCard>
 
@@ -215,7 +206,7 @@ const BusinessCards = ({data, setData}) => {
         reviewsData ? 
         <div style={{
           position: "fixed", 
-          top: 430
+          top: 350
         }}>
           <div style={{
             position: "sticky",
@@ -230,7 +221,7 @@ const BusinessCards = ({data, setData}) => {
             columns={columns}
             keyField="id"
             path={`yelp/reviews/${selected}`}
-            maxHeight="calc(100vh - 540px)"
+            maxHeight="calc(100vh - 460px)"
             />
         </div> :
         <div/>

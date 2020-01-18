@@ -105,20 +105,24 @@ const PageCards = ({data}) => {
             const { name, category_list, id, access_token} = item;
             const category = category_list && category_list[0].name;
             const border = (id === selected) ? 'primary' : null;
+            const displayName = name.length > 20 ? name.slice(0, 19) + '...' : name;
+            const url = `https://www.facebook.com/${id}`;
+            const imageUrl = `http://graph.facebook.com/${id}/picture?access_token=${access_token}`;
           
             const loadPageComments = () => {
               getPage(id, access_token);
             }
 
+
             return (
               <HighlightCard className="text-center" onClick={loadPageComments} 
                 key={key} border={ border ? border : null }
-                style={{ maxWidth: '250px' }}>
-                <Card.Header>{ name }</Card.Header>
+                style={{ maxWidth: '200px' }}>
+                <Card.Header>
+                  <Card.Link href={url} target="_blank">{displayName}</Card.Link>
+                </Card.Header>
                 <Card.Body>
-                  <Card.Title>{ category }</Card.Title>
-                  <Card.Link href={`https://www.facebook.com/${id}`} target="_blank">Facebook page</Card.Link>
-                  <Card.Link href={`https://www.facebook.com/${id}/reviews`} target="_blank">Reviews</Card.Link>
+                  <Card.Img src={imageUrl} alt={displayName} style={{ maxHeight: 100, maxWidth: 100 }} />
                 </Card.Body>
               </HighlightCard>
             )
@@ -131,7 +135,7 @@ const PageCards = ({data}) => {
         reviewsData ? 
         <div style={{
           position: "fixed", 
-          top: 310
+          top: 350
         }}>
           <div style={{
             position: "sticky",
@@ -146,7 +150,7 @@ const PageCards = ({data}) => {
             columns={columns}
             keyField="created_time"
             path={`facebook/reviews/${selected}`}
-            maxHeight="calc(100vh - 420px)"
+            maxHeight="calc(100vh - 460px)"
             />
         </div> :
         <div/>
