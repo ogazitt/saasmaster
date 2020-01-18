@@ -135,9 +135,13 @@ const HistoryPage = () => {
   const sentimentLineData = allData && checkedProviders && allData.map(d => {
     const entry = { date: d.date };
     for (const p of checkedProviders) {
-      entry[p] = Math.round(d[p].averageScore * 100 + 50);
+      if (d[p] && d[p].averageScore !== undefined) {
+        entry[p] = Math.round(d[p].averageScore * 100 + 50);
+      }
     }
-    entry.all = Math.round(d.averageScore * 100 + 50);
+    if (d.averageScore !== undefined) {
+      entry.all = Math.round(d.averageScore * 100 + 50);
+    }
     return entry;
   });
   
