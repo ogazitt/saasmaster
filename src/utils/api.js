@@ -65,7 +65,7 @@ export async function post(token, path, data, headers = {}) {
 
 // define a custom effect that wraps the auth0 effect, gets a token, and calls the API method
 export function useApi() {
-  const { getTokenSilentlyCallback, impersonatedUser } = useAuth0();
+  const { getTokenSilentlyCallback, impersonatedUser, logout } = useAuth0();
 
   // create a callback around the GET call
   const callGet = useCallback((...p) => {
@@ -74,7 +74,16 @@ export function useApi() {
       if (impersonatedUser) {
         headers.impersonatedUser = impersonatedUser;
       }
-      return await get(token, path, headers, forceRefresh);
+      const [response, error] = await get(token, path, headers, forceRefresh);
+
+      // check for an unauthorized status, which indicates an expired token
+      if ((error && error.status === 401) ||
+          (response && response.status === 401)) {
+        logout({
+          returnTo: window.location.origin
+        });      
+      }
+      return [response, error];
     }
     return callGet(...p);
   }, [getTokenSilentlyCallback, impersonatedUser]);
@@ -83,7 +92,16 @@ export function useApi() {
   const callPost = useCallback((...p) => {
     async function callPost(...p) {
       const token = await getTokenSilentlyCallback();
-      return await post(token, ...p);
+      const [response, error] = await post(token, ...p);
+
+      // check for an unauthorized status, which indicates an expired token
+      if ((error && error.status === 401) ||
+          (response && response.status === 401)) {
+        logout({
+          returnTo: window.location.origin
+        });      
+      }
+      return [response, error];
     }
     return callPost(...p);
   }, [getTokenSilentlyCallback]);

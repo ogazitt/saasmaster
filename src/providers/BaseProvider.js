@@ -40,15 +40,6 @@ const BaseProvider = ({
 
     // call GET on endpoint
     const [response, error] = await get(endpoint, {}, forceRefresh);
-
-    // check for an unauthorized status, which indicates an expired token
-    if ((error && error.status === 401) ||
-        (response && response.status === 401)) {
-      logout({
-        returnTo: window.location.origin
-      });      
-    }
-
     if (error || !response.ok) {
       setLoadedData(true);
       setLoading(false);
