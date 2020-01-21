@@ -87,6 +87,12 @@ export const Auth0Provider = ({
     }
     return getToken();
   }, [auth0Client]);
+  const logoutCallback = useCallback((...p) => {
+    async function logout(...p) {
+      return auth0Client.logout(...p);
+    }
+    return logout();
+  }, [auth0Client]);
   // END ADDITION
 
   return (
@@ -103,6 +109,7 @@ export const Auth0Provider = ({
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
         // ADDITION BY OG 1/7/2020
         getTokenSilentlyCallback,
+        logoutCallback,
         // END ADDITION
         getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
         logout: (...p) => auth0Client.logout(...p),
