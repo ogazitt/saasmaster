@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import RefreshButton from '../components/RefreshButton'
-import { Form, Col, Row, Image, Card, CardDeck, Button } from 'react-bootstrap'
+import { Form, Col, Row, Image, Card, CardDeck, Button, Alert } from 'react-bootstrap'
 import { useConnections } from '../utils/connections'
 import { useProfile } from '../utils/profile'
 
 const ProfilePage = () => {
   const { connections } = useConnections();
   const { profile, loadProfile, storeProfile, loading } = useProfile();
+  const [alertText, setAlertText] = useState();
 
   const name = profile && profile.name;
   const picture = profile && profile.picture;
@@ -37,6 +38,31 @@ const ProfilePage = () => {
     }
   });
 
+  const updateProfile = () => {
+    if (!validateEmail(profile.email)) {
+      setAlertText("Invalid email address");
+      return;
+    }
+
+    if (!validatePhone(profile.phone)) {
+      setAlertText("Invalid phone number");
+      return;
+    }
+
+    setAlertText(null);
+    storeProfile();
+  }
+
+  const validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  const validatePhone = (phone) => {
+    const re = /^[+]{0,1}[0-9]{1,3}[-\s\.]{0,1}[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/g;
+    return re.test(phone);
+  }
+
   return(
     <div style={{
       marginLeft: 20,
@@ -48,6 +74,10 @@ const ProfilePage = () => {
         <RefreshButton load={loadProfile} loading={loading}/>
         <h4 className="page-title">Profile</h4>
       </div>
+      {
+        alertText && 
+        <Alert variant="danger" show={alertText} onClose={() => setAlertText(null)} dismissible>{alertText}</Alert>
+      }
       { 
         profile && 
         <div>
@@ -79,7 +109,7 @@ const ProfilePage = () => {
                         <Form.Control plaintext readOnly defaultValue={lastLogin} />
                       </Col>
                       <Col sm="2">
-                        <Button style={{ float: 'right' }} variant="primary" onClick={ storeProfile }>
+                        <Button style={{ float: 'right' }} variant="primary" onClick={ updateProfile }>
                           &nbsp;Update&nbsp;
                         </Button>
                       </Col>
