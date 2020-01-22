@@ -12,6 +12,7 @@ import SourcesTab from '../components/SourcesTab'
 
 // Other pages
 import ProfilePage from './ProfilePage'
+import NotificationsPage from './NotificationsPage'
 import AdminPage from './AdminPage'
 import TourPage from './TourPage'
 import NotFoundPage from './NotFoundPage'
@@ -21,6 +22,7 @@ const routes = {
   '/reputation*': () => <ReputationTab />,
   '/sources*': () => <SourcesTab />,
   '/profile': () => <ProfilePage />,
+  '/notifications': () => <NotificationsPage />,
   '/tour': () => <TourPage />,
   '/admin': () => <AdminPage />,
 };

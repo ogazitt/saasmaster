@@ -58,6 +58,9 @@ const StickyNavbar = ({ state, actions }) => {
             <MenuItem eventKey="/profile" onSelect={actions.selectTab}>
               <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-user" />&nbsp;Profile</span>
             </MenuItem>
+            <MenuItem eventKey="/notifications" onSelect={actions.selectTab}>
+              <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-bell" />&nbsp;Notifications</span>
+            </MenuItem>
             <MenuItem eventKey="/tour" onSelect={actions.selectTab}>
               <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-info-circle" />&nbsp;Tour</span>
             </MenuItem>

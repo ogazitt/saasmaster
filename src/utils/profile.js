@@ -37,8 +37,11 @@ export const ProfileProvider = ({
       const data = { 
         name: profile.name,
         email: profile.email,
+        phone: profile.phone,
         skipTour: profile.skipTour,
-        expanded: profile.expanded
+        expanded: profile.expanded,
+        notifyEmail: profile.notifyEmail,
+        notifySms: profile.notifySms
       };
 
       // post the profile endpoint with the new profile information

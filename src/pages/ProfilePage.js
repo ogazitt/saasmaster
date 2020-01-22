@@ -45,7 +45,6 @@ const ProfilePage = () => {
       width: 'calc(100vw - 60px)'
     }}>
       <div className="page-header">
-        { /* <RefreshButton load={loadData} loading={refresh}/> */ }
         <RefreshButton load={loadProfile} loading={loading}/>
         <h4 className="page-title">Profile</h4>
       </div>
@@ -57,7 +56,7 @@ const ProfilePage = () => {
               <Form>
                 <div>
                   <Form.Group as={Row} style={{ margin: 20 }}>
-                      <Form.Label column sm="2">Name: </Form.Label>
+                    <Form.Label column sm="2">Name: </Form.Label>
                       <Col sm="10">
                         <Form.Control defaultValue={profile.name} onChange={ (e) => { profile.name = e.target.value }} />
                       </Col>
@@ -66,6 +65,12 @@ const ProfilePage = () => {
                       <Form.Label column sm="2">Email: </Form.Label>
                       <Col sm="10">
                         <Form.Control defaultValue={profile.email} onChange={ (e) => { profile.email = e.target.value }} />
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} style={{ margin: 20 }}>
+                      <Form.Label column sm="2">Phone: </Form.Label>
+                      <Col sm="10">
+                        <Form.Control defaultValue={profile.phone} onChange={ (e) => { profile.phone = e.target.value }} />
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} style={{ margin: 20 }}>
