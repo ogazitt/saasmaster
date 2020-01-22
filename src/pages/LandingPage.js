@@ -68,10 +68,11 @@ const LandingPage = () => {
             backgroundPosition: 'center center',
           }}>
           <Carousel.Caption>
-            <h3>Connect all of the tools you use for your online business identity</h3>
+            <h3><strong>Connect all of the tools you use for your online business identity</strong></h3>
             <i className="soc-icon fa fa-lg fa-facebook-square"></i>
-            <i className="soc-icon fa fa-lg fa-google"></i>
             <i className="soc-icon fa fa-lg fa-twitter"></i>
+            <i className="soc-icon fa fa-lg fa-google"></i>
+            <i className="soc-icon fa fa-lg fa-yelp"></i>
             <i className="soc-icon fa fa-lg fa-instagram"></i>
           </Carousel.Caption>
         </Carousel.Item>
@@ -83,7 +84,7 @@ const LandingPage = () => {
             backgroundPosition: 'center center',
           }}>
           <Carousel.Caption>
-            <h3>View all user feedback for your business from one console</h3>
+            <h3><strong>View all user feedback for your business from one console</strong></h3>
             <i className="soc-icon fa fa-lg fa-comment-o"></i>
             <i className="soc-icon fa fa-lg fa-heart-o"></i>
             <i className="soc-icon fa fa-lg fa-hashtag"></i>
@@ -98,7 +99,7 @@ const LandingPage = () => {
             backgroundPosition: 'center center',
           }}>
           <Carousel.Caption>
-            <h3>Effortlessly prioritize and reply to positive and negative feedback</h3>
+            <h3><strong>Effortlessly prioritize and reply to positive and negative feedback</strong></h3>
             <i className="soc-icon fa fa-lg fa-thumbs-o-up"></i>
             <i className="soc-icon fa fa-lg fa-thumbs-o-down"></i>
           </Carousel.Caption>
@@ -111,7 +112,7 @@ const LandingPage = () => {
             backgroundPosition: 'center center',
           }}>
           <Carousel.Caption>
-            <h3>Track your reputation over time with beautiful charts</h3>
+            <h3><strong>Track your reputation over time with beautiful charts</strong></h3>
             <i className="soc-icon fa fa-lg fa-tachometer"></i>
             <i className="soc-icon fa fa-lg fa-pie-chart"></i>
           </Carousel.Caption>
@@ -124,13 +125,13 @@ const LandingPage = () => {
             backgroundPosition: 'center center',
           }}>
           <Carousel.Caption>
-            <h3>Get notified of new reviews over email or SMS</h3>
+            <h3><strong>Get email or SMS notifications when new reviews roll in</strong></h3>
             <i className="soc-icon fa fa-lg fa-envelope"></i>
             <i className="soc-icon fa fa-lg fa-phone"></i>
           </Carousel.Caption>
         </Carousel.Item>        
       </Carousel>
-      
+
       <WebsiteFooter />
     </div>
   )

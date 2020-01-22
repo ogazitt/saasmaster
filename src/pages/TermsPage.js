@@ -124,6 +124,7 @@ const TermsPage = () =>
       +1 425 765 0079 <br/>
   
       <h4>Effective as of December 17, 2019 </h4>
+      <br/>
     </div>
     <WebsiteFooter />
   </div>
