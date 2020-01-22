@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import Loading from '../components/Loading'
 import WebsiteFooter from '../components/WebsiteFooter'
-import Button from 'react-bootstrap/Button'
+import { Button, Carousel, Row, Col } from 'react-bootstrap'
 import './LandingPage.css'
 
 const LandingPage = () => {
@@ -41,55 +41,96 @@ const LandingPage = () => {
 
   return (
     <div className="Landing">
-      <header className="Landing-header">
-        <img src="/SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
-        <br/>
-        <h1>SaaS Master</h1>
-        <p>Master your online reputation</p>
-      </header>
-
-      <div className="container-fluid">
-        <div className="Landing-features row">
-          <div className="col col--4">
-            Connect all of the tools you use for your online business identity
-          </div>
-          <div className="col col--4">
-            View all user feedback for your business from one console
-          </div>
-          <div className="col col--4">
-            Effortlessly prioritize and reply to positive and negative feedback
-          </div>
+      <div className="bg-overlay">
+        <Button style={{ position: 'fixed', right: 20, top: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+        <div style={{ 
+          position: 'fixed',
+          left: 20,
+          top: 20,
+          display: 'flex'
+        }}>
+          <img src="/SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
+          <h1 style={{ fontSize: '3em' }}>SaaS Master</h1>
         </div>
+        <div className="tagline">
+          <h1>Master your online reputation</h1>
+          <br/>
+          <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Get started</Button>          
+        </div>
+      </div>
 
-        <div className="Landing-features row">
-          <div className="col col--4">
+      <Carousel>
+        <Carousel.Item 
+          className="bg-carousel" 
+          style={{ 
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/connections.png")',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+          }}>
+          <Carousel.Caption>
+            <h3>Connect all of the tools you use for your online business identity</h3>
             <i className="soc-icon fa fa-lg fa-facebook-square"></i>
             <i className="soc-icon fa fa-lg fa-google"></i>
             <i className="soc-icon fa fa-lg fa-twitter"></i>
             <i className="soc-icon fa fa-lg fa-instagram"></i>
-          </div>
-          <div className="col col--4">
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item 
+          className="bg-carousel" 
+          style={{ 
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/dashboard.png")',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+          }}>
+          <Carousel.Caption>
+            <h3>View all user feedback for your business from one console</h3>
             <i className="soc-icon fa fa-lg fa-comment-o"></i>
             <i className="soc-icon fa fa-lg fa-heart-o"></i>
             <i className="soc-icon fa fa-lg fa-hashtag"></i>
             <i className="soc-icon fa fa-lg fa-map-marker"></i>
-          </div>
-          <div className="col col--4">
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item 
+          className="bg-carousel" 
+          style={{ 
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/alerts.png")',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+          }}>
+          <Carousel.Caption>
+            <h3>Effortlessly prioritize and reply to positive and negative feedback</h3>
             <i className="soc-icon fa fa-lg fa-thumbs-o-up"></i>
             <i className="soc-icon fa fa-lg fa-thumbs-o-down"></i>
-          </div>
-        </div>
-
-        <div className="Landing-action row">
-          <div className="col col--6">
-            <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Sign Up</Button>          
-          </div>
-          <div className="col col--6">
-            <Button size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
-          </div>
-        </div>
-      </div>
-
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item 
+          className="bg-carousel" 
+          style={{ 
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/history.png")',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+          }}>
+          <Carousel.Caption>
+            <h3>Track your reputation over time with beautiful charts</h3>
+            <i className="soc-icon fa fa-lg fa-tachometer"></i>
+            <i className="soc-icon fa fa-lg fa-pie-chart"></i>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item 
+          className="bg-carousel" 
+          style={{ 
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/email.png")',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+          }}>
+          <Carousel.Caption>
+            <h3>Get notified of new reviews over email or SMS</h3>
+            <i className="soc-icon fa fa-lg fa-envelope"></i>
+            <i className="soc-icon fa fa-lg fa-phone"></i>
+          </Carousel.Caption>
+        </Carousel.Item>        
+      </Carousel>
+      
       <WebsiteFooter />
     </div>
   )

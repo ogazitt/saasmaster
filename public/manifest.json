@@ -38,6 +38,22 @@
       "type": "image/png"
     },    
     {
+      "src": "email.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "negative-icon.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "neutral-icon.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "positive-icon.png",
+      "type": "image/png"
+    },    
+    {
       "src": "twitter.png",
       "type": "image/png"
     },    
