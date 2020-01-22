@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import Loading from '../components/Loading'
 import WebsiteFooter from '../components/WebsiteFooter'
-import { Button, Carousel, Row, Col } from 'react-bootstrap'
+import { Button, Carousel } from 'react-bootstrap'
 import './LandingPage.css'
 
 const LandingPage = () => {
