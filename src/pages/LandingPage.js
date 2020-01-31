@@ -3,6 +3,7 @@ import { useAuth0 } from '../utils/react-auth0-wrapper'
 import Loading from '../components/Loading'
 import WebsiteFooter from '../components/WebsiteFooter'
 import { Button, Carousel } from 'react-bootstrap'
+import { isBrowser, isMobile } from 'react-device-detect'
 import './LandingPage.css'
 
 const LandingPage = () => {
@@ -38,11 +39,18 @@ const LandingPage = () => {
       saasmaster_mode: 'signUp',
     });
   }
+  
+  let isMobileDevice = isMobile;
+  let isDesktopDevice = isBrowser;
+  //isMobileDevice = true; 
+  //isDesktopDevice = false;
 
   return (
     <div className="Landing">
       <div className="bg-overlay">
-        <Button style={{ position: 'fixed', right: 20, top: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+        { isDesktopDevice && 
+          <Button style={{ position: 'fixed', right: 20, top: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+        }
         <div style={{ 
           position: 'fixed',
           left: 20,
@@ -50,12 +58,20 @@ const LandingPage = () => {
           display: 'flex'
         }}>
           <img src="/SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
-          <h1 style={{ fontSize: '3em' }}>SaaS Master</h1>
+          <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SaaS Master</h1>
         </div>
         <div className="tagline">
           <h1>Master your online reputation</h1>
-          <br/>
-          <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Get started</Button>          
+          { isDesktopDevice && <br/> }
+          { isDesktopDevice && 
+            <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Get started</Button>          
+          }
+          { isMobileDevice &&
+            <div style={{ display: 'flex', alignItestims: 'center', justifyContent: 'center' }}>
+              <Button style={{ margin: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+              <Button style={{ margin: 20 }} size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Get started</Button>          
+            </div>
+          }
         </div>
       </div>
 
@@ -132,7 +148,7 @@ const LandingPage = () => {
         </Carousel.Item>        
       </Carousel>
 
-      <WebsiteFooter />
+      { isDesktopDevice && <WebsiteFooter /> }
     </div>
   )
 }
