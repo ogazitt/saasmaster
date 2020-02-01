@@ -47,7 +47,7 @@ const LandingPage = () => {
 
   return (
     <div className="Landing">
-      <div className="bg-overlay">
+      <div className={ isDesktopDevice ? "bg-overlay bg-overlay-desktop" : "bg-overlay bg-overlay-mobile" }>
         { isDesktopDevice && 
           <Button style={{ position: 'fixed', right: 20, top: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
         }
@@ -60,7 +60,8 @@ const LandingPage = () => {
           <img src="/SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
           <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SaaS Master</h1>
         </div>
-        <div className="tagline">
+
+        <div className={ isDesktopDevice ? "tagline-desktop" : "tagline-mobile" }>
           <h1>Master your online reputation</h1>
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 
@@ -82,6 +83,7 @@ const LandingPage = () => {
             background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/connections.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
+            backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
             <h3><strong>Connect all of the tools you use for your online business identity</strong></h3>
@@ -98,6 +100,7 @@ const LandingPage = () => {
             background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/dashboard.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
+            backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
             <h3><strong>View all user feedback for your business from one console</strong></h3>
@@ -113,6 +116,7 @@ const LandingPage = () => {
             background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/alerts.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
+            backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
             <h3><strong>Effortlessly prioritize and reply to positive and negative feedback</strong></h3>
@@ -126,6 +130,7 @@ const LandingPage = () => {
             background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/history.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
+            backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
             <h3><strong>Track your reputation over time with beautiful charts</strong></h3>
@@ -139,6 +144,7 @@ const LandingPage = () => {
             background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/email.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
+            backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
             <h3><strong>Get email or SMS notifications when new reviews roll in</strong></h3>
