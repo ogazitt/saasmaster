@@ -53,9 +53,13 @@ const LandingPage = () => {
         }
         <div style={{ 
           position: 'fixed',
-          left: 20,
-          top: 20,
-          display: 'flex'
+          left: 0,
+          top: 0,
+          display: 'flex',
+          padding: 20,
+          zIndex: 100,
+          width: '100vw',
+          backgroundColor: `rgba(0, 0, 0, ${ isMobileDevice ? 1.0 : 0.0 })`
         }}>
           <img src="/SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
           <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SaaS Master</h1>
