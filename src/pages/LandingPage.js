@@ -49,7 +49,12 @@ const LandingPage = () => {
     <div className="Landing">
       <div className={ isDesktopDevice ? "bg-overlay bg-overlay-desktop" : "bg-overlay bg-overlay-mobile" }>
         { isDesktopDevice && 
-          <Button style={{ position: 'fixed', right: 20, top: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+          <Button style={{ 
+            position: 'fixed', 
+            right: 20, 
+            top: 20,
+            zIndex: 200 
+          }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
         }
         <div style={{ 
           position: 'fixed',
