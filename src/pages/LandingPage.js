@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
+import { post } from '../utils/api'
 import Loading from '../components/Loading'
 import WebsiteFooter from '../components/WebsiteFooter'
-import { Button, Carousel } from 'react-bootstrap'
+import { Button, Carousel, Modal, InputGroup, FormControl } from 'react-bootstrap'
 import { isBrowser, isMobile } from 'react-device-detect'
 import './LandingPage.css'
 
 const LandingPage = () => {
   const { loading, loginWithRedirect } = useAuth0();
+  const [showModal, setShowModal] = useState(false);
+  const [email, setEmail] = useState();
+  const betaFlag = true;
 
   if (loading) {
     return (
@@ -31,13 +35,30 @@ const LandingPage = () => {
     });
   }
 
-  const signUp = () => {
+  const signUp = (beta) => {
+    // private beta - put up email collection UI
+    if (beta) {
+      setShowModal(true);
+      return;
+    }
+
+    // put up Sign Up screen
     loginWithRedirect({
       access_type: 'offline', // unverified - asks for offline access
       //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
       redirect_uri: `${window.location.origin}`,
       saasmaster_mode: 'signUp',
     });
+  }
+
+  const requestAccess = async () => {
+    setShowModal(false);
+    await post(null, 'requestaccess', JSON.stringify({ email: email }));
+  }
+
+  const validateEmail = (email) => {
+    const re = /^(([^<>()[]\\.,;:\s@"]+(\.[^<>()[]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
   
   let isMobileDevice = isMobile;
@@ -74,12 +95,12 @@ const LandingPage = () => {
           <h1>Master your online reputation</h1>
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 
-            <Button size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Get started</Button>          
+            <Button size="lg" variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>Get started</Button>          
           }
           { isMobileDevice &&
             <div style={{ display: 'flex', alignItestims: 'center', justifyContent: 'center' }}>
               <Button style={{ margin: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
-              <Button style={{ margin: 20 }} size="lg" variant="info" disabled={loading} onClick={() => signUp()}>Get started</Button>          
+              <Button style={{ margin: 20 }} size="lg" variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>Get started</Button>          
             </div>
           }
         </div>
@@ -164,6 +185,32 @@ const LandingPage = () => {
       </Carousel>
 
       { isDesktopDevice && <WebsiteFooter /> }
+
+      <Modal show={showModal} onHide={ () => { setShowModal(false) } }>
+        <Modal.Body>
+          <h4>
+            SaaS Master is in private beta.  Enter your email address below and we'll 
+            add you to our waiting list!
+          </h4>
+          <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <InputGroup.Text id="inputGroup-sizing-default">Email</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              aria-label="email"
+              aria-describedby="inputGroup-sizing-default"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </InputGroup>          
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" disabled={ !validateEmail(email) } onClick={ requestAccess }>
+            Request Access
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   )
 }

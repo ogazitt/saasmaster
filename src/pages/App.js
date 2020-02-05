@@ -16,6 +16,7 @@ import NotificationsPage from './NotificationsPage'
 import AdminPage from './AdminPage'
 import TourPage from './TourPage'
 import NotFoundPage from './NotFoundPage'
+import ServiceDownPage from './ServiceDownPage'
 
 // define routes
 const routes = {
@@ -51,17 +52,18 @@ const App = () => {
     }
   });
 
+  // determine which page to route to
+  const routeResult = useRoutes(routes);
+
   // redirect to reputation tab if skip tour flag is set
-  if (currentPath === '/') {
-    if (profile && profile.skipTour) {
+  if (profile && currentPath === '/') {
+    if (profile.skipTour) {
       setState( { tab: '/reputation' });
       navigate('/reputation')
     } else {
       navigate('/tour')
     }
   }
-
-  const routeResult = useRoutes(routes);
 
   // offset from top to honor the height of the StickyNavbar
   const topOffset = 50;
@@ -78,7 +80,11 @@ const App = () => {
         height: `calc(100vh - ${topOffset}px)`,
         width: '100vw'
         }}>
-        { routeResult || <NotFoundPage /> }
+        { // if profile wasn't loaded, indicate the service is down
+          // otherwise load the route result, and if that's empty, notfound page
+          !profile ? <ServiceDownPage/> 
+                   : (routeResult || <NotFoundPage />) 
+        }
       </div>
   </div>
   )
