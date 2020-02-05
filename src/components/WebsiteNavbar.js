@@ -9,6 +9,7 @@ import '@trendmicro/react-dropdown/dist/react-dropdown.css'
 import '@trendmicro/react-navs/dist/react-navs.css'
 import '@trendmicro/react-navbar/dist/react-navbar.css'
 import './StickyNavbar.css'
+import './WebsiteNavbar.css'
 
 const WebsiteNavbar = () => {
   const { loginWithRedirect } = useAuth0();
@@ -30,8 +31,8 @@ const WebsiteNavbar = () => {
   }
 
   return (
-    <div className="stickyNavBarContainer">
-      <Navbar className="stickyNavBar">
+    <div className="stickyNavBarContainer websiteNavBarContainer">
+      <Navbar className="stickyNavBar websiteNavbar">
         <Navbar.Header>
           <Navbar.Toggle />
         </Navbar.Header>

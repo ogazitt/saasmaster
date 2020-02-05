@@ -21,7 +21,7 @@ const WebsiteFooter = () => {
         <Navbar.Header>
           <Navbar.Toggle />
         </Navbar.Header>
-        <Nav navStyle="navbar">
+        <Nav navStyle="navbar" className="navbarFooter">
           <NavItem onSelect={() => onClick('/terms')}>
             Terms
           </NavItem>

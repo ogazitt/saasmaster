@@ -6,3 +6,22 @@
   width: 100%;
   z-index: 100;
 }
+
+.websiteFooter nav {
+  background-color: rgba(20, 20, 20, 1);
+}
+
+.websiteFooter .navbarFooter li { 
+  border-right-color: rgba(50, 50, 50, 1);
+  border-right-width: 0px;
+}
+
+.websiteFooter .navbarFooter li a { 
+  background-color: rgba(20, 20, 20, 1);
+}
+
+.websiteFooter .navbarFooter li a:hover, 
+.websiteFooter .navbarFooter li a:focus {
+  background-color: rgba(50, 50, 50, 1);
+}
+
