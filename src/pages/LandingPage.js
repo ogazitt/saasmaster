@@ -10,6 +10,7 @@ import './LandingPage.css'
 const LandingPage = () => {
   const { loading, loginWithRedirect } = useAuth0();
   const [showModal, setShowModal] = useState(false);
+  const [invalidCode, setInvalidCode] = useState(false);
   const [email, setEmail] = useState();
   const betaFlag = true;
 
@@ -52,13 +53,42 @@ const LandingPage = () => {
   }
 
   const requestAccess = async () => {
-    setShowModal(false);
-    await post(null, 'requestaccess', JSON.stringify({ email: email }));
+    try {
+      setShowModal(false);
+      await post(createToken(email), 'requestaccess', JSON.stringify({ email: email }));
+    } catch (error) {
+    }
   }
 
   const validateEmail = (email) => {
-    const re = /^(([^<>()[]\\.,;:\s@"]+(\.[^<>()[]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  const validateCode = async () => {
+    try {
+      const [response, error] = await post(createToken(email), 'validatecode', JSON.stringify({ email: email }));
+      if (error || !response.ok) {
+        setInvalidCode(true);
+      }
+  
+      const data = await response.json();
+      if (data.email === email) {
+        // put up Sign Up screen
+        loginWithRedirect({
+          access_type: 'offline', // unverified - asks for offline access
+          //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
+          redirect_uri: `${window.location.origin}`,
+          saasmaster_mode: 'signUp',
+        });
+      }  
+    } catch (error) {
+      setInvalidCode(true);
+    }
+  }
+
+  const createToken = (data) => {
+    return Buffer.from(data + 'SaaSMaster').toString('base64');
   }
   
   let isMobileDevice = isMobile;
@@ -187,11 +217,12 @@ const LandingPage = () => {
       { isDesktopDevice && <WebsiteFooter /> }
 
       <Modal show={showModal} onHide={ () => { setShowModal(false) } }>
+        <Modal.Header closeButton>
+          <Modal.Title>SaaS Master is in private beta.</Modal.Title>
+        </Modal.Header>
         <Modal.Body>
-          <h4>
-            SaaS Master is in private beta.  Enter your email address below and we'll 
-            add you to our waiting list!
-          </h4>
+          <p>Enter your email address below and we'll add you to our waiting list.  We'll send you
+            an email with sign-up instructions once we're ready to bring you on board!</p>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="inputGroup-sizing-default">Email</InputGroup.Text>
@@ -202,11 +233,16 @@ const LandingPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </InputGroup>          
+          </InputGroup>
+          <p>As a token of our appreciation, private beta participants get one <b>free year of SaaS Master Premium</b> once it launches!</p>
+          { invalidCode && <p className="text-danger">Invalid code - please request access to obtain a valid code</p>}
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="secondary" onClick={ () => { setInvalidCode(false); validateCode(); }}>
+            I have a code!
+          </Button>
           <Button variant="primary" disabled={ !validateEmail(email) } onClick={ requestAccess }>
-            Request Access
+            Request access
           </Button>
         </Modal.Footer>
       </Modal>
