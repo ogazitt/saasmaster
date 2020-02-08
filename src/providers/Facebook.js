@@ -47,6 +47,7 @@ const PageCards = ({data}) => {
       setReviewsData(items);
       const data = items.map(item => {
         return { 
+          page_id: id,
           created_time: item.created_time,
           date: new Date(item.created_time).toLocaleString(),
           type: item.recommendation_type,
@@ -55,6 +56,11 @@ const PageCards = ({data}) => {
       });
       setReviews(data);
     }
+  }
+
+  const urlFormatter = (cell, row) => {
+    const review = `https://www.facebook.com/${row.page_id}/reviews`;
+    return <a href={review} target="_">{cell}</a>
   }
 
   const typeFormatter = (cell, row, rowIndex, formatExtraData) => {
@@ -86,7 +92,8 @@ const PageCards = ({data}) => {
     }
   }, {
     dataField: 'text',
-    text: 'Text'    
+    text: 'Text',
+    formatter: urlFormatter
   }];
 
   return (
@@ -111,7 +118,6 @@ const PageCards = ({data}) => {
             const loadPageComments = () => {
               getPage(id, access_token);
             }
-
 
             return (
               <HighlightCard className="text-center" onClick={loadPageComments} 
