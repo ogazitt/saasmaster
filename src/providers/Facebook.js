@@ -113,7 +113,7 @@ const PageCards = ({data}) => {
             const border = (id === selected) ? 'primary' : null;
             const displayName = name.length > 20 ? name.slice(0, 19) + '...' : name;
             const url = `https://www.facebook.com/${id}`;
-            const imageUrl = `http://graph.facebook.com/${id}/picture?access_token=${access_token}`;
+            const imageUrl = `https://graph.facebook.com/${id}/picture?access_token=${access_token}`;
           
             const loadPageComments = () => {
               getPage(id, access_token);
